@@ -3,7 +3,7 @@ package org.utfpr.server;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
+import org.utfpr.server.infra.db.DB;
 import org.utfpr.server.util.Gateway;
 
 import java.io.BufferedReader;
@@ -20,12 +20,13 @@ public class ServerApp extends Thread {
     private static boolean serverContinue = true;
     private final Socket clientSocket;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         startSocket();
     }
 
-    private static void startSocket() {
+    private static void startSocket() throws Exception {
         ServerSocket serverSocket = null;
+        DB.getConnection();
 
         try {
             serverSocket = new ServerSocket(10008);
@@ -89,6 +90,6 @@ public class ServerApp extends Thread {
     }
 
     private HashMap<String, Object> convertStringToHashMap(String message) throws JsonProcessingException {
-        return new ObjectMapper().readValue(message, new TypeReference<HashMap<String, Object>>(){});
+        return new ObjectMapper().readValue(message, new TypeReference<>() {});
     }
 }
