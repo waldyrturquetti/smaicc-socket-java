@@ -3,7 +3,6 @@ package org.utfpr.server;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.utfpr.server.infra.db.DB;
 import org.utfpr.server.util.Gateway;
 
 import java.io.BufferedReader;
@@ -20,13 +19,12 @@ public class ServerApp extends Thread {
     private static boolean serverContinue = true;
     private final Socket clientSocket;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         startSocket();
     }
 
-    private static void startSocket() throws Exception {
+    private static void startSocket() {
         ServerSocket serverSocket = null;
-        DB.getConnection();
 
         try {
             serverSocket = new ServerSocket(10008);

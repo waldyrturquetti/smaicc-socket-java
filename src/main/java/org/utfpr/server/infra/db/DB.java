@@ -10,7 +10,7 @@ import java.util.Properties;
 public class DB {
     private static Connection conn = null;
 
-    public static Connection getConnection() throws Exception {
+    public static Connection getConnection() {
         if (conn == null) {
             try {
                 Properties props = loadProperties();
@@ -23,7 +23,7 @@ public class DB {
         return conn;
     }
 
-    public static void closeConnection() throws Exception {
+    public static void closeConnection() {
         if (conn != null) {
             try {
                 conn.close();
@@ -33,7 +33,7 @@ public class DB {
         }
     }
 
-    private static Properties loadProperties() throws Exception {
+    private static Properties loadProperties() {
         try (FileInputStream fs = new FileInputStream("src\\main\\java\\org\\utfpr\\server\\infra\\db\\db.properties")) {
             Properties props = new Properties();
             props.load(fs);
@@ -43,7 +43,7 @@ public class DB {
         }
     }
 
-    public static void closeStatement(Statement st) throws Exception {
+    public static void closeStatement(Statement st) {
         if (st != null) {
             try {
                 st.close();
@@ -53,7 +53,7 @@ public class DB {
         }
     }
 
-    public static void closeResultSet(ResultSet rs) throws Exception {
+    public static void closeResultSet(ResultSet rs) {
         if (rs != null) {
             try {
                 rs.close();
