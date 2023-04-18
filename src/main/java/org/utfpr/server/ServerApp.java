@@ -1,8 +1,5 @@
 package org.utfpr.server;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.utfpr.server.infra.Database;
 import org.utfpr.server.util.Gateway;
 
@@ -14,7 +11,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.sql.SQLException;
-import java.util.HashMap;
 
 public class ServerApp extends Thread {
 
@@ -69,29 +65,24 @@ public class ServerApp extends Thread {
     }
 
     public void run() {
-        System.out.println ("New Communication Thread Started");
+        System.out.println ("New Communication Thread Started.");
 
         try {
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),true);
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-            String message = in.readLine();
-            HashMap<String, Object> json = this.convertStringToHashMap(message);
-            Gateway.chooseOperation(json);
+            String incomingMessage = in.readLine();
+            String outgoingMessage = Gateway.chooseOperation(incomingMessage);
 
-            out.println(message);
+            out.println(outgoingMessage);
 
             out.close();
             in.close();
             clientSocket.close();
 
         } catch (IOException e) {
-            System.err.println("Problem with Communication Server");
+            System.err.println("Problem with Communication Server.");
             System.exit(1);
         }
-    }
-
-    private HashMap<String, Object> convertStringToHashMap(String message) throws JsonProcessingException {
-        return new ObjectMapper().readValue(message, new TypeReference<>() {});
     }
 }
