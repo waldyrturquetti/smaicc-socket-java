@@ -1,7 +1,10 @@
 package org.utfpr.server.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public abstract class Data {
 
+    @JsonProperty("operacao")
     private Integer operation;
 
     public Data() {}

@@ -1,10 +1,13 @@
 package org.utfpr.server.dto.auth.login;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.utfpr.server.dto.Data;
 
 public class LoginDataReceived extends Data {
 
     private String email;
+
+    @JsonProperty("senha")
     private String password;
 
     public LoginDataReceived() {

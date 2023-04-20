@@ -11,21 +11,22 @@ import java.util.HashMap;
 
 public class Login implements UseCase {
 
-    private UserRepositoryDAO userRepositoryDAO;
+    private final UserRepositoryDAO userRepositoryDAO;
 
-    public Login() throws SQLException {
+    public Login() {
         try {
             userRepositoryDAO = new UserRepositoryDAO();
         } catch (SQLException exception) {
             throw new DbException(exception.getMessage());
         }
-
     }
 
     @Override
     public HashMap<String, Object> executeOperation(HashMap<String, Object> json) {
-        System.out.println("Json: " + json.toString());
-        Converts.convertHashMapToData(json, new LoginDataReceived());
+        LoginDataReceived loginDataReceived = (LoginDataReceived) Converts.convertHashMapToData(json, new LoginDataReceived());
+
+        userRepositoryDAO.getUserByEmailAndPassword(loginDataReceived.getEmail(), loginDataReceived.getPassword());
+
         return null;
     }
 }

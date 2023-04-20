@@ -30,7 +30,7 @@ public class ServerApp extends Thread {
             System.out.println("Connection Socket Created");
             try {
                 while (serverContinue) {
-                    serverSocket.setSoTimeout(150000);
+                    serverSocket.setSoTimeout(300000);
                     System.out.println("Waiting for Connection");
                     try {
                         new ServerApp(serverSocket.accept());

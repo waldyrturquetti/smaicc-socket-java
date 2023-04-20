@@ -1,8 +1,5 @@
 package org.utfpr.server.util;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.utfpr.server.domain.usecase.UseCase;
 import org.utfpr.server.domain.usecase.auth.Login;
 import org.utfpr.server.domain.usecase.auth.Logout;
@@ -13,7 +10,6 @@ import org.utfpr.server.domain.usecase.incident.GetIncidentsByUser;
 import org.utfpr.server.domain.usecase.user.CreateUser;
 import org.utfpr.server.domain.usecase.user.DeleteUser;
 import org.utfpr.server.domain.usecase.user.UpdateUser;
-import org.utfpr.server.exception.BadJsonException;
 
 import java.util.HashMap;
 
@@ -22,7 +18,7 @@ public class Gateway {
     public static String chooseOperation(String message) {
 
         try {
-            HashMap<String, Object> json = convertStringToHashMap(message);
+            HashMap<String, Object> json = Converts.convertStringToHashMap(message);
             Integer operation = (Integer) json.get("operacao");
 
             switch (operation) {
@@ -49,14 +45,5 @@ public class Gateway {
             return;
         }
         useCase.executeOperation(json);
-    }
-
-    private static HashMap<String, Object> convertStringToHashMap(String message) {
-
-        try {
-            return new ObjectMapper().readValue(message, new TypeReference<>() {});
-        } catch (JsonProcessingException e) {
-            throw new BadJsonException(e.getMessage());
-        }
     }
 }
