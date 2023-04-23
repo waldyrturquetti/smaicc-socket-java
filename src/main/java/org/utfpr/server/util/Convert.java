@@ -7,15 +7,20 @@ import org.utfpr.server.dto.Data;
 import org.utfpr.server.exception.BadJsonException;
 
 import java.util.HashMap;
+import java.util.Map;
 
-public class Converts {
+public class Convert {
 
     public static Data convertHashMapToData(HashMap<String, Object> json, Data data) {
         return new ObjectMapper().convertValue(json, data.getClass());
     }
 
-    private static HashMap<String, Object> convertDataToHashMap(Data data) {
-        return null;
+    public static HashMap<String, Object> convertDataToHashMap(Data data) {
+        return (HashMap<String, Object>) new ObjectMapper().convertValue(data, Map.class);
+    }
+
+    public static String convertHashMapToString(HashMap<String, Object> json) {
+        return json.toString();
     }
 
     public static HashMap<String, Object> convertStringToHashMap(String message) {

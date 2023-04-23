@@ -35,7 +35,7 @@ public class ServerApp extends Thread {
                     try {
                         new ServerApp(serverSocket.accept());
                     } catch (SocketTimeoutException ste) {
-                        System.out.println("Timeout Occurred");
+                        System.err.println("Timeout Occurred");
                         serverContinue = false;
                     }
                 }

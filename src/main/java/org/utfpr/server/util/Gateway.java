@@ -1,5 +1,6 @@
 package org.utfpr.server.util;
 
+import org.utfpr.server.auth.Section;
 import org.utfpr.server.domain.usecase.UseCase;
 import org.utfpr.server.domain.usecase.auth.Login;
 import org.utfpr.server.domain.usecase.auth.Logout;
@@ -10,6 +11,8 @@ import org.utfpr.server.domain.usecase.incident.GetIncidentsByUser;
 import org.utfpr.server.domain.usecase.user.CreateUser;
 import org.utfpr.server.domain.usecase.user.DeleteUser;
 import org.utfpr.server.domain.usecase.user.UpdateUser;
+import org.utfpr.server.dto.common.CommonDataReturned;
+import org.utfpr.server.exception.OperationNotKnownException;
 
 import java.util.HashMap;
 
@@ -17,33 +20,48 @@ public class Gateway {
 
     public static String chooseOperation(String message) {
 
+        HashMap<String, Object> json;
+        HashMap<String, Object> returnedJson;
+        Integer operation = null;
+
         try {
-            HashMap<String, Object> json = Converts.convertStringToHashMap(message);
-            Integer operation = (Integer) json.get("operacao");
+            json = Convert.convertStringToHashMap(message);
+            operation = (Integer) json.get("operacao");
 
             switch (operation) {
-                case 1 -> executeOperation(new CreateUser(), json, false);
-                case 2 -> executeOperation(new Login(), json, false);
-                case 3 -> executeOperation(new UpdateUser(), json, true);
-                case 4 -> executeOperation(new GetIncidents(), json, false);
-                case 5 -> executeOperation(new GetIncidentsByUser(), json, true);
-                case 6 -> executeOperation(new DeleteIncident(), json, true);
-                case 7 -> executeOperation(new CreateIncident(), json, true);
-                case 8 -> executeOperation(new DeleteUser(), json, true);
-                case 9 -> executeOperation(new Logout(), json, true);
+                case 1 -> returnedJson = executeOperation(new CreateUser(), json, false);
+                case 2 -> returnedJson = executeOperation(new Login(), json, false);
+                case 3 -> returnedJson = executeOperation(new UpdateUser(), json, true);
+                case 4 -> returnedJson = executeOperation(new GetIncidents(), json, false);
+                case 5 -> returnedJson = executeOperation(new GetIncidentsByUser(), json, true);
+                case 6 -> returnedJson = executeOperation(new DeleteIncident(), json, true);
+                case 7 -> returnedJson = executeOperation(new CreateIncident(), json, true);
+                case 8 -> returnedJson = executeOperation(new DeleteUser(), json, true);
+                case 9 -> returnedJson = executeOperation(new Logout(), json, true);
+                default -> throw new OperationNotKnownException();
             }
-
-            return "";
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-            return "";
+            
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            returnedJson = Convert.convertDataToHashMap(new CommonDataReturned(operation, Status.ERROR + e.getMessage()));
         }
+
+        assert returnedJson != null;
+        return Convert.convertHashMapToString(returnedJson);
     }
 
-    private static void executeOperation(UseCase useCase, HashMap<String, Object> json, Boolean isNeedToBeAuthenticated) {
+    private static HashMap<String, Object> executeOperation(UseCase useCase, HashMap<String, Object> json, Boolean isNeedToBeAuthenticated) {
         if (isNeedToBeAuthenticated) {
-            return;
+            verifySection(json);
         }
-        useCase.executeOperation(json);
+
+        return useCase.executeOperation(json);
+    }
+
+    private static void verifySection(HashMap<String, Object> json) {
+        Check.checkIdAndTokenFromJson(json);
+        String token = (String) json.get("token");
+        Integer id = (Integer) json.get("id");
+        Section.verifyToken(id, token);
     }
 }

@@ -16,10 +16,21 @@ public class Section {
         tokens.remove(id);
     }
 
+    public static String createToken() {
+        return null;
+    }
+
     public static void verifyToken(Integer id, String token) throws UnauthorizedException {
         String userSection = tokens.get(id);
         if (userSection == null || !userSection.equals(token)) {
             throw new UnauthorizedException();
         }
+    }
+
+    public static String authenticatingUser(Integer id) {
+        String token = createToken();
+        removeToken(id);
+        addToken(id, token);
+        return token;
     }
 }

@@ -1,6 +1,7 @@
 package org.utfpr.server.domain.repository;
 
-import org.utfpr.server.exception.NotFoundException;
+import org.utfpr.server.domain.entities.User;
+import org.utfpr.server.exception.DbException;
 import org.utfpr.server.infra.Database;
 
 import java.sql.*;
@@ -13,31 +14,28 @@ public class UserRepositoryDAO {
         this.connection = Database.getConnection();
     }
 
-    public void getUserByEmailAndPassword(String email, String password) {
+    public User getUserByEmailAndPassword(String email, String password) {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
+        User user = null;
 
         try {
             preparedStatement = connection.prepareStatement("select * from user as u where u.email like ? and u.password like ?");
-            preparedStatement.setString(1, email);
-            preparedStatement.setString(2, password);
+            preparedStatement.setString(1, email.trim());
+            preparedStatement.setString(2, password.trim());
 
             resultSet = preparedStatement.executeQuery();
-            System.out.println();
             if (resultSet.next()) {
-                System.out.println(resultSet.getInt("Id") + ", " + resultSet.getString("Name"));
-            } else {
-                throw new NotFoundException("Usuario não encontrado.");
+                user = new User(resultSet.getInt("id"), resultSet.getString("name"),
+                        resultSet.getString("email"), resultSet.getString("password"));
             }
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        finally {
+            throw new DbException(e.getMessage());
+        } finally {
             Database.closeResultSet(resultSet);
             Database.closeStatement(preparedStatement);
         }
+
+        return user;
     }
 }

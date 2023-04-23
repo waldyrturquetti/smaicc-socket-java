@@ -13,12 +13,20 @@ public class Login extends JFrame {
     private JPanel login;
     private JTextField textField1;
     private JButton send;
+    private JLabel text;
     private PrintWriter out;
+    private BufferedReader in;
+
 
     public Login() {
         send.addActionListener(s -> {
             this.startConnect();
             out.println(this.textField1.getText().trim());
+            try {
+                text.setText(in.readLine());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 
@@ -37,7 +45,7 @@ public class Login extends JFrame {
         try {
             Socket echoSocket = new Socket(serverHostname, 10008);
             out = new PrintWriter(echoSocket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
+            in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host: " + serverHostname);
             System.exit(1);
