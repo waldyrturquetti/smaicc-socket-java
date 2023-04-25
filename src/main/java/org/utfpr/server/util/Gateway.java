@@ -54,7 +54,6 @@ public class Gateway {
         if (isNeedToBeAuthenticated) {
             verifySection(json);
         }
-
         return useCase.executeOperation(json);
     }
 

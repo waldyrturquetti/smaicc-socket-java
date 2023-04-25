@@ -8,6 +8,6 @@ public class OperationNotKnownException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     public OperationNotKnownException() {
-        super("Operação não conhecida.");
+        super("Operacao nao conhecida.");
     }
 }

@@ -38,22 +38,18 @@ public class Check {
 
     }
 
-    public static void checkToken(String token) {
-
-    }
-
     public static void checkIdAndTokenFromJson(HashMap<String, Object> json) {
         String token = (String) json.get("token");
 
         if (token.isBlank()) {
-            throw new UnprocessableAttributeException("Token não processavel");
+            throw new UnprocessableAttributeException("Token não processavel.");
         }
 
-        checkToken(token);
+        if (token.length() != 20 || !token.matches("[a-zA-Z0-9]*")) {
+            throw new UnprocessableAttributeException("Token invalido.");
+        }
 
-        try {
-             Integer.parseInt((String) json.get("id"));
-        } catch (Exception e) {
+        if (!(json.get("id") instanceof Integer)) {
             throw new UnprocessableAttributeException("Id nao processavel");
         }
     }

@@ -10,5 +10,5 @@ public class Operation {
     public static final Integer REMOVE_INCIDENT_REPORTED_BY_THE_USER = 6;
     public static final Integer REPORT_INCIDENTS = 7;
     public static final Integer REMOVE_USER_REGISTRATION = 8;
-    public static final Integer REQUEST_LOGOUT = 9;
+    public static final Integer LOGOUT = 9;
 }

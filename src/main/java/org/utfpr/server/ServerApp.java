@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
 import java.sql.SQLException;
 
 public class ServerApp extends Thread {
@@ -30,14 +29,8 @@ public class ServerApp extends Thread {
             System.out.println("Connection Socket Created");
             try {
                 while (serverContinue) {
-                    serverSocket.setSoTimeout(300000);
                     System.out.println("Waiting for Connection");
-                    try {
-                        new ServerApp(serverSocket.accept());
-                    } catch (SocketTimeoutException ste) {
-                        System.err.println("Timeout Occurred");
-                        serverContinue = false;
-                    }
+                    new ServerApp(serverSocket.accept());
                 }
             } catch (IOException e) {
                 System.err.println("Accept failed.");
@@ -71,10 +64,12 @@ public class ServerApp extends Thread {
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),true);
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-            String incomingMessage = in.readLine();
-            String outgoingMessage = Gateway.chooseOperation(incomingMessage);
+            while (in.readLine() != null) {
+                String incomingMessage = in.readLine();
+                String outgoingMessage = Gateway.chooseOperation(incomingMessage);
 
-            out.println(outgoingMessage);
+                out.println(outgoingMessage);
+            }
 
             out.close();
             in.close();
