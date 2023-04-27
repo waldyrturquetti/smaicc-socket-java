@@ -2,6 +2,7 @@ package org.utfpr.server.domain.repository;
 
 import org.utfpr.server.domain.entities.User;
 import org.utfpr.server.exception.DbException;
+import org.utfpr.server.exception.ServerErrorException;
 import org.utfpr.server.infra.Database;
 
 import java.sql.*;
@@ -37,5 +38,28 @@ public class UserRepositoryDAO {
         }
 
         return user;
+    }
+
+    public void createUser(User user) {
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement("insert into user (id, name, password, email)" +
+                                                                "values (null, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+
+            preparedStatement.setString(1, user.getName().trim());
+            preparedStatement.setString(2, user.getPassword().trim());
+            preparedStatement.setString(3, user.getEmail().trim());
+
+            int rowsAffected  = preparedStatement.executeUpdate();
+
+            if (rowsAffected == 0) {
+                throw new ServerErrorException("Erro ao cadastrar o Usuario.");
+            }
+        } catch (Exception e) {
+            throw new DbException(e.getMessage());
+        } finally {
+            Database.closeStatement(preparedStatement);
+        }
     }
 }

@@ -4,6 +4,7 @@ create table user (
       password varchar(10) not null,
       email    varchar(61) not null,
       constraint id
-          primary key (id)
+            primary key (id),
+      constraint unique (email)
 );
 

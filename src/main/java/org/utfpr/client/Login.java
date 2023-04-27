@@ -39,11 +39,14 @@ public class Login extends JFrame {
 
     private void startConnect() {
         String serverHostname = "127.0.0.1";
+//        String serverHostname = "10.20.8.36";
+        int port = 10008;
+//        int port = 20000;
 
         System.out.println ("Attemping to connect to host " + serverHostname + " on port 10008.");
 
         try {
-            Socket echoSocket = new Socket(serverHostname, 10008);
+            Socket echoSocket = new Socket(serverHostname, port);
             out = new PrintWriter(echoSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
         } catch (UnknownHostException e) {

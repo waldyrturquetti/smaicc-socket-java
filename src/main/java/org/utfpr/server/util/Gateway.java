@@ -13,6 +13,7 @@ import org.utfpr.server.domain.usecase.user.DeleteUser;
 import org.utfpr.server.domain.usecase.user.UpdateUser;
 import org.utfpr.server.dto.common.CommonDataReturned;
 import org.utfpr.server.exception.OperationNotKnownException;
+import org.utfpr.server.exception.ServerErrorException;
 
 import java.util.HashMap;
 
@@ -40,13 +41,16 @@ public class Gateway {
                 case 9 -> returnedJson = executeOperation(new Logout(), json, true);
                 default -> throw new OperationNotKnownException();
             }
-            
+
+            if (returnedJson == null || returnedJson.isEmpty()) {
+                throw new ServerErrorException();
+            }
+
         } catch (Exception e) {
             System.err.println(e.getMessage());
             returnedJson = Convert.convertDataToHashMap(new CommonDataReturned(operation, Status.ERROR + e.getMessage()));
         }
 
-        assert returnedJson != null;
         return Convert.convertHashMapToString(returnedJson);
     }
 

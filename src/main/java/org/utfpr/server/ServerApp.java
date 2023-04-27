@@ -64,12 +64,10 @@ public class ServerApp extends Thread {
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),true);
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-            while (in.readLine() != null) {
-                String incomingMessage = in.readLine();
-                String outgoingMessage = Gateway.chooseOperation(incomingMessage);
+            String incomingMessage = in.readLine();
+            String outgoingMessage = Gateway.chooseOperation(incomingMessage);
 
-                out.println(outgoingMessage);
-            }
+            out.println(outgoingMessage);
 
             out.close();
             in.close();
