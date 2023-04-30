@@ -30,7 +30,7 @@ public class Section {
 
     public static void verifyToken(Integer id, String token) throws UnauthorizedException {
         String userToken = tokens.get(id);
-        if (userToken.isBlank() || !userToken.equals(token)) {
+        if (userToken == null || userToken.isBlank() || !userToken.equals(token)) {
             throw new UnauthorizedException();
         }
     }

@@ -8,6 +8,7 @@ import org.utfpr.server.dto.auth.login.LoginDataReceived;
 import org.utfpr.server.dto.auth.login.LoginDataReturned;
 import org.utfpr.server.exception.DbException;
 import org.utfpr.server.exception.NotFoundException;
+import org.utfpr.server.util.Check;
 import org.utfpr.server.util.Convert;
 import org.utfpr.server.util.Operation;
 import org.utfpr.server.util.Status;
@@ -30,8 +31,10 @@ public class Login implements UseCase {
     @Override
     public HashMap<String, Object> executeOperation(HashMap<String, Object> json) {
         LoginDataReceived loginDataReceived = (LoginDataReceived) Convert.convertHashMapToData(json, new LoginDataReceived());
-        User user = userRepositoryDAO.getUserByEmailAndPassword(loginDataReceived.getEmail(), loginDataReceived.getPassword());
+        Check.checkEmail(loginDataReceived.getEmail());
+        Check.checkPassword(loginDataReceived.getPassword());
 
+        User user = userRepositoryDAO.getUserByEmailAndPassword(loginDataReceived.getEmail(), loginDataReceived.getPassword());
         if (user == null){
             throw new NotFoundException("Usuario nao encontrado.");
         }

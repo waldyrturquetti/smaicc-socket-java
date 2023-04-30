@@ -23,6 +23,7 @@ public class Login extends JFrame {
             this.startConnect();
             out.println(this.textField1.getText().trim());
             try {
+                System.out.println(in.readLine());
                 text.setText(in.readLine());
             } catch (IOException e) {
                 throw new RuntimeException(e);

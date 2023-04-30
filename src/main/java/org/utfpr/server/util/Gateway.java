@@ -23,7 +23,7 @@ public class Gateway {
 
         HashMap<String, Object> json;
         HashMap<String, Object> returnedJson;
-        Integer operation = null;
+        Integer operation = 0;
 
         try {
             json = Convert.convertStringToHashMap(message);
