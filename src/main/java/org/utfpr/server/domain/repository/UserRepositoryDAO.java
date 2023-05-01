@@ -62,4 +62,21 @@ public class UserRepositoryDAO {
             Database.closeStatement(preparedStatement);
         }
     }
+
+    public Boolean existsUserByEmail(String email) {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement("select * from user as u where u.email like ?");
+            preparedStatement.setString(1, email.trim());
+            resultSet = preparedStatement.executeQuery();
+            return resultSet.next();
+        } catch (Exception e) {
+            throw new DbException(e.getMessage());
+        } finally {
+            Database.closeResultSet(resultSet);
+            Database.closeStatement(preparedStatement);
+        }
+    }
 }

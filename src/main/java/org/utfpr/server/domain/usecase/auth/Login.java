@@ -40,7 +40,7 @@ public class Login implements UseCase {
         }
 
         String token = Section.authenticatingUser(user.getId());
-        LoginDataReturned loginDataReturned = new LoginDataReturned(Operation.LOGIN, Status.OK, token, user.getId());
+        LoginDataReturned loginDataReturned = new LoginDataReturned(Operation.LOGIN, Status.OK, token, user.getId(), user.getName());
 
         return Convert.convertDataToHashMap(loginDataReturned);
     }
