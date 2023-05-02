@@ -1,4 +1,4 @@
-package org.utfpr.client;
+package org.utfpr.client.gui;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Login extends JFrame {
+public class Test extends JFrame {
 
     private JPanel login;
     private JTextField textField1;
@@ -18,7 +18,7 @@ public class Login extends JFrame {
     private BufferedReader in;
 
 
-    public Login() {
+    public Test() {
         send.addActionListener(s -> {
             this.startConnect();
             out.println(this.textField1.getText().trim());
@@ -33,7 +33,7 @@ public class Login extends JFrame {
 
     public void buildScreen() {
         this.setContentPane(this.login);
-        this.setTitle("Login");
+        this.setTitle("Teste");
         this.setVisible(true);
         this.setSize(350, 200);
     }

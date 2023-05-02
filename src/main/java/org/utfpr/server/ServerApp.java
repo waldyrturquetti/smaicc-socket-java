@@ -25,7 +25,7 @@ public class ServerApp extends Thread {
         Database.getConnection();
 
         try {
-            serverSocket = new ServerSocket(10008);
+            serverSocket = new ServerSocket(8080);
             System.out.println("Connection Socket Created");
             try {
                 while (serverContinue) {
@@ -75,7 +75,6 @@ public class ServerApp extends Thread {
 
         } catch (IOException e) {
             System.err.println("Problem with Communication Server.");
-            System.exit(1);
         }
     }
 }
