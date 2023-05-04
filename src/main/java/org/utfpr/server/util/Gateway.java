@@ -1,5 +1,6 @@
 package org.utfpr.server.util;
 
+import org.utfpr.common.util.Status;
 import org.utfpr.server.auth.Section;
 import org.utfpr.server.domain.usecase.UseCase;
 import org.utfpr.server.domain.usecase.auth.Login;
@@ -11,9 +12,10 @@ import org.utfpr.server.domain.usecase.incident.GetIncidentsByUser;
 import org.utfpr.server.domain.usecase.user.CreateUser;
 import org.utfpr.server.domain.usecase.user.DeleteUser;
 import org.utfpr.server.domain.usecase.user.UpdateUser;
-import org.utfpr.server.dto.common.CommonDataReturned;
+import org.utfpr.common.dto.common.CommonDataServerToClient;
 import org.utfpr.server.exception.OperationNotKnownException;
 import org.utfpr.server.exception.ServerErrorException;
+import org.utfpr.common.util.Convert;
 
 import java.util.HashMap;
 
@@ -48,7 +50,7 @@ public class Gateway {
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            returnedJson = Convert.convertDataToHashMap(new CommonDataReturned(operation, Status.ERROR + e.getMessage()));
+            returnedJson = Convert.convertDataToHashMap(new CommonDataServerToClient(operation, Status.ERROR + e.getMessage()));
         }
 
         return Convert.convertHashMapToString(returnedJson);

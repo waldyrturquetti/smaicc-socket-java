@@ -51,7 +51,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="localhost"/>
+          <text value="127.0.0.1"/>
           <toolTipText value="sdfsdfsadf"/>
         </properties>
       </component>

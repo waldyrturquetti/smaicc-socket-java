@@ -1,10 +1,10 @@
-package org.utfpr.server.dto.user.createUser;
+package org.utfpr.common.dto.user.createUser;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.utfpr.server.domain.entities.User;
-import org.utfpr.server.dto.Data;
+import org.utfpr.common.dto.Data;
 
-public class CreateUserDataReceived extends Data {
+public class CreateUserDataClientToServer extends Data {
 
     @JsonProperty("nome")
     private String name;
@@ -14,9 +14,9 @@ public class CreateUserDataReceived extends Data {
 
     private String email;
 
-    public CreateUserDataReceived() {}
+    public CreateUserDataClientToServer() {}
 
-    public CreateUserDataReceived(Integer operation, String name, String password, String email) {
+    public CreateUserDataClientToServer(Integer operation, String name, String password, String email) {
         super(operation);
         this.name = name;
         this.password = password;

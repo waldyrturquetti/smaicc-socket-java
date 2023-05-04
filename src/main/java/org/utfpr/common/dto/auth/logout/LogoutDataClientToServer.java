@@ -1,17 +1,17 @@
-package org.utfpr.server.dto.auth.logout;
+package org.utfpr.common.dto.auth.logout;
 
-import org.utfpr.server.dto.Data;
+import org.utfpr.common.dto.Data;
 
-public class LogoutDataReceived extends Data {
+public class LogoutDataClientToServer extends Data {
 
     private String token;
     private Integer id;
 
-    public LogoutDataReceived() {
+    public LogoutDataClientToServer() {
        super();
     }
 
-    public LogoutDataReceived(Integer operation, String token, Integer id) {
+    public LogoutDataClientToServer(Integer operation, String token, Integer id) {
         super(operation);
         this.token = token;
         this.id = id;

@@ -1,9 +1,9 @@
-package org.utfpr.server.util;
+package org.utfpr.common.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.utfpr.server.dto.Data;
+import org.utfpr.common.dto.Data;
 import org.utfpr.server.exception.BadJsonException;
 
 import java.util.HashMap;
@@ -20,7 +20,11 @@ public class Convert {
     }
 
     public static String convertHashMapToString(HashMap<String, Object> json) {
-        return json.toString();
+        try {
+            return new ObjectMapper().writeValueAsString(json);
+        } catch (JsonProcessingException e) {
+            throw new BadJsonException(e.getMessage());
+        }
     }
 
     public static HashMap<String, Object> convertStringToHashMap(String message) {

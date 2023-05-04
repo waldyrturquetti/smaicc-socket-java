@@ -2,11 +2,11 @@ package org.utfpr.server.domain.usecase.auth;
 
 import org.utfpr.server.auth.Section;
 import org.utfpr.server.domain.usecase.UseCase;
-import org.utfpr.server.dto.auth.logout.LogoutDataReceived;
-import org.utfpr.server.dto.common.CommonDataReturned;
-import org.utfpr.server.util.Convert;
-import org.utfpr.server.util.Operation;
-import org.utfpr.server.util.Status;
+import org.utfpr.common.dto.auth.logout.LogoutDataClientToServer;
+import org.utfpr.common.dto.common.CommonDataServerToClient;
+import org.utfpr.common.util.Convert;
+import org.utfpr.common.util.Operation;
+import org.utfpr.common.util.Status;
 
 import java.util.HashMap;
 
@@ -16,9 +16,9 @@ public class Logout implements UseCase {
 
     @Override
     public HashMap<String, Object> executeOperation(HashMap<String, Object> json) {
-        LogoutDataReceived logoutDataReceived = (LogoutDataReceived) Convert.convertHashMapToData(json, new LogoutDataReceived());
-        Section.removeToken(logoutDataReceived.getId());
-        CommonDataReturned commonDataReturned = new CommonDataReturned(Operation.LOGOUT, Status.OK);
-        return Convert.convertDataToHashMap(commonDataReturned);
+        LogoutDataClientToServer logoutDataClientToServer = (LogoutDataClientToServer) Convert.convertHashMapToData(json, new LogoutDataClientToServer());
+        Section.removeToken(logoutDataClientToServer.getId());
+        CommonDataServerToClient commonDataServerToClient = new CommonDataServerToClient(Operation.LOGOUT, Status.OK);
+        return Convert.convertDataToHashMap(commonDataServerToClient);
     }
 }

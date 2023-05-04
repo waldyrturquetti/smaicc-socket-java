@@ -1,4 +1,4 @@
-package org.utfpr.server.util;
+package org.utfpr.common.util;
 
 public class Status {
 

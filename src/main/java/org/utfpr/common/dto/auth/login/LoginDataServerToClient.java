@@ -1,9 +1,9 @@
-package org.utfpr.server.dto.auth.login;
+package org.utfpr.common.dto.auth.login;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.utfpr.server.dto.DataReturned;
+import org.utfpr.common.dto.DataServerToClient;
 
-public class LoginDataReturned extends DataReturned {
+public class LoginDataServerToClient extends DataServerToClient {
 
     private String token;
 
@@ -12,11 +12,11 @@ public class LoginDataReturned extends DataReturned {
     @JsonProperty("nome")
     private String name;
 
-    public LoginDataReturned() {
+    public LoginDataServerToClient() {
         super();
     }
 
-    public LoginDataReturned(Integer operation,String status, String token, Integer id, String name) {
+    public LoginDataServerToClient(Integer operation, String status, String token, Integer id, String name) {
         super(operation, status);
         this.token = token;
         this.id = id;

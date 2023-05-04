@@ -1,14 +1,14 @@
-package org.utfpr.server.dto;
+package org.utfpr.common.dto;
 
-public abstract class DataReturned extends Data {
+public abstract class DataServerToClient extends Data {
 
     private String status;
 
-    public DataReturned() {
+    public DataServerToClient() {
         super();
     }
 
-    public DataReturned(Integer operation, String status) {
+    public DataServerToClient(Integer operation, String status) {
         super(operation);
         this.status = status;
     }

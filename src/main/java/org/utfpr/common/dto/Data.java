@@ -1,4 +1,4 @@
-package org.utfpr.server.dto;
+package org.utfpr.common.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

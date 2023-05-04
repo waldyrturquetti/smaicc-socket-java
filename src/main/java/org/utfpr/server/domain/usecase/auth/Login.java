@@ -4,14 +4,14 @@ import org.utfpr.server.auth.Section;
 import org.utfpr.server.domain.entities.User;
 import org.utfpr.server.domain.repository.UserRepositoryDAO;
 import org.utfpr.server.domain.usecase.UseCase;
-import org.utfpr.server.dto.auth.login.LoginDataReceived;
-import org.utfpr.server.dto.auth.login.LoginDataReturned;
+import org.utfpr.common.dto.auth.login.LoginDataClientToServer;
+import org.utfpr.common.dto.auth.login.LoginDataServerToClient;
 import org.utfpr.server.exception.DbException;
 import org.utfpr.server.exception.NotFoundException;
 import org.utfpr.server.util.Check;
-import org.utfpr.server.util.Convert;
-import org.utfpr.server.util.Operation;
-import org.utfpr.server.util.Status;
+import org.utfpr.common.util.Convert;
+import org.utfpr.common.util.Operation;
+import org.utfpr.common.util.Status;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -30,18 +30,18 @@ public class Login implements UseCase {
 
     @Override
     public HashMap<String, Object> executeOperation(HashMap<String, Object> json) {
-        LoginDataReceived loginDataReceived = (LoginDataReceived) Convert.convertHashMapToData(json, new LoginDataReceived());
-        Check.checkEmail(loginDataReceived.getEmail());
-        Check.checkPassword(loginDataReceived.getPassword());
+        LoginDataClientToServer loginDataClientToServer = (LoginDataClientToServer) Convert.convertHashMapToData(json, new LoginDataClientToServer());
+        Check.checkEmail(loginDataClientToServer.getEmail());
+        Check.checkPassword(loginDataClientToServer.getPassword());
 
-        User user = userRepositoryDAO.getUserByEmailAndPassword(loginDataReceived.getEmail(), loginDataReceived.getPassword());
+        User user = userRepositoryDAO.getUserByEmailAndPassword(loginDataClientToServer.getEmail(), loginDataClientToServer.getPassword());
         if (user == null){
             throw new NotFoundException("Usuario nao encontrado.");
         }
 
         String token = Section.authenticatingUser(user.getId());
-        LoginDataReturned loginDataReturned = new LoginDataReturned(Operation.LOGIN, Status.OK, token, user.getId(), user.getName());
+        LoginDataServerToClient loginDataServerToClient = new LoginDataServerToClient(Operation.LOGIN, Status.OK, token, user.getId(), user.getName());
 
-        return Convert.convertDataToHashMap(loginDataReturned);
+        return Convert.convertDataToHashMap(loginDataServerToClient);
     }
 }

@@ -15,7 +15,7 @@ public class Check {
     public static void checkEmail(String email) {
         email = email.trim();
 
-        if (!email.matches("([a-zA-Z0-9]*[_$&+,:;=?#|'<>.^*()%!-]*){3,50}@([a-zA-Z0-9]*[$&+,:;=?@#|'<>.^*()%!-]*){3,10}")) {
+        if (!email.matches("([a-zA-Z0-9]*[~_$&+,:;=?#|'<>.^*()%!-]*){3,50}@([a-zA-Z0-9]*[~_$&+,:;=?#|'<>.^*()%!-]*){3,10}")) {
             throw new UnprocessableAttributeException("Formato do email invalido.");
         }
     }

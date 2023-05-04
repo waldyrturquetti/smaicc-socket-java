@@ -1,20 +1,27 @@
-package org.utfpr.server.dto.auth.login;
+package org.utfpr.common.dto.auth.login;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.utfpr.server.dto.Data;
+import org.utfpr.common.dto.Data;
+import org.utfpr.common.util.Operation;
 
-public class LoginDataReceived extends Data {
+public class LoginDataClientToServer extends Data {
 
     private String email;
 
     @JsonProperty("senha")
     private String password;
 
-    public LoginDataReceived() {
+    public LoginDataClientToServer() {
         super();
     }
 
-    public LoginDataReceived(Integer operation, String email, String password) {
+    public LoginDataClientToServer(String email, String password) {
+        super(Operation.LOGIN);
+        this.email = email;
+        this.password = password;
+    }
+
+    public LoginDataClientToServer(Integer operation, String email, String password) {
         super(operation);
         this.email = email;
         this.password = password;

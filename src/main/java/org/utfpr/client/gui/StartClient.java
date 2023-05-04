@@ -16,6 +16,7 @@ public class StartClient extends JFrame {
             try {
                 ClientSocket.startConnect(this.hostTextField.getText(), Integer.parseInt(this.portaTextField.getText()));
                 this.setVisible(false);
+                new InitClient().buildScreen();
             } catch (ProblemWithServerConnectionException e) {
                 System.err.println(e.getMessage());
                 new ErrorScreen().buildScreen(e.getMessage());

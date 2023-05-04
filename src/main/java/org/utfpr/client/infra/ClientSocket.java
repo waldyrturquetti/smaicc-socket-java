@@ -1,6 +1,8 @@
 package org.utfpr.client.infra;
 
 import org.utfpr.client.exception.ProblemWithServerConnectionException;
+import org.utfpr.common.dto.Data;
+import org.utfpr.common.util.Convert;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 
 public class ClientSocket {
 
@@ -25,7 +28,20 @@ public class ClientSocket {
         } catch (UnknownHostException e) {
             throw new ProblemWithServerConnectionException("Host não encontrado.");
         } catch (IOException e) {
-            throw new ProblemWithServerConnectionException();
+            throw new ProblemWithServerConnectionException("Problema para se conectar com o Servidor. Verifique se a Porta está correta.");
         }
     }
+
+    public static void sendMessage(Data data) throws IOException {
+        HashMap<String, Object> json = Convert.convertDataToHashMap(data);
+        String message = Convert.convertHashMapToString(json);
+        out.println(message);
+    }
+
+    public static Data receiveMessage(Data typeOfData) throws IOException {
+        HashMap<String, Object> jsonReturned = Convert.convertStringToHashMap(in.readLine());
+        return Convert.convertHashMapToData(jsonReturned, typeOfData);
+    }
 }
+
+
