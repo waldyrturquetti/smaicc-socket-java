@@ -67,6 +67,7 @@ public class ServerApp extends Thread {
             String incomingMessage = in.readLine();
             String outgoingMessage = Gateway.chooseOperation(incomingMessage);
 
+            System.out.println(outgoingMessage);
             out.println(outgoingMessage);
 
             out.close();

@@ -1,6 +1,6 @@
 package org.utfpr.server.domain.usecase.auth;
 
-import org.utfpr.server.auth.Section;
+import org.utfpr.server.auth.ServerSection;
 import org.utfpr.server.domain.entities.User;
 import org.utfpr.server.domain.repository.UserRepositoryDAO;
 import org.utfpr.server.domain.usecase.UseCase;
@@ -39,7 +39,7 @@ public class Login implements UseCase {
             throw new NotFoundException("Usuario nao encontrado.");
         }
 
-        String token = Section.authenticatingUser(user.getId());
+        String token = ServerSection.authenticatingUser(user.getId());
         LoginDataServerToClient loginDataServerToClient = new LoginDataServerToClient(Operation.LOGIN, Status.OK, token, user.getId(), user.getName());
 
         return Convert.convertDataToHashMap(loginDataServerToClient);

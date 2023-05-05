@@ -5,7 +5,7 @@ import org.utfpr.server.exception.UnauthorizedException;
 import java.util.HashMap;
 import java.util.Random;
 
-public class Section {
+public class ServerSection {
 
     private static final HashMap<Integer, String> tokens = new HashMap<>();
 

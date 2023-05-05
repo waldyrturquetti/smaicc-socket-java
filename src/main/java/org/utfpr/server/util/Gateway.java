@@ -1,7 +1,7 @@
 package org.utfpr.server.util;
 
 import org.utfpr.common.util.Status;
-import org.utfpr.server.auth.Section;
+import org.utfpr.server.auth.ServerSection;
 import org.utfpr.server.domain.usecase.UseCase;
 import org.utfpr.server.domain.usecase.auth.Login;
 import org.utfpr.server.domain.usecase.auth.Logout;
@@ -67,6 +67,6 @@ public class Gateway {
         Check.checkIdAndTokenFromJson(json);
         String token = (String) json.get("token");
         Integer id = (Integer) json.get("id");
-        Section.verifyToken(id, token);
+        ServerSection.verifyToken(id, token);
     }
 }

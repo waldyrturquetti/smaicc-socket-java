@@ -2,6 +2,7 @@ package org.utfpr.client.infra;
 
 import org.utfpr.client.exception.ProblemWithServerConnectionException;
 import org.utfpr.common.dto.Data;
+import org.utfpr.common.dto.DataServerToClient;
 import org.utfpr.common.util.Convert;
 
 import java.io.BufferedReader;

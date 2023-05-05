@@ -1,6 +1,6 @@
 package org.utfpr.server.domain.usecase.auth;
 
-import org.utfpr.server.auth.Section;
+import org.utfpr.server.auth.ServerSection;
 import org.utfpr.server.domain.usecase.UseCase;
 import org.utfpr.common.dto.auth.logout.LogoutDataClientToServer;
 import org.utfpr.common.dto.common.CommonDataServerToClient;
@@ -17,7 +17,7 @@ public class Logout implements UseCase {
     @Override
     public HashMap<String, Object> executeOperation(HashMap<String, Object> json) {
         LogoutDataClientToServer logoutDataClientToServer = (LogoutDataClientToServer) Convert.convertHashMapToData(json, new LogoutDataClientToServer());
-        Section.removeToken(logoutDataClientToServer.getId());
+        ServerSection.removeToken(logoutDataClientToServer.getId());
         CommonDataServerToClient commonDataServerToClient = new CommonDataServerToClient(Operation.LOGOUT, Status.OK);
         return Convert.convertDataToHashMap(commonDataServerToClient);
     }
