@@ -36,7 +36,7 @@ public class Login implements UseCase {
 
         User user = userRepositoryDAO.getUserByEmailAndPassword(loginDataClientToServer.getEmail(), loginDataClientToServer.getPassword());
         if (user == null){
-            throw new NotFoundException("Usuario nao encontrado.");
+            throw new NotFoundException("Usuario nao encontrado ou Email/Senha incorretos.");
         }
 
         String token = ServerSection.authenticatingUser(user.getId());

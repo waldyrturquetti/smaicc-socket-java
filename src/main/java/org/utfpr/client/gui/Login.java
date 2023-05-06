@@ -44,7 +44,7 @@ public class Login extends JFrame {
         LoginDataServerToClient loginDataServerToClient = (LoginDataServerToClient) ClientSocket.receiveMessage(new LoginDataServerToClient());
 
         if (!Objects.equals(loginDataServerToClient.getStatus(), Status.OK)) {
-            throw new ServerFailureException("Falha no Login: " + loginDataServerToClient.getStatus());
+            throw new ServerFailureException(loginDataServerToClient.getStatus());
         }
 
         ClientSection.setId(loginDataServerToClient.getId());
