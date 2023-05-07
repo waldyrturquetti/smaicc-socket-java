@@ -24,8 +24,8 @@ public class Login extends JFrame {
             try {
                 LoginDataClientToServer loginData = new LoginDataClientToServer(emailField.getText(), new String(passwordField.getPassword()));
                 ClientSocket.sendMessage(loginData);
-                this.setVisible(false);
                 this.returned();
+                this.setVisible(false);
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
                 new ErrorScreen().buildScreen(ex.getMessage());
@@ -43,7 +43,7 @@ public class Login extends JFrame {
     private void returned() throws IOException {
         LoginDataServerToClient loginDataServerToClient = (LoginDataServerToClient) ClientSocket.receiveMessage(new LoginDataServerToClient());
 
-        if (!Objects.equals(loginDataServerToClient.getStatus(), Status.OK)) {
+        if (!Objects.equals(loginDataServerToClient.getStatus().trim(), Status.OK)) {
             throw new ServerFailureException(loginDataServerToClient.getStatus());
         }
 
