@@ -1,14 +1,21 @@
 package org.utfpr.common.dto.auth.logout;
 
 import org.utfpr.common.dto.Data;
+import org.utfpr.common.util.Operation;
 
 public class LogoutDataClientToServer extends Data {
 
-    private String token;
     private Integer id;
+    private String token;
 
     public LogoutDataClientToServer() {
        super();
+    }
+
+    public LogoutDataClientToServer(Integer id, String token) {
+        super(Operation.LOGOUT);
+        this.id = id;
+        this.token = token;
     }
 
     public LogoutDataClientToServer(Integer operation, String token, Integer id) {

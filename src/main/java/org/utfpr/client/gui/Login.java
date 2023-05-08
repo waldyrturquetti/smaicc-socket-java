@@ -3,6 +3,7 @@ package org.utfpr.client.gui;
 import org.utfpr.client.auth.ClientSection;
 import org.utfpr.client.exception.ServerFailureException;
 import org.utfpr.client.infra.ClientSocket;
+import org.utfpr.common.util.Hash;
 import org.utfpr.common.dto.auth.login.LoginDataClientToServer;
 import org.utfpr.common.dto.auth.login.LoginDataServerToClient;
 import org.utfpr.common.util.Status;
@@ -22,7 +23,11 @@ public class Login extends JFrame {
         backButton.addActionListener(e -> this.setVisible(false));
         loginButton.addActionListener( e -> {
             try {
-                LoginDataClientToServer loginData = new LoginDataClientToServer(emailField.getText(), new String(passwordField.getPassword()));
+                LoginDataClientToServer loginData =
+                        new LoginDataClientToServer(
+                                emailField.getText(),
+                                Hash.encrypt(new String(passwordField.getPassword()))
+                        );
                 ClientSocket.sendMessage(loginData);
                 this.returned();
                 this.setVisible(false);
@@ -51,5 +56,4 @@ public class Login extends JFrame {
         ClientSection.setName(loginDataServerToClient.getName());
         ClientSection.setToken(loginDataServerToClient.getToken());
     }
-
 }

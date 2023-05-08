@@ -2,6 +2,7 @@ package org.utfpr.client.gui;
 
 import org.utfpr.client.exception.ServerFailureException;
 import org.utfpr.client.infra.ClientSocket;
+import org.utfpr.common.util.Hash;
 import org.utfpr.common.dto.common.CommonDataServerToClient;
 import org.utfpr.common.dto.user.createUser.CreateUserDataClientToServer;
 import org.utfpr.common.util.Status;
@@ -23,7 +24,9 @@ public class CreateUser extends JFrame {
         this.registerButton.addActionListener(e -> {
             try {
                 CreateUserDataClientToServer createUserData = new CreateUserDataClientToServer(
-                        this.nameTextField.getText(), this.emailTextField.getText(), new String(this.passwordField.getPassword()));
+                        this.nameTextField.getText(), this.emailTextField.getText(),
+                        Hash.encrypt(new String(this.passwordField.getPassword()))
+                );
                 ClientSocket.sendMessage(createUserData);
                 this.returned();
                 this.setVisible(false);

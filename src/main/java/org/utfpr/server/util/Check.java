@@ -1,5 +1,6 @@
 package org.utfpr.server.util;
 
+import org.utfpr.common.util.Hash;
 import org.utfpr.server.exception.UnprocessableAttributeException;
 
 import java.util.HashMap;
@@ -21,6 +22,7 @@ public class Check {
     }
 
     public static void checkPassword(String password) {
+        password = Hash.decryption(password);
         if (password.length() < 5 || password.length() > 10 || !password.matches("[a-zA-Z0-9]*")) {
             throw new UnprocessableAttributeException("Formato da senha é invalido.");
         }
