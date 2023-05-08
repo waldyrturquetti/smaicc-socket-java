@@ -12,6 +12,7 @@ public class InitClient extends JFrame {
     public InitClient() {
         loginButton.addActionListener(e -> new Login().buildScreen());
         createUserButton.addActionListener(e -> new CreateUser().buildScreen());
+        logoutButton.addActionListener(e -> new Logout().buildScreen());
     }
 
     public void buildScreen() {

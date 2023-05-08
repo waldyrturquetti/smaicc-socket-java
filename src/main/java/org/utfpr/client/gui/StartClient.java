@@ -7,14 +7,14 @@ import javax.swing.*;
 
 public class StartClient extends JFrame {
     private JTextField hostTextField;
-    private JTextField portaTextField;
-    private JButton conectarButton;
+    private JTextField portTextField;
+    private JButton connectButton;
     private JPanel startClientPanel;
 
     public StartClient() {
-        this.conectarButton.addActionListener(actionEvent -> {
+        this.connectButton.addActionListener(actionEvent -> {
             try {
-                ClientSocket.startConnect(this.hostTextField.getText(), Integer.parseInt(this.portaTextField.getText()));
+                ClientSocket.startConnect(this.hostTextField.getText(), Integer.parseInt(this.portTextField.getText()));
                 this.setVisible(false);
                 new InitClient().buildScreen();
             } catch (ProblemWithServerConnectionException e) {

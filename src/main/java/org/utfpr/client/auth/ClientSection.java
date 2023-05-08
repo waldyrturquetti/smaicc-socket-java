@@ -4,7 +4,6 @@ public class ClientSection {
 
     private static Integer id;
     private static String name;
-
     private static String token;
 
     public static Integer getId() {

@@ -32,10 +32,15 @@ public class ClientSocket {
         }
     }
 
-    public static void sendMessage(Data data) throws IOException {
-        HashMap<String, Object> json = Convert.convertDataToHashMap(data);
-        String message = Convert.convertHashMapToString(json);
-        out.println(message);
+    public static void sendMessage(Data data)
+    {
+        try {
+            HashMap<String, Object> json = Convert.convertDataToHashMap(data);
+            String message = Convert.convertHashMapToString(json);
+            out.println(message);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     public static Data receiveMessage(Data typeOfData) throws IOException {
