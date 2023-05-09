@@ -40,8 +40,13 @@ public class Logout extends JFrame {
 
     private void returned() throws IOException {
         CommonDataServerToClient commonDataServerToClient = (CommonDataServerToClient) ClientSocket.receiveMessage(new CommonDataServerToClient());
+
         if (!Objects.equals(commonDataServerToClient.getStatus().trim(), Status.OK)) {
             throw new ServerFailureException(commonDataServerToClient.getStatus());
         }
+
+        ClientSection.setId(null);
+        ClientSection.setName(null);
+        ClientSection.setToken(null);
     }
 }

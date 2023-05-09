@@ -42,7 +42,7 @@ public class Login extends JFrame {
         this.setContentPane(this.loginPanel);
         this.setTitle("Login");
         this.setVisible(true);
-        this.setSize(350, 250);
+        this.setSize(250, 250);
     }
 
     private void returned() throws IOException {

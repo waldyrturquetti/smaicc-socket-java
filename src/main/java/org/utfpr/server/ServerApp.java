@@ -48,7 +48,7 @@ public class ServerApp extends Thread {
                 assert serverSocket != null;
                 serverSocket.close();
             } catch (IOException e) {
-                System.err.println("Could not close port: 10008.");
+                System.err.println("Could not close port: 8080.");
                 System.exit(1);
             }
         }
@@ -69,9 +69,7 @@ public class ServerApp extends Thread {
             String incomingMessage;
 
             while ((incomingMessage = in.readLine()) != null) {
-                System.out.println(incomingMessage);
                 String outgoingMessage = Gateway.chooseOperation(incomingMessage);
-                System.out.println(outgoingMessage);
                 out.println(outgoingMessage);
             }
 

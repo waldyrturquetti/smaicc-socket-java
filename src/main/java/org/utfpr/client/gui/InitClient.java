@@ -19,6 +19,6 @@ public class InitClient extends JFrame {
         this.setContentPane(this.initPanel);
         this.setTitle("Inicio Client");
         this.setVisible(true);
-        this.setSize(350, 200);
+        this.setSize(250, 200);
     }
 }
