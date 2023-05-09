@@ -14,7 +14,8 @@ public class StartClient extends JFrame {
     public StartClient() {
         this.connectButton.addActionListener(actionEvent -> {
             try {
-                ClientSocket.startConnect(this.hostTextField.getText(), Integer.parseInt(this.portTextField.getText()));
+                ClientSocket.setServerHostname(this.hostTextField.getText());
+                ClientSocket.setPort(Integer.parseInt(this.portTextField.getText()));
                 this.setVisible(false);
                 new InitClient().buildScreen();
             } catch (ProblemWithServerConnectionException e) {

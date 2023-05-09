@@ -1,6 +1,7 @@
 package org.utfpr.client.infra;
 
 import org.utfpr.client.exception.ProblemWithServerConnectionException;
+import org.utfpr.client.exception.ServerFailureException;
 import org.utfpr.common.dto.Data;
 import org.utfpr.common.util.Convert;
 
@@ -16,15 +17,18 @@ public class ClientSocket {
 
     private static PrintWriter out;
     private static BufferedReader in;
+    private static Socket socket;
+    private static String serverHostname;
+    private static Integer port;
 
-    public static void startConnect(String serverHostname, Integer port) {
+    private static void startConnect() {
 
         System.out.println ("Attemping to connect to host " + serverHostname + " on port " + port);
 
         try {
-            Socket echoSocket = new Socket(serverHostname, port);
-            out = new PrintWriter(echoSocket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
+            socket = new Socket(serverHostname, port);
+            out = new PrintWriter(socket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (UnknownHostException e) {
             throw new ProblemWithServerConnectionException("Host não encontrado.");
         } catch (IOException e) {
@@ -32,20 +36,40 @@ public class ClientSocket {
         }
     }
 
+    private static void closeConnect() throws IOException {
+        out.close();
+        in.close();
+        socket.close();
+    }
+
     public static void sendMessage(Data data)
     {
         try {
+            startConnect();
             HashMap<String, Object> json = Convert.convertDataToHashMap(data);
-            String message = Convert.convertHashMapToString(json);
-            out.println(message);
+            String outgoingMessage = Convert.convertHashMapToString(json);
+            out.println(outgoingMessage);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
     }
 
     public static Data receiveMessage(Data typeOfData) throws IOException {
-        HashMap<String, Object> jsonReturned = Convert.convertStringToHashMap(in.readLine());
+        String incomingMessage = in.readLine();
+        if (incomingMessage == null){
+            throw new ServerFailureException();
+        }
+        HashMap<String, Object> jsonReturned = Convert.convertStringToHashMap(incomingMessage);
+        closeConnect();
         return Convert.convertHashMapToData(jsonReturned, typeOfData);
+    }
+
+    public static void setServerHostname(String serverHostname) {
+        ClientSocket.serverHostname = serverHostname;
+    }
+
+    public static void setPort(Integer port) {
+        ClientSocket.port = port;
     }
 }
 

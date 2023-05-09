@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
@@ -14,7 +15,7 @@ import java.sql.SQLException;
 public class ServerApp extends Thread {
 
     private static boolean serverContinue = true;
-    private final Socket clientSocket;
+    private final Socket socket;
 
     public static void main(String[] args) throws SQLException {
         startSocket();
@@ -25,7 +26,8 @@ public class ServerApp extends Thread {
         Database.getConnection();
 
         try {
-            serverSocket = new ServerSocket(8080);
+            InetAddress ipAddress = InetAddress.getByName("0.0.0.0");
+            serverSocket = new ServerSocket(8080, 0, ipAddress);
             System.out.println("Connection Socket Created");
             try {
                 while (serverContinue) {
@@ -53,7 +55,7 @@ public class ServerApp extends Thread {
     }
 
     private ServerApp(Socket clientSocket) {
-        this.clientSocket = clientSocket;
+        this.socket = clientSocket;
         super.start();
     }
 
@@ -61,8 +63,8 @@ public class ServerApp extends Thread {
         System.out.println ("New Communication Thread Started.");
 
         try {
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             String incomingMessage;
 
@@ -75,10 +77,10 @@ public class ServerApp extends Thread {
 
             out.close();
             in.close();
-            clientSocket.close();
+            socket.close();
 
         } catch (IOException e) {
-            System.err.println("Problem with Communication Server.");
+            System.err.println("Problem communicating with the Client.");
         }
     }
 }

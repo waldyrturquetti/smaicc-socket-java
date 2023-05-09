@@ -8,7 +8,7 @@ public class ServerFailureException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     public ServerFailureException() {
-        super("Aconteceu algo de errado.");
+        super("Aconteceu algo de errado no Servidor.");
     }
 
     public ServerFailureException(String msg) {
