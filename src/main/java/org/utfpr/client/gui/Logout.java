@@ -2,7 +2,7 @@ package org.utfpr.client.gui;
 
 import org.utfpr.client.auth.ClientSection;
 import org.utfpr.client.exception.ServerFailureException;
-import org.utfpr.client.infra.ClientSocket;
+import org.utfpr.client.infra.ClientAppSocket;
 import org.utfpr.common.dto.auth.logout.LogoutDataClientToServer;
 import org.utfpr.common.dto.common.CommonDataServerToClient;
 import org.utfpr.common.util.Status;
@@ -21,7 +21,7 @@ public class Logout extends JFrame {
         yesButton.addActionListener(e -> {
             try {
                 LogoutDataClientToServer logoutData = new LogoutDataClientToServer(ClientSection.getId(), ClientSection.getToken());
-                ClientSocket.sendMessage(logoutData);
+                ClientAppSocket.sendMessage(logoutData);
                 this.returned();
                 this.setVisible(false);
             } catch (Exception ex) {
@@ -39,7 +39,7 @@ public class Logout extends JFrame {
     }
 
     private void returned() throws IOException {
-        CommonDataServerToClient commonDataServerToClient = (CommonDataServerToClient) ClientSocket.receiveMessage(new CommonDataServerToClient());
+        CommonDataServerToClient commonDataServerToClient = (CommonDataServerToClient) ClientAppSocket.receiveMessage(new CommonDataServerToClient());
 
         if (!Objects.equals(commonDataServerToClient.getStatus().trim(), Status.OK)) {
             throw new ServerFailureException(commonDataServerToClient.getStatus());

@@ -7,26 +7,27 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
 
-public class ServerSocket extends Thread {
+public class ServerAppSocket extends Thread {
 
     private static boolean serverContinue = true;
     private final Socket socket;
 
     public static void startSocket(Integer port) throws SQLException {
-        java.net.ServerSocket serverSocket = null;
+        ServerSocket serverSocket = null;
         Database.getConnection();
 
         try {
             InetAddress ipAddress = InetAddress.getByName("0.0.0.0");
-            serverSocket = new java.net.ServerSocket(port, 0, ipAddress);
+            serverSocket = new ServerSocket(port, 0, ipAddress);
             System.out.println("Connection Socket Created");
             try {
                 while (serverContinue) {
                     System.out.println("Waiting for Connection");
-                    new ServerSocket(serverSocket.accept());
+                    new ServerAppSocket(serverSocket.accept());
                 }
             } catch (IOException e) {
                 System.err.println("Accept failed");
@@ -48,7 +49,7 @@ public class ServerSocket extends Thread {
         }
     }
 
-    private ServerSocket(Socket clientSocket) {
+    private ServerAppSocket(Socket clientSocket) {
         this.socket = clientSocket;
         super.start();
     }

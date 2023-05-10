@@ -1,6 +1,6 @@
 package org.utfpr.server.gui;
 
-import org.utfpr.server.infra.ServerSocket;
+import org.utfpr.server.infra.ServerAppSocket;
 
 import javax.swing.*;
 import java.sql.SQLException;
@@ -14,7 +14,7 @@ public class StartServer extends JFrame {
         this.connectButton.addActionListener(e -> {
             try {
                 this.setVisible(false);
-                ServerSocket.startSocket(Integer.parseInt(portTextField.getText()));
+                ServerAppSocket.startSocket(Integer.parseInt(portTextField.getText()));
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }

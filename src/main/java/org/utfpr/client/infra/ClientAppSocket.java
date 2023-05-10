@@ -13,7 +13,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 
-public class ClientSocket {
+public class ClientAppSocket {
 
     private static PrintWriter out;
     private static BufferedReader in;
@@ -65,11 +65,11 @@ public class ClientSocket {
     }
 
     public static void setServerHostname(String serverHostname) {
-        ClientSocket.serverHostname = serverHostname;
+        ClientAppSocket.serverHostname = serverHostname;
     }
 
     public static void setPort(Integer port) {
-        ClientSocket.port = port;
+        ClientAppSocket.port = port;
     }
 }
 
