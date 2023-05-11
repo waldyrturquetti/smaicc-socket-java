@@ -1,7 +1,8 @@
-package org.utfpr.client.gui;
+package org.utfpr.client.gui.usecase;
 
 import org.utfpr.client.auth.ClientSection;
 import org.utfpr.client.exception.ServerFailureException;
+import org.utfpr.client.gui.ErrorScreen;
 import org.utfpr.client.infra.ClientAppSocket;
 import org.utfpr.common.dto.auth.logout.LogoutDataClientToServer;
 import org.utfpr.common.dto.common.CommonDataServerToClient;
@@ -39,7 +40,7 @@ public class Logout extends JFrame {
     }
 
     private void returned() throws IOException {
-        CommonDataServerToClient commonDataServerToClient = (CommonDataServerToClient) ClientAppSocket.receiveMessage(new CommonDataServerToClient());
+        CommonDataServerToClient commonDataServerToClient = (CommonDataServerToClient) ClientAppSocket.receiveMessage(CommonDataServerToClient.class);
 
         if (!Objects.equals(commonDataServerToClient.getStatus().trim(), Status.OK)) {
             throw new ServerFailureException(commonDataServerToClient.getStatus());

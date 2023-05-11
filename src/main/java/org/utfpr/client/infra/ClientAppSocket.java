@@ -54,7 +54,7 @@ public class ClientAppSocket {
         }
     }
 
-    public static Data receiveMessage(Data typeOfData) throws IOException {
+    public static Data receiveMessage(Class<? extends Data> typeOfData) throws IOException {
         String incomingMessage = in.readLine();
         if (incomingMessage == null){
             throw new ServerFailureException();

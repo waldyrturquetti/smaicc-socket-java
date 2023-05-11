@@ -29,7 +29,7 @@ public class CreateUser implements UseCase {
     @Override
     public HashMap<String, Object> executeOperation(HashMap<String, Object> json) {
         CreateUserDataClientToServer createUserDataClientToServer =
-                (CreateUserDataClientToServer) Convert.convertHashMapToData(json, new CreateUserDataClientToServer());
+                (CreateUserDataClientToServer) Convert.convertHashMapToData(json, CreateUserDataClientToServer.class);
 
         Check.checkName(createUserDataClientToServer.getName());
         Check.checkEmail(createUserDataClientToServer.getEmail());

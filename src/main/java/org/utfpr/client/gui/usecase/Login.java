@@ -1,7 +1,8 @@
-package org.utfpr.client.gui;
+package org.utfpr.client.gui.usecase;
 
 import org.utfpr.client.auth.ClientSection;
 import org.utfpr.client.exception.ServerFailureException;
+import org.utfpr.client.gui.ErrorScreen;
 import org.utfpr.client.infra.ClientAppSocket;
 import org.utfpr.common.util.Hash;
 import org.utfpr.common.dto.auth.login.LoginDataClientToServer;
@@ -46,7 +47,7 @@ public class Login extends JFrame {
     }
 
     private void returned() throws IOException {
-        LoginDataServerToClient loginDataServerToClient = (LoginDataServerToClient) ClientAppSocket.receiveMessage(new LoginDataServerToClient());
+        LoginDataServerToClient loginDataServerToClient = (LoginDataServerToClient) ClientAppSocket.receiveMessage(LoginDataServerToClient.class);
 
         if (!Objects.equals(loginDataServerToClient.getStatus().trim(), Status.OK)) {
             throw new ServerFailureException(loginDataServerToClient.getStatus());

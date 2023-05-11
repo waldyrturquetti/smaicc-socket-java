@@ -16,6 +16,7 @@ public class StartServer extends JFrame {
                 this.setVisible(false);
                 ServerAppSocket.startSocket(Integer.parseInt(portTextField.getText()));
             } catch (SQLException ex) {
+                this.setVisible(true);
                 throw new RuntimeException(ex);
             }
         });
