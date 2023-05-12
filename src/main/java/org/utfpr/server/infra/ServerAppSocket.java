@@ -49,6 +49,10 @@ public class ServerAppSocket extends Thread {
         }
     }
 
+    public static void closeSocket() {
+        serverContinue = false;
+    }
+
     private ServerAppSocket(Socket clientSocket) {
         this.socket = clientSocket;
         super.start();

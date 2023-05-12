@@ -2,8 +2,8 @@ package org.utfpr.client.gui.usecase;
 
 import org.utfpr.client.auth.ClientSection;
 import org.utfpr.client.exception.ServerFailureException;
-import org.utfpr.client.gui.ErrorScreen;
 import org.utfpr.client.infra.ClientAppSocket;
+import org.utfpr.common.gui.Dialogs;
 import org.utfpr.common.util.Hash;
 import org.utfpr.common.dto.auth.login.LoginDataClientToServer;
 import org.utfpr.common.dto.auth.login.LoginDataServerToClient;
@@ -34,7 +34,7 @@ public class Login extends JFrame {
                 this.setVisible(false);
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
-                new ErrorScreen().buildScreen(ex.getMessage());
+                Dialogs.showErrorMessage(ex.getMessage());
             }
         });
     }

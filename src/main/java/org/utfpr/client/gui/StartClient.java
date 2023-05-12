@@ -2,6 +2,7 @@ package org.utfpr.client.gui;
 
 import org.utfpr.client.exception.ProblemWithServerConnectionException;
 import org.utfpr.client.infra.ClientAppSocket;
+import org.utfpr.common.gui.Dialogs;
 
 import javax.swing.*;
 
@@ -17,10 +18,10 @@ public class StartClient extends JFrame {
                 ClientAppSocket.setServerHostname(this.hostTextField.getText());
                 ClientAppSocket.setPort(Integer.parseInt(this.portTextField.getText()));
                 this.setVisible(false);
-                new InitClient().buildScreen();
+                new MenuClient().buildScreen();
             } catch (ProblemWithServerConnectionException e) {
                 System.err.println(e.getMessage());
-                new ErrorScreen().buildScreen(e.getMessage());
+                Dialogs.showErrorMessage(e.getMessage());
             }
         });
     }

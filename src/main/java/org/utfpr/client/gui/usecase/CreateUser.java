@@ -1,8 +1,8 @@
 package org.utfpr.client.gui.usecase;
 
 import org.utfpr.client.exception.ServerFailureException;
-import org.utfpr.client.gui.ErrorScreen;
 import org.utfpr.client.infra.ClientAppSocket;
+import org.utfpr.common.gui.Dialogs;
 import org.utfpr.common.util.Hash;
 import org.utfpr.common.dto.common.CommonDataServerToClient;
 import org.utfpr.common.dto.user.createUser.CreateUserDataClientToServer;
@@ -34,7 +34,7 @@ public class CreateUser extends JFrame {
                 new Login().buildScreen();
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
-                new ErrorScreen().buildScreen(ex.getMessage());
+                Dialogs.showErrorMessage(ex.getMessage());
             }
         });
     }

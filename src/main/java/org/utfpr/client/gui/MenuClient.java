@@ -6,14 +6,14 @@ import org.utfpr.client.gui.usecase.Logout;
 
 import javax.swing.*;
 
-public class InitClient extends JFrame {
+public class MenuClient extends JFrame {
 
     private JButton loginButton;
     private JButton logoutButton;
     private JButton createUserButton;
     private JPanel initPanel;
 
-    public InitClient() {
+    public MenuClient() {
         loginButton.addActionListener(e -> new Login().buildScreen());
         createUserButton.addActionListener(e -> new CreateUser().buildScreen());
         logoutButton.addActionListener(e -> new Logout().buildScreen());
@@ -21,7 +21,7 @@ public class InitClient extends JFrame {
 
     public void buildScreen() {
         this.setContentPane(this.initPanel);
-        this.setTitle("Início Cliente");
+        this.setTitle("Menu Cliente");
         this.setVisible(true);
         this.setSize(250, 200);
     }
