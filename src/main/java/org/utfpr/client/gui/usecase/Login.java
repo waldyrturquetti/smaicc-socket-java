@@ -31,6 +31,7 @@ public class Login extends JFrame {
                         );
                 ClientAppSocket.sendMessage(loginData);
                 this.returned();
+                Dialogs.showInfoMessage("Login feito com sucesso!", this);
                 this.setVisible(false);
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());

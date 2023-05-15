@@ -14,24 +14,25 @@ import java.util.Objects;
 
 public class Logout {
     public void buildScreen() {
-        Integer option = Dialogs.showOptionDialog("Certeza que deseja fazer Logout?");
-        if (option == 0) {
-            this.send();
+        try {
+            Integer option = Dialogs.showOptionDialog("Certeza que deseja fazer Logout?");
+            if (option == 0) {
+                this.send();
+                Dialogs.showInfoMessage("Logout feito com Sucesso!");
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            Dialogs.showErrorMessage(e.getMessage());
         }
     }
 
-    private void send() {
-        try {
-            if (ClientSection.getId() == null || ClientSection.getToken() == null) {
-                throw new UnauthenticatedException("Não é possível fazer Logout, você não está Logado.");
-            }
-            LogoutDataClientToServer logoutData = new LogoutDataClientToServer(ClientSection.getId(), ClientSection.getToken());
-            ClientAppSocket.sendMessage(logoutData);
-            this.returned();
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-            Dialogs.showErrorMessage(ex.getMessage());
+    private void send() throws IOException {
+        if (ClientSection.getId() == null || ClientSection.getToken() == null) {
+            throw new UnauthenticatedException("Não é possível fazer Logout, você não está Logado.");
         }
+        LogoutDataClientToServer logoutData = new LogoutDataClientToServer(ClientSection.getId(), ClientSection.getToken());
+        ClientAppSocket.sendMessage(logoutData);
+        this.returned();
     }
 
     private void returned() throws IOException {

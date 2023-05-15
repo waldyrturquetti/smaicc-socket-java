@@ -31,6 +31,7 @@ public class CreateUser extends JFrame {
                 ClientAppSocket.sendMessage(createUserData);
                 this.returned();
                 this.setVisible(false);
+                Dialogs.showInfoMessage("Cadastro de Usuário feito com Sucesso!", this);
                 new Login().buildScreen();
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
