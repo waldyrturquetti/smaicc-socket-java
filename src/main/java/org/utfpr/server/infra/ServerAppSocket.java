@@ -1,5 +1,7 @@
 package org.utfpr.server.infra;
 
+import org.utfpr.common.gui.Dialogs;
+import org.utfpr.server.exception.DbException;
 import org.utfpr.server.util.Gateway;
 
 import java.io.BufferedReader;
@@ -16,34 +18,34 @@ public class ServerAppSocket extends Thread {
     private static boolean serverContinue = true;
     private final Socket socket;
 
-    public static void startSocket(Integer port) throws SQLException {
+    public static void startSocket(Integer port) throws SQLException, DbException {
         ServerSocket serverSocket = null;
         Database.getConnection();
 
         try {
             InetAddress ipAddress = InetAddress.getByName("0.0.0.0");
             serverSocket = new ServerSocket(port, 0, ipAddress);
-            System.out.println("Connection Socket Created");
+            System.out.println("Conexão do Socket criada.");
             try {
                 while (serverContinue) {
-                    System.out.println("Waiting for Connection");
+                    System.out.println("Esperando conexão.");
                     new ServerAppSocket(serverSocket.accept());
                 }
             } catch (IOException e) {
-                System.err.println("Accept failed");
+                System.err.println("Accept falhado.");
                 System.exit(1);
             }
         } catch (IOException e) {
-            System.err.println("Could not listen on port: " + port);
+            System.err.println("Não foi possível conectar com a Porta: " + port);
             System.exit(1);
         } finally {
             try {
-                System.out.println("Closing Server Connection Socket");
+                System.out.println("Fechando a conexão do Socket.");
                 Database.closeConnection();
                 assert serverSocket != null;
                 serverSocket.close();
             } catch (IOException e) {
-                System.err.println("Could not close port:" + port);
+                System.err.println("Não foi possível fechar a porta: " + port);
                 System.exit(1);
             }
         }
@@ -59,7 +61,7 @@ public class ServerAppSocket extends Thread {
     }
 
     public void run() {
-        System.out.println ("New Communication Thread Started.");
+        System.out.println("Nova Thread de comunição iniciada.");
 
         try {
             PrintWriter out = new PrintWriter(socket.getOutputStream(),true);

@@ -4,7 +4,7 @@ import org.utfpr.common.gui.Dialogs;
 import org.utfpr.server.infra.ServerAppSocket;
 
 import javax.swing.*;
-import java.sql.SQLException;
+import java.awt.*;
 
 public class StartServer extends JFrame {
     private JPanel startServerPanel;
@@ -16,9 +16,9 @@ public class StartServer extends JFrame {
             try {
                 this.setVisible(false);
                 ServerAppSocket.startSocket(Integer.parseInt(portTextField.getText()));
-            } catch (SQLException ex) {
+            } catch (Exception ex) {
                 this.setVisible(true);
-                throw new RuntimeException(ex);
+                Dialogs.showErrorMessage(ex.getMessage(), this);
             }
         });
     }

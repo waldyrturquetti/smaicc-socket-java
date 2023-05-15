@@ -34,7 +34,7 @@ public class Login extends JFrame {
                 this.setVisible(false);
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
-                Dialogs.showErrorMessage(ex.getMessage());
+                Dialogs.showErrorMessage(ex.getMessage(), this);
             }
         });
     }

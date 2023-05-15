@@ -34,7 +34,7 @@ public class CreateUser extends JFrame {
                 new Login().buildScreen();
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
-                Dialogs.showErrorMessage(ex.getMessage());
+                Dialogs.showErrorMessage(ex.getMessage(), this);
             }
         });
     }

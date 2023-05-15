@@ -21,7 +21,7 @@ public class StartClient extends JFrame {
                 new MenuClient().buildScreen();
             } catch (ProblemWithServerConnectionException e) {
                 System.err.println(e.getMessage());
-                Dialogs.showErrorMessage(e.getMessage());
+                Dialogs.showErrorMessage(e.getMessage(), this);
             }
         });
     }
