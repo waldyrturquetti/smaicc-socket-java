@@ -1,6 +1,5 @@
 package org.utfpr.server.infra;
 
-import org.utfpr.common.gui.Dialogs;
 import org.utfpr.server.exception.DbException;
 import org.utfpr.server.util.Gateway;
 

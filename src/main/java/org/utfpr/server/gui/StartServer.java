@@ -4,7 +4,6 @@ import org.utfpr.common.gui.Dialogs;
 import org.utfpr.server.infra.ServerAppSocket;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class StartServer extends JFrame {
     private JPanel startServerPanel;
