@@ -1,8 +1,9 @@
-package org.utfpr.client.gui;
+package org.utfpr.client.gui.usecase;
 
 import org.utfpr.client.auth.ClientSection;
 import org.utfpr.client.exception.ServerFailureException;
-import org.utfpr.client.infra.ClientSocket;
+import org.utfpr.client.infra.ClientAppSocket;
+import org.utfpr.common.gui.Dialogs;
 import org.utfpr.common.util.Hash;
 import org.utfpr.common.dto.auth.login.LoginDataClientToServer;
 import org.utfpr.common.dto.auth.login.LoginDataServerToClient;
@@ -28,12 +29,13 @@ public class Login extends JFrame {
                                 emailField.getText(),
                                 Hash.encrypt(new String(passwordField.getPassword()))
                         );
-                ClientSocket.sendMessage(loginData);
+                ClientAppSocket.sendMessage(loginData);
                 this.returned();
+                Dialogs.showInfoMessage("Login feito com sucesso!", this);
                 this.setVisible(false);
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
-                new ErrorScreen().buildScreen(ex.getMessage());
+                Dialogs.showErrorMessage(ex.getMessage(), this);
             }
         });
     }
@@ -46,7 +48,7 @@ public class Login extends JFrame {
     }
 
     private void returned() throws IOException {
-        LoginDataServerToClient loginDataServerToClient = (LoginDataServerToClient) ClientSocket.receiveMessage(new LoginDataServerToClient());
+        LoginDataServerToClient loginDataServerToClient = (LoginDataServerToClient) ClientAppSocket.receiveMessage(LoginDataServerToClient.class);
 
         if (!Objects.equals(loginDataServerToClient.getStatus().trim(), Status.OK)) {
             throw new ServerFailureException(loginDataServerToClient.getStatus());

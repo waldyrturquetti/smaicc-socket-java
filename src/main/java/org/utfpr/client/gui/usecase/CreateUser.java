@@ -1,7 +1,8 @@
-package org.utfpr.client.gui;
+package org.utfpr.client.gui.usecase;
 
 import org.utfpr.client.exception.ServerFailureException;
-import org.utfpr.client.infra.ClientSocket;
+import org.utfpr.client.infra.ClientAppSocket;
+import org.utfpr.common.gui.Dialogs;
 import org.utfpr.common.util.Hash;
 import org.utfpr.common.dto.common.CommonDataServerToClient;
 import org.utfpr.common.dto.user.createUser.CreateUserDataClientToServer;
@@ -27,13 +28,14 @@ public class CreateUser extends JFrame {
                         this.nameTextField.getText(), this.emailTextField.getText(),
                         Hash.encrypt(new String(this.passwordField.getPassword()))
                 );
-                ClientSocket.sendMessage(createUserData);
+                ClientAppSocket.sendMessage(createUserData);
                 this.returned();
                 this.setVisible(false);
+                Dialogs.showInfoMessage("Cadastro de Usuário feito com Sucesso!", this);
                 new Login().buildScreen();
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
-                new ErrorScreen().buildScreen(ex.getMessage());
+                Dialogs.showErrorMessage(ex.getMessage(), this);
             }
         });
     }
@@ -46,7 +48,7 @@ public class CreateUser extends JFrame {
     }
 
     private void returned() throws IOException {
-        CommonDataServerToClient commonDataServerToClient = (CommonDataServerToClient) ClientSocket.receiveMessage(new CommonDataServerToClient());
+        CommonDataServerToClient commonDataServerToClient = (CommonDataServerToClient) ClientAppSocket.receiveMessage(CommonDataServerToClient.class);
 
         if (!Objects.equals(commonDataServerToClient.getStatus().trim(), Status.OK)) {
             throw new ServerFailureException(commonDataServerToClient.getStatus());

@@ -13,7 +13,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 
-public class ClientSocket {
+public class ClientAppSocket {
 
     private static PrintWriter out;
     private static BufferedReader in;
@@ -48,14 +48,16 @@ public class ClientSocket {
             startConnect();
             HashMap<String, Object> json = Convert.convertDataToHashMap(data);
             String outgoingMessage = Convert.convertHashMapToString(json);
+            System.out.println("*CLIENTE* Enviado: " + outgoingMessage);
             out.println(outgoingMessage);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
     }
 
-    public static Data receiveMessage(Data typeOfData) throws IOException {
+    public static Data receiveMessage(Class<? extends Data> typeOfData) throws IOException {
         String incomingMessage = in.readLine();
+        System.out.println("*CLIENTE* Recebido: " + incomingMessage);
         if (incomingMessage == null){
             throw new ServerFailureException();
         }
@@ -65,11 +67,11 @@ public class ClientSocket {
     }
 
     public static void setServerHostname(String serverHostname) {
-        ClientSocket.serverHostname = serverHostname;
+        ClientAppSocket.serverHostname = serverHostname;
     }
 
     public static void setPort(Integer port) {
-        ClientSocket.port = port;
+        ClientAppSocket.port = port;
     }
 }
 

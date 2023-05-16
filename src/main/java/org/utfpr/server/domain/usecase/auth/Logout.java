@@ -16,7 +16,7 @@ public class Logout implements UseCase {
 
     @Override
     public HashMap<String, Object> executeOperation(HashMap<String, Object> json) {
-        LogoutDataClientToServer logoutDataClientToServer = (LogoutDataClientToServer) Convert.convertHashMapToData(json, new LogoutDataClientToServer());
+        LogoutDataClientToServer logoutDataClientToServer = (LogoutDataClientToServer) Convert.convertHashMapToData(json, LogoutDataClientToServer.class);
         ServerSection.removeToken(logoutDataClientToServer.getId());
         CommonDataServerToClient commonDataServerToClient = new CommonDataServerToClient(Operation.LOGOUT, Status.OK);
         return Convert.convertDataToHashMap(commonDataServerToClient);

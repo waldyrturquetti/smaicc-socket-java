@@ -11,8 +11,8 @@ import java.util.Map;
 
 public class Convert {
 
-    public static Data convertHashMapToData(HashMap<String, Object> json, Data data) {
-        return new ObjectMapper().convertValue(json, data.getClass());
+    public static Data convertHashMapToData(HashMap<String, Object> json, Class<? extends Data> dataClass) {
+        return new ObjectMapper().convertValue(json, dataClass);
     }
 
     public static HashMap<String, Object> convertDataToHashMap(Data data) {

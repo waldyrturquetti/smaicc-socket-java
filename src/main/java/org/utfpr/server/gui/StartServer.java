@@ -1,22 +1,23 @@
 package org.utfpr.server.gui;
 
-import org.utfpr.server.infra.ServerSocket;
+import org.utfpr.common.gui.Dialogs;
+import org.utfpr.server.infra.ServerAppSocket;
 
 import javax.swing.*;
-import java.sql.SQLException;
 
 public class StartServer extends JFrame {
     private JPanel startServerPanel;
     private JTextField portTextField;
-    private JButton connectButton;
+    private JButton initButton;
 
     public StartServer() {
-        this.connectButton.addActionListener(e -> {
+        this.initButton.addActionListener(e -> {
             try {
                 this.setVisible(false);
-                ServerSocket.startSocket(Integer.parseInt(portTextField.getText()));
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
+                ServerAppSocket.startSocket(Integer.parseInt(portTextField.getText()));
+            } catch (Exception ex) {
+                this.setVisible(true);
+                Dialogs.showErrorMessage(ex.getMessage(), this);
             }
         });
     }
