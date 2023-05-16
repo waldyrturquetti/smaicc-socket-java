@@ -2,6 +2,8 @@
 
 Sistema de monitoramento e aviso de incidentes causados por chuvas **(SMAICC)**.
 
+Nesse Projeto foi usado o **Java 17**.
+
 
 ## Startando o projeto
 
