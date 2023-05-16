@@ -30,7 +30,7 @@ public class Login implements UseCase {
 
     @Override
     public HashMap<String, Object> executeOperation(HashMap<String, Object> json) {
-        LoginDataClientToServer loginDataClientToServer = (LoginDataClientToServer) Convert.convertHashMapToData(json, new LoginDataClientToServer());
+        LoginDataClientToServer loginDataClientToServer = (LoginDataClientToServer) Convert.convertHashMapToData(json, LoginDataClientToServer.class);
         Check.checkEmail(loginDataClientToServer.getEmail());
         Check.checkPassword(loginDataClientToServer.getPassword());
 
