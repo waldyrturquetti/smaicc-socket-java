@@ -48,6 +48,7 @@ public class ClientAppSocket {
             startConnect();
             HashMap<String, Object> json = Convert.convertDataToHashMap(data);
             String outgoingMessage = Convert.convertHashMapToString(json);
+            System.out.println("*CLIENTE* Enviado: " + outgoingMessage);
             out.println(outgoingMessage);
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -56,6 +57,7 @@ public class ClientAppSocket {
 
     public static Data receiveMessage(Class<? extends Data> typeOfData) throws IOException {
         String incomingMessage = in.readLine();
+        System.out.println("*CLIENTE* Recebido: " + incomingMessage);
         if (incomingMessage == null){
             throw new ServerFailureException();
         }

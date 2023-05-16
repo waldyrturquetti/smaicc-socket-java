@@ -69,7 +69,9 @@ public class ServerAppSocket extends Thread {
             String incomingMessage;
 
             while ((incomingMessage = in.readLine()) != null) {
+                System.out.println("*SERVIDOR* Recebido: " + incomingMessage);
                 String outgoingMessage = Gateway.chooseOperation(incomingMessage);
+                System.out.println("*SERVIDOR* Enviado: " + outgoingMessage);
                 out.println(outgoingMessage);
             }
 
