@@ -16,6 +16,11 @@ public class Check {
     public static void checkEmail(String email) {
         email = email.trim();
 
+        /**
+         *  In the project specifications it was defined that the email would be as follows:
+         *  Email: minimum 3 characters before and after the @.
+         *  Required: E-mail will have a maximum length of 50 characters before @ and 10 after (domain).
+         */
         if (!email.matches("([a-zA-Z0-9]*[~_$&+,:;=?#|'<>.^*()%!-]*){3,50}@([a-zA-Z0-9]*[~_$&+,:;=?#|'<>.^*()%!-]*){3,10}")) {
             throw new UnprocessableAttributeException("Formato do email invalido.");
         }
