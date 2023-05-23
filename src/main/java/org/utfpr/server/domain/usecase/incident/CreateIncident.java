@@ -6,7 +6,6 @@ import org.utfpr.common.util.Convert;
 import org.utfpr.common.util.Operation;
 import org.utfpr.common.util.Status;
 import org.utfpr.server.domain.repository.IncidentRepositoryDAO;
-import org.utfpr.server.domain.repository.UserRepositoryDAO;
 import org.utfpr.server.domain.usecase.UseCase;
 import org.utfpr.server.exception.DbException;
 import org.utfpr.server.util.Check;
