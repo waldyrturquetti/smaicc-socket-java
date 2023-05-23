@@ -33,23 +33,27 @@ public class Check {
         }
     }
 
-    public static void checkDate() {
+    public static void checkDate(String date) {
 
     }
 
-    public static void checkHour() {
+    public static void checkHour(String hour) {
 
     }
 
-    public static void checkState() {
+    public static void checkState(String state) {
 
     }
 
-    public static void checkCity() {
+    public static void checkCity(String city) {
 
     }
 
-    public static void checkStreet() {
+    public static void checkStreet(String street) {
+
+    }
+
+    public static void checkIncidentType(Integer incidentTypeValue) {
 
     }
 
