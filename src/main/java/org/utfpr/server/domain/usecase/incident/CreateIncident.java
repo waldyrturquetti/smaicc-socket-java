@@ -37,6 +37,6 @@ public class CreateIncident implements UseCase {
         Check.checkStreet(createIncidentDataClientToServer.getStreet());
 
         this.incidentRepositoryDAO.createIncident(createIncidentDataClientToServer.convertToModel());
-        return Convert.convertDataToHashMap(new CommonDataServerToClient(Operation.USER_REGISTRATION, Status.OK));
+        return Convert.convertDataToHashMap(new CommonDataServerToClient(Operation.REPORT_INCIDENTS, Status.OK));
     }
 }

@@ -31,7 +31,7 @@ public class CreateIncidentDataClientToServer extends Data {
     @JsonProperty("bairro")
     private String neighborhood;
 
-    @JsonProperty("cidade")
+    @JsonProperty("rua")
     private String street;
 
     @JsonProperty("tipo_incidente")
