@@ -1,4 +1,4 @@
-package org.utfpr.client.gui;
+package org.utfpr.client.gui.menu;
 
 import org.utfpr.client.ClientApp;
 import org.utfpr.client.exception.ProblemWithServerConnectionException;

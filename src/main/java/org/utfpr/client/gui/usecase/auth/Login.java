@@ -1,4 +1,4 @@
-package org.utfpr.client.gui.usecase;
+package org.utfpr.client.gui.usecase.auth;
 
 import org.utfpr.client.ClientApp;
 import org.utfpr.client.auth.ClientSection;

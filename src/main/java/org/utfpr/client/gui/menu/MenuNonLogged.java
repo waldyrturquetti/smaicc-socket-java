@@ -1,7 +1,7 @@
-package org.utfpr.client.gui;
+package org.utfpr.client.gui.menu;
 
-import org.utfpr.client.gui.usecase.CreateUser;
-import org.utfpr.client.gui.usecase.Login;
+import org.utfpr.client.gui.usecase.user.CreateUser;
+import org.utfpr.client.gui.usecase.auth.Login;
 
 import javax.swing.*;
 

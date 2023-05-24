@@ -1,4 +1,4 @@
-package org.utfpr.client.gui.usecase;
+package org.utfpr.client.gui.usecase.incident;
 
 import org.utfpr.client.auth.ClientSection;
 import org.utfpr.client.exception.ServerFailureException;

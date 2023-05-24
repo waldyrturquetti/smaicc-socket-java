@@ -1,6 +1,7 @@
-package org.utfpr.client.gui.usecase;
+package org.utfpr.client.gui.usecase.user;
 
 import org.utfpr.client.exception.ServerFailureException;
+import org.utfpr.client.gui.usecase.auth.Login;
 import org.utfpr.client.infra.ClientAppSocket;
 import org.utfpr.common.gui.Dialogs;
 import org.utfpr.common.util.Hash;

@@ -1,8 +1,8 @@
 package org.utfpr.client;
 
-import org.utfpr.client.gui.MenuLogged;
-import org.utfpr.client.gui.MenuNonLogged;
-import org.utfpr.client.gui.StartClient;
+import org.utfpr.client.gui.menu.MenuLogged;
+import org.utfpr.client.gui.menu.MenuNonLogged;
+import org.utfpr.client.gui.menu.StartClient;
 
 public class ClientApp {
 
