@@ -40,7 +40,6 @@ public class CreateIncident extends JFrame {
                 System.err.println(ex.getMessage());
                 Dialogs.showErrorMessage(ex.getMessage(), this);
             }
-
         });
     }
 
