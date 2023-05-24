@@ -27,7 +27,7 @@ public class IncidentRepositoryDAO {
                     connection.prepareStatement("insert into incident (id, user_id, date, hour, state, city, neighborhood, street, incident_type)" +
                                                     "values (null, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
-            preparedStatement.setInt(1, incident.getId());
+            preparedStatement.setInt(1, incident.getUserId());
             preparedStatement.setString(2, incident.getDate().toString());
             preparedStatement.setString(3, incident.getHour().toString());
             preparedStatement.setString(4, incident.getState().trim());
@@ -36,7 +36,7 @@ public class IncidentRepositoryDAO {
             preparedStatement.setString(7, incident.getStreet().trim());
             preparedStatement.setString(8, incident.getIncidentsTypesEnum().toString());
 
-            int rowsAffected  = preparedStatement.executeUpdate();
+            int rowsAffected = preparedStatement.executeUpdate();
 
             if (rowsAffected == 0) {
                 throw new ServerErrorException("Erro ao cadastrar o Incidente.");
@@ -65,7 +65,7 @@ public class IncidentRepositoryDAO {
             if (resultSet.next()) {
                 incidentList.add(
                         new Incident(resultSet.getInt("id"), resultSet.getInt("user_id"),
-                                resultSet.getDate("date").toLocalDate(), resultSet.getTime("hour"),
+                                resultSet.getDate("date").toLocalDate(), resultSet.getTime("hour").toLocalTime(),
                                 resultSet.getString("state"), resultSet.getString("city"),
                                 resultSet.getString("neighborhood"), resultSet.getString("street"),
                                 IncidentsTypesEnum.valueOf(resultSet.getString("incident_type"))

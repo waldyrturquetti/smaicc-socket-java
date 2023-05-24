@@ -2,18 +2,18 @@ package org.utfpr.server.domain.entities;
 
 import org.utfpr.common.dto.incident.getIncidents.IncidentData;
 
-import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Incident {
 
     private Integer id;
 
-    private Integer user_id;
+    private Integer userId;
 
     private LocalDate date;
 
-    private Time hour;
+    private LocalTime hour;
 
     private String state;
 
@@ -27,8 +27,8 @@ public class Incident {
 
     public Incident() {}
 
-    public Incident(Integer user_id, LocalDate date, Time hour, String state, String city, String neighborhood, String street, IncidentsTypesEnum incidentsTypesEnum) {
-        this.user_id = user_id;
+    public Incident(Integer userId, LocalDate date, LocalTime hour, String state, String city, String neighborhood, String street, IncidentsTypesEnum incidentsTypesEnum) {
+        this.userId = userId;
         this.date = date;
         this.hour = hour;
         this.state = state;
@@ -38,9 +38,9 @@ public class Incident {
         this.incidentsTypesEnum = incidentsTypesEnum;
     }
 
-    public Incident(Integer id, Integer user_id, LocalDate date, Time hour, String state, String city, String neighborhood, String street, IncidentsTypesEnum incidentsTypesEnum) {
+    public Incident(Integer id, Integer userId, LocalDate date, LocalTime hour, String state, String city, String neighborhood, String street, IncidentsTypesEnum incidentsTypesEnum) {
         this.id = id;
-        this.user_id = user_id;
+        this.userId = userId;
         this.date = date;
         this.hour = hour;
         this.state = state;
@@ -58,12 +58,12 @@ public class Incident {
         this.id = id;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
     public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+        this.userId = user_id;
     }
 
     public LocalDate getDate() {
@@ -74,11 +74,11 @@ public class Incident {
         this.date = date;
     }
 
-    public Time getHour() {
+    public LocalTime getHour() {
         return hour;
     }
 
-    public void setHour(Time hour) {
+    public void setHour(LocalTime hour) {
         this.hour = hour;
     }
 
@@ -125,5 +125,20 @@ public class Incident {
     public IncidentData convertToData() {
         return new IncidentData(this.id, this.date.toString(), this.hour.toString(), this.state, this.city,
                 this.neighborhood, this.street, this.incidentsTypesEnum.getValue());
+    }
+
+    @Override
+    public String toString() {
+        return "Incident{" +
+                "id=" + id +
+                ", user_id=" + userId +
+                ", date=" + date +
+                ", hour=" + hour +
+                ", state='" + state + '\'' +
+                ", city='" + city + '\'' +
+                ", neighborhood='" + neighborhood + '\'' +
+                ", street='" + street + '\'' +
+                ", incidentsTypesEnum=" + incidentsTypesEnum +
+                '}';
     }
 }

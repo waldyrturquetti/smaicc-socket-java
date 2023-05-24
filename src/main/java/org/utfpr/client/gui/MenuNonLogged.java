@@ -1,6 +1,5 @@
 package org.utfpr.client.gui;
 
-import org.utfpr.client.gui.usecase.CreateIncident;
 import org.utfpr.client.gui.usecase.CreateUser;
 import org.utfpr.client.gui.usecase.Login;
 
@@ -22,8 +21,6 @@ public class MenuNonLogged extends JFrame {
         this.setTitle("Menu Cliente (Não Logado)");
         this.setSize(250, 200);
         this.setVisible(true);
-
-        new CreateIncident().buildScreen();
     }
 
     public void closeScreen() {

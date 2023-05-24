@@ -1,5 +1,6 @@
 package org.utfpr.client.gui;
 
+import org.utfpr.client.gui.usecase.CreateIncident;
 import org.utfpr.client.gui.usecase.Logout;
 
 import javax.swing.*;
@@ -8,10 +9,11 @@ public class MenuLogged extends JFrame {
 
     private JPanel initPanel;
     private JButton createIncidentButton;
-    private JButton logoutButton;
     private JButton getIncidentsButton;
+    private JButton logoutButton;
 
     public MenuLogged() {
+        createIncidentButton.addActionListener(e -> new CreateIncident().buildScreen());
         logoutButton.addActionListener(e -> new Logout().buildScreen());
     }
 
