@@ -1,28 +1,32 @@
 package org.utfpr.client.gui;
 
+import org.utfpr.client.gui.usecase.CreateIncident;
 import org.utfpr.client.gui.usecase.CreateUser;
 import org.utfpr.client.gui.usecase.Login;
-import org.utfpr.client.gui.usecase.Logout;
 
 import javax.swing.*;
 
-public class MenuClient extends JFrame {
+public class MenuNonLogged extends JFrame {
 
     private JButton loginButton;
-    private JButton logoutButton;
     private JButton createUserButton;
     private JPanel initPanel;
 
-    public MenuClient() {
+    public MenuNonLogged() {
         loginButton.addActionListener(e -> new Login().buildScreen());
         createUserButton.addActionListener(e -> new CreateUser().buildScreen());
-        logoutButton.addActionListener(e -> new Logout().buildScreen());
     }
 
     public void buildScreen() {
         this.setContentPane(this.initPanel);
-        this.setTitle("Menu Cliente");
-        this.setVisible(true);
+        this.setTitle("Menu Cliente (Não Logado)");
         this.setSize(250, 200);
+        this.setVisible(true);
+
+        new CreateIncident().buildScreen();
+    }
+
+    public void closeScreen() {
+        this.setVisible(false);
     }
 }

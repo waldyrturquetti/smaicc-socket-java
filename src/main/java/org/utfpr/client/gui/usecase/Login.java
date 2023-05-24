@@ -1,5 +1,6 @@
 package org.utfpr.client.gui.usecase;
 
+import org.utfpr.client.ClientApp;
 import org.utfpr.client.auth.ClientSection;
 import org.utfpr.client.exception.ServerFailureException;
 import org.utfpr.client.infra.ClientAppSocket;
@@ -25,14 +26,13 @@ public class Login extends JFrame {
         loginButton.addActionListener( e -> {
             try {
                 LoginDataClientToServer loginData =
-                        new LoginDataClientToServer(
-                                emailField.getText(),
-                                Hash.encrypt(new String(passwordField.getPassword()))
-                        );
+                        new LoginDataClientToServer(emailField.getText(), Hash.encrypt(new String(passwordField.getPassword())));
                 ClientAppSocket.sendMessage(loginData);
                 this.returned();
                 Dialogs.showInfoMessage("Login feito com sucesso!", this);
                 this.setVisible(false);
+                ClientApp.menuNonLogged.closeScreen();
+                ClientApp.menuLogged.buildScreen();
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
                 Dialogs.showErrorMessage(ex.getMessage(), this);
