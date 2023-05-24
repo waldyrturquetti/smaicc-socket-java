@@ -1,10 +1,10 @@
-package org.utfpr.common.dto.incident.listIncident;
+package org.utfpr.common.dto.incident.getIncidents;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.utfpr.common.dto.Data;
 import org.utfpr.common.util.Operation;
 
-public class ListIncidentDataClientToServer extends Data {
+public class GetIncidentsDataClientToServer extends Data {
 
     @JsonProperty("data")
     private String date;
@@ -15,16 +15,16 @@ public class ListIncidentDataClientToServer extends Data {
     @JsonProperty("cidade")
     private String city;
 
-    public ListIncidentDataClientToServer() {}
+    public GetIncidentsDataClientToServer() {}
 
-    public ListIncidentDataClientToServer(String date, String state, String city) {
+    public GetIncidentsDataClientToServer(String date, String state, String city) {
         super(Operation.LIST_OF_INCIDENTS);
         this.date = date;
         this.state = state;
         this.city = city;
     }
 
-    public ListIncidentDataClientToServer(Integer operation, String date, String state, String city) {
+    public GetIncidentsDataClientToServer(Integer operation, String date, String state, String city) {
         super(operation);
         this.date = date;
         this.state = state;

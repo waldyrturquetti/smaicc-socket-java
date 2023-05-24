@@ -1,5 +1,7 @@
 package org.utfpr.server.domain.entities;
 
+import org.utfpr.common.dto.incident.getIncidents.IncidentData;
+
 import java.sql.Time;
 import java.time.LocalDate;
 
@@ -118,5 +120,10 @@ public class Incident {
 
     public void setIncidentsTypesEnum(IncidentsTypesEnum incidentsTypesEnum) {
         this.incidentsTypesEnum = incidentsTypesEnum;
+    }
+
+    public IncidentData convertToData() {
+        return new IncidentData(this.id, this.date.toString(), this.hour.toString(), this.state, this.city,
+                this.neighborhood, this.street, this.incidentsTypesEnum.getValue());
     }
 }

@@ -1,4 +1,4 @@
-package org.utfpr.common.dto.incident.listIncident;
+package org.utfpr.common.dto.incident.getIncidents;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

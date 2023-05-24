@@ -1,14 +1,15 @@
 package org.utfpr.server.domain.repository;
 
 import org.utfpr.server.domain.entities.Incident;
+import org.utfpr.server.domain.entities.IncidentsTypesEnum;
 import org.utfpr.server.exception.DbException;
 import org.utfpr.server.exception.ServerErrorException;
 import org.utfpr.server.infra.Database;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class IncidentRepositoryDAO {
 
@@ -45,5 +46,39 @@ public class IncidentRepositoryDAO {
         } finally {
             Database.closeStatement(preparedStatement);
         }
+    }
+
+    public List<Incident> getIncidentsByDateAndStateAndCity(LocalDate localDate, String state, String city) {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Incident> incidentList = new ArrayList<>();
+
+        try {
+            preparedStatement = connection.prepareStatement("select * from incident as i " +
+                                                                    "where i.date = ? and i.state = ? and i.city = ?");
+
+            preparedStatement.setString(1, localDate.toString());
+            preparedStatement.setString(2, state.trim());
+            preparedStatement.setString(3, city.trim());
+
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                incidentList.add(
+                        new Incident(resultSet.getInt("id"), resultSet.getInt("user_id"),
+                                resultSet.getDate("date").toLocalDate(), resultSet.getTime("hour"),
+                                resultSet.getString("state"), resultSet.getString("city"),
+                                resultSet.getString("neighborhood"), resultSet.getString("street"),
+                                IncidentsTypesEnum.valueOf(resultSet.getString("incident_type"))
+                        )
+                );
+            }
+        } catch (Exception e) {
+            throw new DbException(e.getMessage());
+        } finally {
+            Database.closeResultSet(resultSet);
+            Database.closeStatement(preparedStatement);
+        }
+
+        return incidentList;
     }
 }
