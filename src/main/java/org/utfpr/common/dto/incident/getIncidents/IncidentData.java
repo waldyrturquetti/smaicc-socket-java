@@ -1,11 +1,12 @@
 package org.utfpr.common.dto.incident.getIncidents;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.utfpr.client.util.ComboBoxValues;
 
 public class IncidentData {
 
     @JsonProperty("id_incidente")
-    private Integer incident_id;
+    private Integer incidentId;
 
     @JsonProperty("data")
     private String date;
@@ -30,8 +31,8 @@ public class IncidentData {
 
     public IncidentData() {}
 
-    public IncidentData(Integer incident_id, String date, String hour, String state, String city, String neighborhood, String street, Integer incidentTypeValue) {
-        this.incident_id = incident_id;
+    public IncidentData(Integer incidentId, String date, String hour, String state, String city, String neighborhood, String street, Integer incidentTypeValue) {
+        this.incidentId = incidentId;
         this.date = date;
         this.hour = hour;
         this.state = state;
@@ -41,12 +42,12 @@ public class IncidentData {
         this.incidentTypeValue = incidentTypeValue;
     }
 
-    public Integer getIncident_id() {
-        return incident_id;
+    public Integer getIncidentId() {
+        return incidentId;
     }
 
-    public void setIncident_id(Integer incident_id) {
-        this.incident_id = incident_id;
+    public void setIncidentId(Integer incidentId) {
+        this.incidentId = incidentId;
     }
 
     public String getDate() {
@@ -103,5 +104,9 @@ public class IncidentData {
 
     public void setIncidentTypeValue(Integer incidentTypeValue) {
         this.incidentTypeValue = incidentTypeValue;
+    }
+
+    public Object[] convertToObjectArray() {
+        return new Object[] {this.date, this.hour, this.state, this.city, this.neighborhood, this.street, ComboBoxValues.getTypeIncidents()[this.incidentTypeValue]};
     }
 }

@@ -62,7 +62,7 @@ public class IncidentRepositoryDAO {
             preparedStatement.setString(3, city.trim());
 
             resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 incidentList.add(
                         new Incident(resultSet.getInt("id"), resultSet.getInt("user_id"),
                                 resultSet.getDate("date").toLocalDate(), resultSet.getTime("hour").toLocalTime(),

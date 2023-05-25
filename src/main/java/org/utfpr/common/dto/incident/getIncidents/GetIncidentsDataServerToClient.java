@@ -12,6 +12,8 @@ public class GetIncidentsDataServerToClient extends DataServerToClient {
     @JsonProperty("incidentes")
     private List<IncidentData> incidentDataList;
 
+    public GetIncidentsDataServerToClient() {}
+
     public GetIncidentsDataServerToClient(List<IncidentData> incidentDataList) {
         super(Operation.LIST_OF_INCIDENTS, Status.OK);
         this.incidentDataList = incidentDataList;

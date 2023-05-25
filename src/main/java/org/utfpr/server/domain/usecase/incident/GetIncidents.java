@@ -38,6 +38,8 @@ public class GetIncidents implements UseCase {
         List<Incident> incidentList = this.incidentRepositoryDAO.getIncidentsByDateAndStateAndCity(
                 LocalDate.parse(getIncidentsDataClientToServer.getDate()), getIncidentsDataClientToServer.getState(), getIncidentsDataClientToServer.getCity());
 
+        System.out.println(incidentList);
+
         List<IncidentData> incidentDataList = incidentList.stream()
                                                     .sorted(Comparator.comparing(Incident::getHour).reversed())
                                                     .map(Incident::convertToData)

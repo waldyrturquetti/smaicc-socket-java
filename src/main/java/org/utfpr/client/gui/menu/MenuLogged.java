@@ -2,6 +2,7 @@ package org.utfpr.client.gui.menu;
 
 import org.utfpr.client.gui.usecase.incident.CreateIncident;
 import org.utfpr.client.gui.usecase.auth.Logout;
+import org.utfpr.client.gui.usecase.incident.GetIncidents;
 import org.utfpr.client.gui.usecase.user.UpdateUser;
 
 import javax.swing.*;
@@ -15,9 +16,10 @@ public class MenuLogged extends JFrame {
     private JButton updateUserButton;
 
     public MenuLogged() {
-        createIncidentButton.addActionListener(e -> new CreateIncident().buildScreen());
-        logoutButton.addActionListener(e -> new Logout().buildScreen());
-        updateUserButton.addActionListener(e -> new UpdateUser().buildScreen());
+        this.createIncidentButton.addActionListener(e -> new CreateIncident().buildScreen());
+        this.getIncidentsButton.addActionListener(e -> new GetIncidents().buildScreen());
+        this.logoutButton.addActionListener(e -> new Logout().buildScreen());
+        this.updateUserButton.addActionListener(e -> new UpdateUser().buildScreen());
     }
 
     public void buildScreen() {

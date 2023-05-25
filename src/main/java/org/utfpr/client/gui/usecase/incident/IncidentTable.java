@@ -15,18 +15,18 @@ public class IncidentTable {
 
     public JTable createTable(List<IncidentData> incidentDataList)
     {
-        String[] columnNames = {"First Name", "Last Name"};
-        Object[][] data = {{"Kathy", "Smith"},{"John", "Doe"}};
+        String[] columnNames = {"Data", "Hora", "Estado", "Cidade", "Bairro", "Rua", "Tipo de Incidente"};
+        Object[][] data = incidentDataList.stream().map(IncidentData::convertToObjectArray).toArray(Object[][]::new);
         JTable table = new JTable(data, columnNames);
         table.setFillsViewportHeight(true);
         return table;
     }
     public void buildScreen(List<IncidentData> incidentDataList){
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JTable table = createTable(incidentDataList);
         JScrollPane scrollPane = new JScrollPane(table);
         frame.getContentPane().add(scrollPane);
         frame.pack();
+        frame.setSize(700, 600);
         frame.setVisible(true);
     }
 }
