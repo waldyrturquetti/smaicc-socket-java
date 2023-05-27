@@ -1,5 +1,6 @@
 package org.utfpr.client.gui.usecase.incident;
 
+import org.utfpr.client.exception.EmptyFieldException;
 import org.utfpr.client.exception.ServerFailureException;
 import org.utfpr.client.infra.ClientAppSocket;
 import org.utfpr.client.util.ComboBoxValues;
@@ -24,6 +25,12 @@ public class GetIncidents extends JFrame {
     public GetIncidents(){
         this.getButton.addActionListener(e -> {
             try {
+                if (this.dateField.getText().isBlank()
+                        || this.statesComboBox.getSelectedItem() == null || this.cityField.getText().isBlank()
+                ) {
+                    throw new EmptyFieldException();
+                }
+
                 GetIncidentsDataClientToServer getIncidentsDataClientToServer =
                         new GetIncidentsDataClientToServer(dateField.getText(),
                                 Objects.requireNonNull(statesComboBox.getSelectedItem()).toString(), cityField.getText());

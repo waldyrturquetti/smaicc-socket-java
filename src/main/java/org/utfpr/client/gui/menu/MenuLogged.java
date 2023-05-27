@@ -26,7 +26,7 @@ public class MenuLogged extends JFrame {
         this.setContentPane(this.initPanel);
         this.setTitle("Menu Cliente (Logado)");
         this.setVisible(true);
-        this.setSize(250, 200);
+        this.setSize(350, 300);
     }
 
     public void closeScreen() {

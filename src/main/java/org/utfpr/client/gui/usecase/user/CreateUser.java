@@ -1,5 +1,6 @@
 package org.utfpr.client.gui.usecase.user;
 
+import org.utfpr.client.exception.EmptyFieldException;
 import org.utfpr.client.exception.ServerFailureException;
 import org.utfpr.client.gui.usecase.auth.Login;
 import org.utfpr.client.infra.ClientAppSocket;
@@ -25,6 +26,11 @@ public class CreateUser extends JFrame {
         this.backButton.addActionListener(e -> this.setVisible(false));
         this.registerButton.addActionListener(e -> {
             try {
+                if (this.nameTextField.getText().isBlank() || this.emailTextField.getText().isBlank()
+                        || (new String(this.passwordField.getPassword()).isBlank())) {
+                    throw new EmptyFieldException();
+                }
+
                 CreateUserDataClientToServer createUserData = new CreateUserDataClientToServer(
                         this.nameTextField.getText(), this.emailTextField.getText(),
                         Hash.encrypt(new String(this.passwordField.getPassword()))
