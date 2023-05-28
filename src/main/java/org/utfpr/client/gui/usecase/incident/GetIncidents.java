@@ -4,6 +4,7 @@ import org.utfpr.client.exception.EmptyFieldException;
 import org.utfpr.client.exception.ServerFailureException;
 import org.utfpr.client.infra.ClientAppSocket;
 import org.utfpr.client.util.ComboBoxValues;
+import org.utfpr.client.util.Configure;
 import org.utfpr.common.dto.incident.getIncidents.GetIncidentsDataClientToServer;
 import org.utfpr.common.dto.incident.getIncidents.GetIncidentsDataServerToClient;
 import org.utfpr.common.dto.incident.getIncidents.IncidentData;
@@ -17,7 +18,7 @@ import java.util.Objects;
 
 public class GetIncidents extends JFrame {
     private JPanel getIncidents;
-    private JTextField dateField;
+    private JFormattedTextField dateFormattedTextField;
     private JComboBox<String> statesComboBox;
     private JTextField cityField;
     private JButton getButton;
@@ -25,14 +26,14 @@ public class GetIncidents extends JFrame {
     public GetIncidents(){
         this.getButton.addActionListener(e -> {
             try {
-                if (this.dateField.getText().isBlank()
+                if (this.dateFormattedTextField.getText().isBlank()
                         || this.statesComboBox.getSelectedItem() == null || this.cityField.getText().isBlank()
                 ) {
                     throw new EmptyFieldException();
                 }
 
                 GetIncidentsDataClientToServer getIncidentsDataClientToServer =
-                        new GetIncidentsDataClientToServer(dateField.getText(),
+                        new GetIncidentsDataClientToServer(dateFormattedTextField.getText(),
                                 Objects.requireNonNull(statesComboBox.getSelectedItem()).toString(), cityField.getText());
 
                 ClientAppSocket.sendMessage(getIncidentsDataClientToServer);
@@ -55,6 +56,7 @@ public class GetIncidents extends JFrame {
         this.setTitle("Buscar Incidentes");
         this.setSize(350, 300);
         this.setStatesInComboBox();
+        Configure.configureDateFormatted(dateFormattedTextField);
         this.setVisible(true);
     }
 
