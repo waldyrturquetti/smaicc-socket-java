@@ -33,7 +33,7 @@ public class GetIncidents extends JFrame {
                 }
 
                 GetIncidentsDataClientToServer getIncidentsDataClientToServer =
-                        new GetIncidentsDataClientToServer(dateFormattedTextField.getText(),
+                        new GetIncidentsDataClientToServer(Configure.configureDateToServer(dateFormattedTextField.getText()),
                                 Objects.requireNonNull(statesComboBox.getSelectedItem()).toString(), cityField.getText());
 
                 ClientAppSocket.sendMessage(getIncidentsDataClientToServer);

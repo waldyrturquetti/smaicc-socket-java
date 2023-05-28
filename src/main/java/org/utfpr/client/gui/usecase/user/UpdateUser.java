@@ -3,6 +3,7 @@ package org.utfpr.client.gui.usecase.user;
 import org.utfpr.client.auth.ClientSection;
 import org.utfpr.client.exception.EmptyFieldException;
 import org.utfpr.client.exception.ServerFailureException;
+import org.utfpr.client.gui.usecase.auth.Logout;
 import org.utfpr.client.infra.ClientAppSocket;
 import org.utfpr.common.dto.common.CommonDataServerToClient;
 import org.utfpr.common.dto.user.updateUser.UpdateUserDataClientToServer;
@@ -38,11 +39,12 @@ public class UpdateUser extends JFrame {
                 Dialogs.showInfoMessage("Usuário Atualizado com Sucesso!!");
                 this.setVisible(false);
 
+                Logout logout = new Logout();
+
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
                 Dialogs.showErrorMessage(ex.getMessage(), this);
             }
-
         });
     }
 
