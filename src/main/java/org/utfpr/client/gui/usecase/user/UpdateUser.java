@@ -1,7 +1,9 @@
 package org.utfpr.client.gui.usecase.user;
 
 import org.utfpr.client.auth.ClientSection;
+import org.utfpr.client.exception.EmptyFieldException;
 import org.utfpr.client.exception.ServerFailureException;
+import org.utfpr.client.gui.usecase.auth.Logout;
 import org.utfpr.client.infra.ClientAppSocket;
 import org.utfpr.common.dto.common.CommonDataServerToClient;
 import org.utfpr.common.dto.user.updateUser.UpdateUserDataClientToServer;
@@ -23,6 +25,11 @@ public class UpdateUser extends JFrame {
     public UpdateUser() {
         updateButton.addActionListener(e -> {
             try {
+                if (nameField.getText().isBlank() || emailField.getText().isBlank()
+                        || (new String(passwordField.getPassword()).isBlank())) {
+                    throw new EmptyFieldException();
+                }
+
                 UpdateUserDataClientToServer updateUserDataClientToServer =
                         new UpdateUserDataClientToServer(ClientSection.getId(), ClientSection.getToken(),
                                 nameField.getText(), emailField.getText(), Hash.encrypt(new String(passwordField.getPassword())));
@@ -31,11 +38,13 @@ public class UpdateUser extends JFrame {
                 this.returned();
                 Dialogs.showInfoMessage("Usuário Atualizado com Sucesso!!");
                 this.setVisible(false);
+
+                Logout logout = new Logout();
+
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
                 Dialogs.showErrorMessage(ex.getMessage(), this);
             }
-
         });
     }
 

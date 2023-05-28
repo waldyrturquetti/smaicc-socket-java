@@ -22,7 +22,7 @@ public class MenuNonLogged extends JFrame {
     public void buildScreen() {
         this.setContentPane(this.initPanel);
         this.setTitle("Menu Cliente (Não Logado)");
-        this.setSize(250, 200);
+        this.setSize(350, 200);
         this.setVisible(true);
     }
 
