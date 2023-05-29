@@ -59,6 +59,10 @@ public class ServerAppSocket extends Thread {
         super.start();
     }
 
+    /**
+     *  In the project specifications it was defined that the connection between Server and Client would be as follows:
+     *  The socket will be created and destroyed on each operation.
+     **/
     public void run() {
         System.out.println("Nova Thread de comunição iniciada.");
 

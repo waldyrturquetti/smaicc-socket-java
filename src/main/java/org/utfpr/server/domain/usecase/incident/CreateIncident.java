@@ -34,7 +34,9 @@ public class CreateIncident implements UseCase {
         Check.checkHour(createIncidentDataClientToServer.getHour());
         Check.checkState(createIncidentDataClientToServer.getState());
         Check.checkCity(createIncidentDataClientToServer.getCity());
+        Check.checkNeighborhood(createIncidentDataClientToServer.getNeighborhood());
         Check.checkStreet(createIncidentDataClientToServer.getStreet());
+        Check.checkIncidentType(createIncidentDataClientToServer.getIncidentTypeValue());
 
         this.incidentRepositoryDAO.createIncident(createIncidentDataClientToServer.convertToModel());
         return Convert.convertDataToHashMap(new CommonDataServerToClient(Operation.REPORT_INCIDENTS, Status.OK));

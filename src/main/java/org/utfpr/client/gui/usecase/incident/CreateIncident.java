@@ -40,9 +40,11 @@ public class CreateIncident extends JFrame {
 
                 CreateIncidentDataClientToServer createIncidentDataClientToServer =
                         new CreateIncidentDataClientToServer(ClientSection.getId(), ClientSection.getToken(),
-                                Configure.configureDateToServer(this.dateFormattedTextField.getText()), this.hourFormattedTextField.getText(),
-                                Objects.requireNonNull(this.stateComboBox.getSelectedItem()).toString(), this.cityField.getText(),
-                                this.neighborhoodField.getText(), this.streetField.getText(), this.incidentTypesComboBox.getSelectedIndex()
+                                Configure.configureDateToServer(this.dateFormattedTextField.getText()),
+                                this.hourFormattedTextField.getText(),
+                                Objects.requireNonNull(this.stateComboBox.getSelectedItem()).toString(),
+                                this.cityField.getText().toUpperCase(), this.neighborhoodField.getText().toUpperCase(),
+                                this.streetField.getText().toUpperCase(), this.incidentTypesComboBox.getSelectedIndex()
                         );
 
                 ClientAppSocket.sendMessage(createIncidentDataClientToServer);

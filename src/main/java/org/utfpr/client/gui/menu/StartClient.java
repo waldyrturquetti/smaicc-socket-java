@@ -19,7 +19,6 @@ public class StartClient extends JFrame {
                 ClientAppSocket.setServerHostname(this.hostTextField.getText());
                 ClientAppSocket.setPort(Integer.parseInt(this.portTextField.getText()));
                 this.setVisible(false);
-//                new MenuNonLogged().buildScreen();
                 ClientApp.menuNonLogged.buildScreen();
             } catch (ProblemWithServerConnectionException e) {
                 System.err.println(e.getMessage());
