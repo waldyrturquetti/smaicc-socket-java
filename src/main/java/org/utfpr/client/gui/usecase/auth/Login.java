@@ -1,6 +1,8 @@
-package org.utfpr.client.gui.usecase;
+package org.utfpr.client.gui.usecase.auth;
 
+import org.utfpr.client.ClientApp;
 import org.utfpr.client.auth.ClientSection;
+import org.utfpr.client.exception.EmptyFieldException;
 import org.utfpr.client.exception.ServerFailureException;
 import org.utfpr.client.infra.ClientAppSocket;
 import org.utfpr.common.gui.Dialogs;
@@ -24,15 +26,18 @@ public class Login extends JFrame {
         backButton.addActionListener(e -> this.setVisible(false));
         loginButton.addActionListener( e -> {
             try {
+                if (emailField.getText().isBlank() || (new String(passwordField.getPassword()).isBlank())) {
+                    throw new EmptyFieldException();
+                }
+
                 LoginDataClientToServer loginData =
-                        new LoginDataClientToServer(
-                                emailField.getText(),
-                                Hash.encrypt(new String(passwordField.getPassword()))
-                        );
+                        new LoginDataClientToServer(emailField.getText(), Hash.encrypt(new String(passwordField.getPassword())));
                 ClientAppSocket.sendMessage(loginData);
                 this.returned();
                 Dialogs.showInfoMessage("Login feito com sucesso!", this);
                 this.setVisible(false);
+                ClientApp.menuNonLogged.closeScreen();
+                ClientApp.menuLogged.buildScreen();
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
                 Dialogs.showErrorMessage(ex.getMessage(), this);

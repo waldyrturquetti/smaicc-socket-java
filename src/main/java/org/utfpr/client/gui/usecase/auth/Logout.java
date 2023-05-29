@@ -1,5 +1,6 @@
-package org.utfpr.client.gui.usecase;
+package org.utfpr.client.gui.usecase.auth;
 
+import org.utfpr.client.ClientApp;
 import org.utfpr.client.auth.ClientSection;
 import org.utfpr.client.exception.ServerFailureException;
 import org.utfpr.client.exception.UnauthenticatedException;
@@ -19,6 +20,8 @@ public class Logout {
             if (option == 0) {
                 this.send();
                 Dialogs.showInfoMessage("Logout feito com Sucesso!");
+                ClientApp.menuLogged.closeScreen();
+                ClientApp.menuNonLogged.buildScreen();
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());

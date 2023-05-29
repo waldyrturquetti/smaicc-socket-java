@@ -3,6 +3,9 @@ package org.utfpr.server.util;
 import org.utfpr.common.util.Hash;
 import org.utfpr.server.exception.UnprocessableAttributeException;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 public class Check {
@@ -13,9 +16,13 @@ public class Check {
         }
     }
 
+    /**
+     *  In the project specifications it was defined that the email would be as follows:
+     *  Email: minimum 3 characters before and after the @.
+     *  Required: E-mail will have a maximum length of 50 characters before @ and 10 after (domain).
+     **/
     public static void checkEmail(String email) {
         email = email.trim();
-
         if (!email.matches("([a-zA-Z0-9]*[~_$&+,:;=?#|'<>.^*()%!-]*){3,50}@([a-zA-Z0-9]*[~_$&+,:;=?#|'<>.^*()%!-]*){3,10}")) {
             throw new UnprocessableAttributeException("Formato do email invalido.");
         }
@@ -28,24 +35,50 @@ public class Check {
         }
     }
 
-    public static void checkDate() {
-
+    public static void checkDate(String date) {
+        try {
+            LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        } catch (Exception e) {
+            throw new UnprocessableAttributeException("Formato da data está incorreto.");
+        }
     }
 
-    public static void checkHour() {
-
+    public static void checkHour(String hour) {
+        try {
+            LocalTime.parse(hour, DateTimeFormatter.ofPattern("HH:mm"));
+        } catch (Exception e) {
+            throw new UnprocessableAttributeException("Formato da Hora está incorreto.");
+        }
     }
 
-    public static void checkState() {
-
+    public static void checkState(String state) {
+        if (!state.matches("([A-Z]*){2}")) {
+            throw new UnprocessableAttributeException("Formato do Estado é inválido.");
+        }
     }
 
-    public static void checkCity() {
-
+    public static void checkCity(String city) {
+        if (!city.matches("([A-Z]*){1,50}")) {
+            throw new UnprocessableAttributeException("Formato do Estado é inválido.");
+        }
     }
 
-    public static void checkStreet() {
+    public static void checkNeighborhood(String neighborhood) {
+        if (!neighborhood.matches("([A-Z]*){1,50}")) {
+            throw new UnprocessableAttributeException("Formato da Rua é inválido.");
+        }
+    }
 
+    public static void checkStreet(String street) {
+        if (!street.matches("([A-Z]*){1,50}")) {
+            throw new UnprocessableAttributeException("Formato da Rua é inválido.");
+        }
+    }
+
+    public static void checkIncidentType(Integer incidentTypeValue) {
+        if (incidentTypeValue < 1 || incidentTypeValue > 10){
+            throw new UnprocessableAttributeException("Tipo de incidente é inválido.");
+        }
     }
 
     public static void checkIdAndTokenFromJson(HashMap<String, Object> json) {

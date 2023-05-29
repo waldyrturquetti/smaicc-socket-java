@@ -36,6 +36,10 @@ public class ClientAppSocket {
         }
     }
 
+    /**
+     *  In the project specifications it was defined that the connection between Client and Server would be as follows:
+     *  The socket will be created and destroyed on each operation.
+     **/
     private static void closeConnect() throws IOException {
         out.close();
         in.close();
