@@ -39,7 +39,7 @@ public class GetIncidents extends JFrame {
                 ClientAppSocket.sendMessage(getIncidentsDataClientToServer);
                 List<IncidentData> incidentDataListReturned = this.returned();
                 if (incidentDataListReturned.isEmpty()) {
-                    Dialogs.showInfoMessage("Não existe incidentes registrado nesse dia", this);
+                    Dialogs.showInfoMessage("Não existe incidentes registrado nesse dia, Estado e Cidade.", this);
                 } else {
                     new IncidentTable().buildScreen(incidentDataListReturned);
                 }

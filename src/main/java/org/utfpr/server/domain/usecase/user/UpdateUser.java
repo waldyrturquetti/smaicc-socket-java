@@ -5,6 +5,7 @@ import org.utfpr.common.dto.user.updateUser.UpdateUserDataClientToServer;
 import org.utfpr.common.util.Convert;
 import org.utfpr.common.util.Operation;
 import org.utfpr.common.util.Status;
+import org.utfpr.server.auth.ServerSection;
 import org.utfpr.server.domain.repository.UserRepositoryDAO;
 import org.utfpr.server.domain.usecase.UseCase;
 import org.utfpr.server.exception.AlreadyExistException;
@@ -40,6 +41,7 @@ public class UpdateUser implements UseCase {
         }
 
         this.userRepositoryDAO.updateUser(updateUserDataClientToServer.convertToUser());
+        ServerSection.removeToken(updateUserDataClientToServer.getId());
         return Convert.convertDataToHashMap(new CommonDataServerToClient(Operation.USER_REGISTRATION, Status.OK));
     }
 }
