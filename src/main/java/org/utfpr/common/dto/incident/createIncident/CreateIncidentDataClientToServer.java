@@ -102,10 +102,6 @@ public class CreateIncidentDataClientToServer extends Data {
     }
 
     public Incident convertToModel() {
-        System.out.println(LocalDate.parse(this.date));
-        System.out.println(LocalTime.parse(this.hour));
-        System.out.println(IncidentsTypesEnum.getEnum(this.incidentTypeValue));
-
         return new Incident(
                 this.user_id,
                 LocalDate.parse(this.date),
