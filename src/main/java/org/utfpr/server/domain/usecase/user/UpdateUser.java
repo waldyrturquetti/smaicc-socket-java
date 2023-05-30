@@ -42,6 +42,6 @@ public class UpdateUser implements UseCase {
 
         this.userRepositoryDAO.updateUser(updateUserDataClientToServer.convertToUser());
         ServerSection.removeToken(updateUserDataClientToServer.getId());
-        return Convert.convertDataToHashMap(new CommonDataServerToClient(Operation.USER_REGISTRATION, Status.OK));
+        return Convert.convertDataToHashMap(new CommonDataServerToClient(Operation.USER_REGISTRATION_UPDATE, Status.OK));
     }
 }
