@@ -17,7 +17,7 @@ public class Configure {
     }
 
     public static void configureHourFormatted(JFormattedTextField jFormattedTextField) {
-        DateFormat format = new SimpleDateFormat("hh:mm");
+        DateFormat format = new SimpleDateFormat("HH:mm");
         DateFormatter formatter = new DateFormatter(format);
         jFormattedTextField.setFormatterFactory(new DefaultFormatterFactory(formatter));
     }
