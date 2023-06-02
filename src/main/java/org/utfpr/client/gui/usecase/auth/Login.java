@@ -4,6 +4,7 @@ import org.utfpr.client.ClientApp;
 import org.utfpr.client.auth.ClientSection;
 import org.utfpr.client.exception.EmptyFieldException;
 import org.utfpr.client.exception.ServerFailureException;
+import org.utfpr.client.gui.usecase.UseCaseGuiForClient;
 import org.utfpr.client.infra.ClientAppSocket;
 import org.utfpr.common.gui.Dialogs;
 import org.utfpr.common.util.Hash;
@@ -15,41 +16,54 @@ import javax.swing.*;
 import java.io.IOException;
 import java.util.Objects;
 
-public class Login extends JFrame {
+public class Login extends JFrame implements UseCaseGuiForClient {
+
+    private JPanel loginPanel;
     private JTextField emailField;
     private JButton loginButton;
     private JPasswordField passwordField;
     private JButton backButton;
-    private JPanel loginPanel;
 
     public Login() {
-        backButton.addActionListener(e -> this.setVisible(false));
-        loginButton.addActionListener( e -> {
-            try {
-                if (emailField.getText().isBlank() || (new String(passwordField.getPassword()).isBlank())) {
-                    throw new EmptyFieldException();
-                }
-
-                LoginDataClientToServer loginData =
-                        new LoginDataClientToServer(emailField.getText(), Hash.encrypt(new String(passwordField.getPassword())));
-                ClientAppSocket.sendMessage(loginData);
-                this.returned();
-                Dialogs.showInfoMessage("Login feito com sucesso!", this);
-                this.setVisible(false);
-                ClientApp.menuNonLogged.closeScreen();
-                ClientApp.menuLogged.buildScreen();
-            } catch (Exception ex) {
-                System.err.println(ex.getMessage());
-                Dialogs.showErrorMessage(ex.getMessage(), this);
-            }
-        });
+        backButton.addActionListener(e -> this.closeScreen());
+        loginButton.addActionListener( e -> this.executeOperation());
     }
 
+    @Override
     public void buildScreen() {
         this.setContentPane(this.loginPanel);
         this.setTitle("Login");
         this.setVisible(true);
         this.setSize(250, 250);
+    }
+
+    @Override
+    public void closeScreen() {
+        Dialogs.showInfoMessage("Login feito com sucesso!", this);
+        this.setVisible(false);
+        ClientApp.menuNonLogged.closeScreen();
+        ClientApp.menuLogged.buildScreen();
+    }
+
+    @Override
+    public void executeOperation() {
+        try {
+            this.send();
+            this.returned();
+            this.closeScreen();
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            Dialogs.showErrorMessage(ex.getMessage(), this);
+        }
+    }
+
+    private void send() {
+        if (emailField.getText().isBlank() || (new String(passwordField.getPassword()).isBlank())) {
+            throw new EmptyFieldException();
+        }
+        LoginDataClientToServer loginData =
+                new LoginDataClientToServer(emailField.getText(), Hash.encrypt(new String(passwordField.getPassword())));
+        ClientAppSocket.sendMessage(loginData);
     }
 
     private void returned() throws IOException {

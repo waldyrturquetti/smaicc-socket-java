@@ -3,10 +3,11 @@ package org.utfpr.client.gui.menu;
 import org.utfpr.client.gui.usecase.incident.GetIncidents;
 import org.utfpr.client.gui.usecase.user.CreateUser;
 import org.utfpr.client.gui.usecase.auth.Login;
+import org.utfpr.common.gui.Gui;
 
 import javax.swing.*;
 
-public class MenuNonLogged extends JFrame {
+public class MenuNonLogged extends JFrame implements Gui {
 
     private JButton loginButton;
     private JButton createUserButton;
@@ -19,6 +20,7 @@ public class MenuNonLogged extends JFrame {
         getIncidentsButton.addActionListener(e -> new GetIncidents().buildScreen());
     }
 
+    @Override
     public void buildScreen() {
         this.setContentPane(this.initPanel);
         this.setTitle("Menu Cliente (Não Logado)");
@@ -26,6 +28,7 @@ public class MenuNonLogged extends JFrame {
         this.setVisible(true);
     }
 
+    @Override
     public void closeScreen() {
         this.setVisible(false);
     }

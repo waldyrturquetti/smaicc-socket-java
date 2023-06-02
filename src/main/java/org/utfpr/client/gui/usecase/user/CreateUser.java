@@ -2,6 +2,7 @@ package org.utfpr.client.gui.usecase.user;
 
 import org.utfpr.client.exception.EmptyFieldException;
 import org.utfpr.client.exception.ServerFailureException;
+import org.utfpr.client.gui.usecase.UseCaseGuiForClient;
 import org.utfpr.client.gui.usecase.auth.Login;
 import org.utfpr.client.infra.ClientAppSocket;
 import org.utfpr.common.gui.Dialogs;
@@ -14,7 +15,7 @@ import javax.swing.*;
 import java.io.IOException;
 import java.util.Objects;
 
-public class CreateUser extends JFrame {
+public class CreateUser extends JFrame implements UseCaseGuiForClient {
     private JTextField nameTextField;
     private JTextField emailTextField;
     private JPasswordField passwordField;
@@ -23,35 +24,48 @@ public class CreateUser extends JFrame {
     private JPanel createUserPanel;
 
     public CreateUser() {
-        this.backButton.addActionListener(e -> this.setVisible(false));
-        this.registerButton.addActionListener(e -> {
-            try {
-                if (this.nameTextField.getText().isBlank() || this.emailTextField.getText().isBlank()
-                        || (new String(this.passwordField.getPassword()).isBlank())) {
-                    throw new EmptyFieldException();
-                }
-
-                CreateUserDataClientToServer createUserData = new CreateUserDataClientToServer(
-                        this.nameTextField.getText(), this.emailTextField.getText(),
-                        Hash.encrypt(new String(this.passwordField.getPassword()))
-                );
-                ClientAppSocket.sendMessage(createUserData);
-                this.returned();
-                this.setVisible(false);
-                Dialogs.showInfoMessage("Cadastro de Usuário feito com Sucesso!", this);
-                new Login().buildScreen();
-            } catch (Exception ex) {
-                System.err.println(ex.getMessage());
-                Dialogs.showErrorMessage(ex.getMessage(), this);
-            }
-        });
+        this.backButton.addActionListener(e -> this.closeScreen());
+        this.registerButton.addActionListener(e -> this.executeOperation());
     }
 
+    @Override
     public void buildScreen() {
         this.setContentPane(this.createUserPanel);
         this.setTitle("Criar Usário");
         this.setVisible(true);
         this.setSize(350, 300);
+    }
+
+    @Override
+    public void closeScreen() {
+        Dialogs.showInfoMessage("Cadastro de Usuário feito com Sucesso!", this);
+        this.setVisible(false);
+        new Login().buildScreen();
+    }
+
+    @Override
+    public void executeOperation() {
+        try {
+            this.send();
+            this.returned();
+            this.closeScreen();
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            Dialogs.showErrorMessage(ex.getMessage(), this);
+        }
+    }
+
+    private void send() {
+        if (this.nameTextField.getText().isBlank() || this.emailTextField.getText().isBlank()
+                || (new String(this.passwordField.getPassword()).isBlank())) {
+            throw new EmptyFieldException();
+        }
+
+        CreateUserDataClientToServer createUserData = new CreateUserDataClientToServer(
+                this.nameTextField.getText(), this.emailTextField.getText(),
+                Hash.encrypt(new String(this.passwordField.getPassword()))
+        );
+        ClientAppSocket.sendMessage(createUserData);
     }
 
     private void returned() throws IOException {

@@ -4,10 +4,11 @@ import org.utfpr.client.gui.usecase.incident.CreateIncident;
 import org.utfpr.client.gui.usecase.auth.Logout;
 import org.utfpr.client.gui.usecase.incident.GetIncidents;
 import org.utfpr.client.gui.usecase.user.UpdateUser;
+import org.utfpr.common.gui.Gui;
 
 import javax.swing.*;
 
-public class MenuLogged extends JFrame {
+public class MenuLogged extends JFrame implements Gui {
 
     private JPanel initPanel;
     private JButton createIncidentButton;
@@ -22,6 +23,7 @@ public class MenuLogged extends JFrame {
         this.updateUserButton.addActionListener(e -> new UpdateUser().buildScreen());
     }
 
+    @Override
     public void buildScreen() {
         this.setContentPane(this.initPanel);
         this.setTitle("Menu Cliente (Logado)");
@@ -29,6 +31,7 @@ public class MenuLogged extends JFrame {
         this.setSize(350, 300);
     }
 
+    @Override
     public void closeScreen() {
         this.setVisible(false);
     }
