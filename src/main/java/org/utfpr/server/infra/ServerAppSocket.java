@@ -15,47 +15,33 @@ import java.sql.SQLException;
 public class ServerAppSocket extends Thread {
 
     private static boolean serverContinue = true;
-    private final Socket socket;
+    private final ServerSocket serverSocket;
 
     public static void startSocket(Integer port) throws SQLException, DbException {
-        ServerSocket serverSocket = null;
         Database.getConnection();
 
         try {
             InetAddress ipAddress = InetAddress.getByName("0.0.0.0");
-            serverSocket = new ServerSocket(port, 0, ipAddress);
-            System.out.println("Conexão do Socket criada.");
-            try {
-                while (serverContinue) {
-                    System.out.println("Esperando conexão.");
-                    new ServerAppSocket(serverSocket.accept());
-                }
-            } catch (IOException e) {
-                System.err.println("Accept falhado.");
-                System.exit(1);
-            }
+            ServerSocket serverSocket = new ServerSocket(port, 0, ipAddress);
+            new ServerAppSocket(serverSocket);
         } catch (IOException e) {
             System.err.println("Não foi possível conectar com a Porta: " + port);
             System.exit(1);
-        } finally {
-            try {
-                System.out.println("Fechando a conexão do Socket.");
-                Database.closeConnection();
-                assert serverSocket != null;
-                serverSocket.close();
-            } catch (IOException e) {
-                System.err.println("Não foi possível fechar a porta: " + port);
-                System.exit(1);
-            }
         }
     }
 
     public static void closeSocket() {
-        serverContinue = false;
+        try {
+            serverContinue = false;
+            Database.closeConnection();
+        } catch (Exception e) {
+            System.err.println("Não foi possível PARAR o SERVIDOR corretamente.");
+            System.exit(1);
+        }
     }
 
-    private ServerAppSocket(Socket clientSocket) {
-        this.socket = clientSocket;
+    private ServerAppSocket(ServerSocket serverSocket) {
+        this.serverSocket = serverSocket;
         super.start();
     }
 
@@ -64,27 +50,29 @@ public class ServerAppSocket extends Thread {
      *  The socket will be created and destroyed on each operation.
      **/
     public void run() {
-        System.out.println("Nova Thread de comunição iniciada.");
-
         try {
-            PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            while (serverContinue) {
+                Socket socket = serverSocket.accept();
 
-            String incomingMessage;
+                PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            while ((incomingMessage = in.readLine()) != null) {
-                System.out.println("*SERVIDOR* Recebido: " + incomingMessage);
-                String outgoingMessage = Gateway.chooseOperation(incomingMessage);
-                System.out.println("*SERVIDOR* Enviado: " + outgoingMessage);
-                out.println(outgoingMessage);
+                String incomingMessage;
+
+                while ((incomingMessage = in.readLine()) != null) {
+                    System.out.println("*SERVIDOR* Recebido: " + incomingMessage);
+                    String outgoingMessage = Gateway.chooseOperation(incomingMessage);
+                    System.out.println("*SERVIDOR* Enviado: " + outgoingMessage);
+                    out.println(outgoingMessage);
+                }
+
+                out.close();
+                in.close();
+                socket.close();
             }
-
-            out.close();
-            in.close();
-            socket.close();
-
         } catch (IOException e) {
-            System.err.println("Problem communicating with the Client.");
+            System.err.println(e.getMessage());
+            System.exit(1);
         }
     }
 }

@@ -33,6 +33,7 @@ public class StartServer extends JFrame implements StartGui {
         try {
             this.closeScreen();
             ServerAppSocket.startSocket(Integer.parseInt(portTextField.getText()));
+            new ServerLog(portTextField.getText()).buildScreen();
         } catch (Exception ex) {
             this.setVisible(true);
             Dialogs.showErrorMessage(ex.getMessage(), this);
