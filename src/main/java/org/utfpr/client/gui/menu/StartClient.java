@@ -2,9 +2,12 @@ package org.utfpr.client.gui.menu;
 
 import org.utfpr.client.ClientApp;
 import org.utfpr.client.exception.ProblemWithServerConnectionException;
+import org.utfpr.client.gui.ClientLog;
 import org.utfpr.client.infra.ClientAppSocket;
+import org.utfpr.client.infra.ClientInfra;
 import org.utfpr.common.gui.Dialogs;
-import org.utfpr.common.gui.StartGui;
+import org.utfpr.common.gui.LogScreen;
+import org.utfpr.common.gui.interfaces.StartGui;
 
 import javax.swing.*;
 
@@ -37,6 +40,8 @@ public class StartClient extends JFrame implements StartGui {
         try {
             ClientAppSocket.setServerHostname(this.hostTextField.getText());
             ClientAppSocket.setPort(Integer.parseInt(this.portTextField.getText()));
+            ClientInfra.setClientLog(new ClientLog(this.hostTextField.getText(), Integer.parseInt(this.portTextField.getText()), LogScreen.CLIENT_TYPE));
+            ClientInfra.getClientLog().buildScreen();
             this.closeScreen();
         } catch (ProblemWithServerConnectionException e) {
             System.err.println(e.getMessage());

@@ -1,6 +1,6 @@
 package org.utfpr.server.infra.thread;
 
-import org.utfpr.server.gui.ServerLog;
+import org.utfpr.common.gui.LogScreen;
 import org.utfpr.server.util.Gateway;
 
 import java.io.BufferedReader;
@@ -11,9 +11,9 @@ import java.net.Socket;
 public class SocketThread extends Thread {
 
     private final Socket socket;
-    private final ServerLog serverLog;
+    private final LogScreen serverLog;
 
-    public SocketThread(Socket socket, ServerLog serverLog) {
+    public SocketThread(Socket socket, LogScreen serverLog) {
         this.socket = socket;
         this.serverLog = serverLog;
         super.start();

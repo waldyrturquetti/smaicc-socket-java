@@ -3,7 +3,7 @@ package org.utfpr.client.gui.menu;
 import org.utfpr.client.gui.usecase.incident.GetIncidents;
 import org.utfpr.client.gui.usecase.user.CreateUser;
 import org.utfpr.client.gui.usecase.auth.Login;
-import org.utfpr.common.gui.Gui;
+import org.utfpr.common.gui.interfaces.Gui;
 
 import javax.swing.*;
 
