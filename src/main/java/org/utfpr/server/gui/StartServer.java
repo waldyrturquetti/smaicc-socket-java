@@ -1,8 +1,9 @@
 package org.utfpr.server.gui;
 
 import org.utfpr.common.gui.Dialogs;
-import org.utfpr.common.gui.StartGui;
+import org.utfpr.common.gui.interfaces.StartGui;
 import org.utfpr.server.infra.thread.ServerSocketThread;
+import org.utfpr.server.infra.util.ServerInfra;
 
 import javax.swing.*;
 
@@ -11,7 +12,6 @@ public class StartServer extends JFrame implements StartGui {
     private JTextField portTextField;
     private JButton initButton;
     private JButton stopButton;
-    private ServerLog serverLog;
 
     public StartServer() {
         this.initButton.addActionListener(e -> this.start());
@@ -34,9 +34,8 @@ public class StartServer extends JFrame implements StartGui {
     @Override
     public void start() {
         try {
-            this.serverLog = new ServerLog(portTextField.getText());
-            ServerSocketThread.startSocket(Integer.parseInt(portTextField.getText()), this.serverLog);
-            this.serverLog.buildScreen();
+            ServerSocketThread.startSocket(Integer.parseInt(portTextField.getText()));
+            ServerInfra.getServerLog().buildScreen();
         } catch (Exception ex) {
             this.setVisible(true);
             Dialogs.showErrorMessage(ex.getMessage(), this);
@@ -45,7 +44,7 @@ public class StartServer extends JFrame implements StartGui {
 
     @Override
     public void stop() {
-        this.serverLog.closeScreen();
+        ServerInfra.getServerLog().closeScreen();
         ServerSocketThread.closeSocket();
     }
 }

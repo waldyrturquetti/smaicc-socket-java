@@ -1,4 +1,4 @@
-package org.utfpr.server.gui;
+package org.utfpr.client.gui;
 
 import org.utfpr.common.gui.LogScreen;
 
@@ -6,17 +6,17 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-public class ServerLog extends LogScreen {
-    public ServerLog(String hostIp, Integer port, String type) {
+public class ClientLog extends LogScreen {
+    public ClientLog(String hostIp, Integer port, String type) {
         super(hostIp, port, type);
     }
 
     @Override
-    protected JTable createTable(){
+    protected JTable createTable() {
         DefaultTableModel defaultTableModel = new DefaultTableModel();
         defaultTableModel.addColumn("HOST/IP");
         defaultTableModel.addColumn("PORTA");
-        defaultTableModel.addColumn("JSON RECEBIDO");
+        defaultTableModel.addColumn("JSON ENVIADO");
         defaultTableModel.addColumn("JSON RETORNADO");
 
         JTable jTable = new JTable(defaultTableModel);
@@ -39,8 +39,8 @@ public class ServerLog extends LogScreen {
     }
 
     @Override
-    public void setRowInTable(String hostIP, Integer port, String requestJson, String responseJson) {
+    public void setRowInTable(String hostIP, Integer port, String sendJson, String responseJson) {
         DefaultTableModel defaultTableModel = (DefaultTableModel) super.table.getModel();
-        defaultTableModel.addRow(new Object[]{hostIP, port, requestJson, responseJson});
+        defaultTableModel.addRow(new Object[]{hostIP, port, sendJson, responseJson});
     }
 }

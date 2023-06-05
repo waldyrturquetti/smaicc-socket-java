@@ -3,6 +3,7 @@ package org.utfpr.client.infra;
 import org.utfpr.client.exception.ProblemWithServerConnectionException;
 import org.utfpr.client.exception.ServerFailureException;
 import org.utfpr.common.dto.Data;
+import org.utfpr.common.gui.LogScreen;
 import org.utfpr.common.util.Convert;
 
 import java.io.BufferedReader;
@@ -20,6 +21,7 @@ public class ClientAppSocket {
     private static Socket socket;
     private static String serverHostname;
     private static Integer port;
+    private static LogScreen clientLog;
 
     private static void startConnect() {
 
@@ -27,6 +29,7 @@ public class ClientAppSocket {
 
         try {
             socket = new Socket(serverHostname, port);
+            clientLog = ClientInfra.getClientLog();
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (UnknownHostException e) {
@@ -36,11 +39,12 @@ public class ClientAppSocket {
         }
     }
 
-    /**
-     *  In the project specifications it was defined that the connection between Client and Server would be as follows:
-     *  The socket will be created and destroyed on each operation.
-     **/
     private static void closeConnect() throws IOException {
+        clientLog.setRowInTable(
+                socket.getInetAddress().getHostName(), socket.getPort(),
+                ClientInfra.getRequestJson(), ClientInfra.getResponseJson()
+        );
+
         out.close();
         in.close();
         socket.close();
@@ -53,15 +57,21 @@ public class ClientAppSocket {
             HashMap<String, Object> json = Convert.convertDataToHashMap(data);
             String outgoingMessage = Convert.convertHashMapToString(json);
             System.out.println("*CLIENTE* Enviado: " + outgoingMessage);
+            ClientInfra.setRequestJson(outgoingMessage);
             out.println(outgoingMessage);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
     }
 
+    /**
+     *  In the project specifications it was defined that the connection between Client and Server would be as follows:
+     *  The socket will be created and destroyed on each operation.
+     **/
     public static Data receiveMessage(Class<? extends Data> typeOfData) throws IOException {
         String incomingMessage = in.readLine();
         System.out.println("*CLIENTE* Recebido: " + incomingMessage);
+        ClientInfra.setResponseJson(incomingMessage);
         if (incomingMessage == null){
             throw new ServerFailureException();
         }

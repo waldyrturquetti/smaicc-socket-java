@@ -4,7 +4,7 @@ import org.utfpr.client.gui.usecase.incident.CreateIncident;
 import org.utfpr.client.gui.usecase.auth.Logout;
 import org.utfpr.client.gui.usecase.incident.GetIncidents;
 import org.utfpr.client.gui.usecase.user.UpdateUser;
-import org.utfpr.common.gui.Gui;
+import org.utfpr.common.gui.interfaces.Gui;
 
 import javax.swing.*;
 

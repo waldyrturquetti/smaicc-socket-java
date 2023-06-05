@@ -1,4 +1,4 @@
-package org.utfpr.common.gui;
+package org.utfpr.common.gui.interfaces;
 
 public interface StartGui extends Gui {
 
