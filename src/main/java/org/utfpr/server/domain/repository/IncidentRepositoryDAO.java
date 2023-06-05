@@ -4,7 +4,7 @@ import org.utfpr.server.domain.entities.Incident;
 import org.utfpr.server.domain.entities.IncidentsTypesEnum;
 import org.utfpr.server.exception.DbException;
 import org.utfpr.server.exception.ServerErrorException;
-import org.utfpr.server.infra.Database;
+import org.utfpr.server.infra.database.Database;
 
 import java.sql.*;
 import java.time.LocalDate;

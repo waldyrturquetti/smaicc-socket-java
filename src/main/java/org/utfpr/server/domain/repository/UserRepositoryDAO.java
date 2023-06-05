@@ -3,7 +3,7 @@ package org.utfpr.server.domain.repository;
 import org.utfpr.server.domain.entities.User;
 import org.utfpr.server.exception.DbException;
 import org.utfpr.server.exception.ServerErrorException;
-import org.utfpr.server.infra.Database;
+import org.utfpr.server.infra.database.Database;
 
 import java.sql.*;
 

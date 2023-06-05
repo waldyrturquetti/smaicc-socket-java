@@ -43,4 +43,9 @@ public class StartClient extends JFrame implements StartGui {
             Dialogs.showErrorMessage(e.getMessage(), this);
         }
     }
+
+    @Override
+    public void stop() {
+
+    }
 }
