@@ -24,14 +24,10 @@ public class ClientLog extends LogScreen {
         jTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
         TableColumnModel tableColumnModel = jTable.getColumnModel();
-        tableColumnModel.getColumn(0).setPreferredWidth(50);
-        tableColumnModel.getColumn(0).setMaxWidth(80);
-        tableColumnModel.getColumn(1).setPreferredWidth(30);
-        tableColumnModel.getColumn(1).setMaxWidth(60);
-        tableColumnModel.getColumn(2).setPreferredWidth(200);
-        tableColumnModel.getColumn(2).setMaxWidth(450);
-        tableColumnModel.getColumn(3).setPreferredWidth(200);
-        tableColumnModel.getColumn(3).setMaxWidth(600);
+        tableColumnModel.getColumn(0).setPreferredWidth(80);
+        tableColumnModel.getColumn(1).setPreferredWidth(60);
+        tableColumnModel.getColumn(2).setPreferredWidth(400);
+        tableColumnModel.getColumn(3).setPreferredWidth(650);
 
         jTable.setRowHeight(20);
 
