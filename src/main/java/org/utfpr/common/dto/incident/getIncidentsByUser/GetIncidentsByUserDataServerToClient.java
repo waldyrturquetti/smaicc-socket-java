@@ -1,4 +1,4 @@
-package org.utfpr.common.dto.incident.getIncidents;
+package org.utfpr.common.dto.incident.getIncidentsByUser;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.utfpr.common.dto.DataServerToClient;
@@ -8,19 +8,19 @@ import org.utfpr.common.util.Status;
 
 import java.util.List;
 
-public class GetIncidentsDataServerToClient extends DataServerToClient {
+public class GetIncidentsByUserDataServerToClient extends DataServerToClient {
 
     @JsonProperty("incidentes")
     private List<IncidentData> incidentDataList;
 
-    public GetIncidentsDataServerToClient() {}
+    public GetIncidentsByUserDataServerToClient() {}
 
-    public GetIncidentsDataServerToClient(List<IncidentData> incidentDataList) {
-        super(Operation.LIST_OF_INCIDENTS, Status.OK);
+    public GetIncidentsByUserDataServerToClient(List<IncidentData> incidentDataList) {
+        super(Operation.LIST_OF_INCIDENTS_REPORTED_BY_THE_USER, Status.OK);
         this.incidentDataList = incidentDataList;
     }
 
-    public GetIncidentsDataServerToClient(Integer operation, String status, List<IncidentData> incidentDataList) {
+    public GetIncidentsByUserDataServerToClient(Integer operation, String status, List<IncidentData> incidentDataList) {
         super(operation, status);
         this.incidentDataList = incidentDataList;
     }

@@ -8,7 +8,7 @@ import org.utfpr.client.util.ComboBoxValues;
 import org.utfpr.client.util.Configure;
 import org.utfpr.common.dto.incident.getIncidents.GetIncidentsDataClientToServer;
 import org.utfpr.common.dto.incident.getIncidents.GetIncidentsDataServerToClient;
-import org.utfpr.common.dto.incident.getIncidents.IncidentData;
+import org.utfpr.common.dto.incident.IncidentData;
 import org.utfpr.common.gui.Dialogs;
 import org.utfpr.common.util.Status;
 

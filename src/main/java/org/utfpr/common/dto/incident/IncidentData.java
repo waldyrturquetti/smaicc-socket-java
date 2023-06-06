@@ -1,4 +1,4 @@
-package org.utfpr.common.dto.incident.getIncidents;
+package org.utfpr.common.dto.incident;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.utfpr.client.util.ComboBoxValues;

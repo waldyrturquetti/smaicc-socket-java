@@ -2,7 +2,7 @@ package org.utfpr.server.domain.usecase.incident;
 
 import org.utfpr.common.dto.incident.getIncidents.GetIncidentsDataClientToServer;
 import org.utfpr.common.dto.incident.getIncidents.GetIncidentsDataServerToClient;
-import org.utfpr.common.dto.incident.getIncidents.IncidentData;
+import org.utfpr.common.dto.incident.IncidentData;
 import org.utfpr.common.util.Convert;
 import org.utfpr.server.domain.entities.Incident;
 import org.utfpr.server.domain.repository.IncidentRepositoryDAO;
