@@ -1,6 +1,6 @@
 package org.utfpr.server.domain.entities;
 
-import org.utfpr.common.dto.incident.getIncidents.IncidentData;
+import org.utfpr.common.dto.incident.IncidentData;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

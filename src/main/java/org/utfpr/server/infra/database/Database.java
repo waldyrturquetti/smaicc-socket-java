@@ -1,4 +1,4 @@
-package org.utfpr.server.infra;
+package org.utfpr.server.infra.database;
 
 import org.utfpr.server.exception.DbException;
 

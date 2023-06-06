@@ -3,6 +3,7 @@ package org.utfpr.client.gui.usecase.incident;
 import org.utfpr.client.auth.ClientSection;
 import org.utfpr.client.exception.EmptyFieldException;
 import org.utfpr.client.exception.ServerFailureException;
+import org.utfpr.client.gui.usecase.UseCaseGuiForClient;
 import org.utfpr.client.infra.ClientAppSocket;
 import org.utfpr.client.util.ComboBoxValues;
 import org.utfpr.client.util.Configure;
@@ -13,9 +14,10 @@ import org.utfpr.common.util.Status;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Objects;
 
-public class CreateIncident extends JFrame {
+public class CreateIncident extends JFrame implements UseCaseGuiForClient {
 
     private JPanel createIncidentPanel;
     private JFormattedTextField dateFormattedTextField;
@@ -28,37 +30,10 @@ public class CreateIncident extends JFrame {
     private JButton createButton;
 
     public CreateIncident() {
-        createButton.addActionListener(e -> {
-            try {
-                if (this.dateFormattedTextField.getText().isBlank()
-                        || this.hourFormattedTextField.getText().isBlank() || this.stateComboBox.getSelectedItem() == null
-                        || this.cityField.getText().isBlank() || this.neighborhoodField.getText().isBlank()
-                        || this.streetField.getText().isBlank() || this.incidentTypesComboBox.getSelectedItem() == null
-                ) {
-                    throw new EmptyFieldException();
-                }
-
-                CreateIncidentDataClientToServer createIncidentDataClientToServer =
-                        new CreateIncidentDataClientToServer(ClientSection.getId(), ClientSection.getToken(),
-                                Configure.configureDateToServer(this.dateFormattedTextField.getText()),
-                                this.hourFormattedTextField.getText(),
-                                Objects.requireNonNull(this.stateComboBox.getSelectedItem()).toString(),
-                                this.cityField.getText().toUpperCase(), this.neighborhoodField.getText().toUpperCase(),
-                                this.streetField.getText().toUpperCase(), this.incidentTypesComboBox.getSelectedIndex()
-                        );
-
-                ClientAppSocket.sendMessage(createIncidentDataClientToServer);
-
-                this.returned();
-                Dialogs.showInfoMessage("Incidente Cadastrado com Sucesso!", this);
-                this.setVisible(false);
-            } catch (Exception ex) {
-                System.err.println(ex.getMessage());
-                Dialogs.showErrorMessage(ex.getMessage(), this);
-            }
-        });
+        createButton.addActionListener(e -> this.executeOperation());
     }
 
+    @Override
     public void buildScreen() {
         this.setContentPane(this.createIncidentPanel);
         this.setTitle("Criar Usário");
@@ -68,6 +43,45 @@ public class CreateIncident extends JFrame {
         Configure.configureDateFormatted(dateFormattedTextField);
         Configure.configureHourFormatted(hourFormattedTextField);
         this.setVisible(true);
+    }
+
+    @Override
+    public void closeScreen() {
+        Dialogs.showInfoMessage("Incidente Cadastrado com Sucesso!", this);
+        this.setVisible(false);
+    }
+
+    @Override
+    public void executeOperation() {
+        try {
+            this.send();
+            this.returned();
+            this.closeScreen();
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            Dialogs.showErrorMessage(ex.getMessage(), this);
+        }
+    }
+
+    private void send() throws ParseException {
+        if (this.dateFormattedTextField.getText().isBlank()
+                || this.hourFormattedTextField.getText().isBlank() || this.stateComboBox.getSelectedItem() == null
+                || this.cityField.getText().isBlank() || this.neighborhoodField.getText().isBlank()
+                || this.streetField.getText().isBlank() || this.incidentTypesComboBox.getSelectedItem() == null
+        ) {
+            throw new EmptyFieldException();
+        }
+
+        CreateIncidentDataClientToServer createIncidentDataClientToServer =
+                new CreateIncidentDataClientToServer(ClientSection.getId(), ClientSection.getToken(),
+                        Configure.configureDateToServer(this.dateFormattedTextField.getText()),
+                        this.hourFormattedTextField.getText(),
+                        Objects.requireNonNull(this.stateComboBox.getSelectedItem()).toString(),
+                        this.cityField.getText().toUpperCase(), this.neighborhoodField.getText().toUpperCase(),
+                        this.streetField.getText().toUpperCase(), this.incidentTypesComboBox.getSelectedIndex()
+                );
+
+        ClientAppSocket.sendMessage(createIncidentDataClientToServer);
     }
 
     private void returned() throws IOException {

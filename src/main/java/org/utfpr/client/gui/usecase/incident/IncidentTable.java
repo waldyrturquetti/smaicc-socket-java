@@ -1,6 +1,6 @@
 package org.utfpr.client.gui.usecase.incident;
 
-import org.utfpr.common.dto.incident.getIncidents.IncidentData;
+import org.utfpr.common.dto.incident.IncidentData;
 
 import javax.swing.*;
 import java.util.List;

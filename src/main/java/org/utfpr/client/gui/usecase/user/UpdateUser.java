@@ -4,6 +4,7 @@ import org.utfpr.client.ClientApp;
 import org.utfpr.client.auth.ClientSection;
 import org.utfpr.client.exception.EmptyFieldException;
 import org.utfpr.client.exception.ServerFailureException;
+import org.utfpr.client.gui.usecase.UseCaseGuiForClient;
 import org.utfpr.client.gui.usecase.auth.Login;
 import org.utfpr.client.infra.ClientAppSocket;
 import org.utfpr.common.dto.common.CommonDataServerToClient;
@@ -16,7 +17,7 @@ import javax.swing.*;
 import java.io.IOException;
 import java.util.Objects;
 
-public class UpdateUser extends JFrame {
+public class UpdateUser extends JFrame implements UseCaseGuiForClient {
     private JTextField nameField;
     private JTextField emailField;
     private JPasswordField passwordField;
@@ -24,29 +25,7 @@ public class UpdateUser extends JFrame {
     private JPanel updateUserPanel;
 
     public UpdateUser() {
-        updateButton.addActionListener(e -> {
-            try {
-                if (nameField.getText().isBlank() || emailField.getText().isBlank()
-                        || (new String(passwordField.getPassword()).isBlank())) {
-                    throw new EmptyFieldException();
-                }
-
-                UpdateUserDataClientToServer updateUserDataClientToServer =
-                        new UpdateUserDataClientToServer(ClientSection.getId(), ClientSection.getToken(),
-                                nameField.getText(), emailField.getText(), Hash.encrypt(new String(passwordField.getPassword())));
-
-                ClientAppSocket.sendMessage(updateUserDataClientToServer);
-                this.returned();
-                Dialogs.showInfoMessage("Usuário Atualizado com Sucesso!!");
-                this.setVisible(false);
-                ClientApp.menuLogged.closeScreen();
-                ClientApp.menuNonLogged.buildScreen();
-                new Login().buildScreen();
-            } catch (Exception ex) {
-                System.err.println(ex.getMessage());
-                Dialogs.showErrorMessage(ex.getMessage(), this);
-            }
-        });
+        updateButton.addActionListener(e -> this.executeOperation());
     }
 
     public void buildScreen() {
@@ -54,6 +33,40 @@ public class UpdateUser extends JFrame {
         this.setTitle("Criar Usário");
         this.setVisible(true);
         this.setSize(350, 300);
+    }
+
+    @Override
+    public void closeScreen() {
+        Dialogs.showInfoMessage("Usuário Atualizado com Sucesso!!");
+        this.setVisible(false);
+        ClientApp.menuLogged.closeScreen();
+        ClientApp.menuNonLogged.buildScreen();
+        new Login().buildScreen();
+    }
+
+    @Override
+    public void executeOperation() {
+        try {
+            this.send();
+            this.returned();
+            this.closeScreen();
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            Dialogs.showErrorMessage(ex.getMessage(), this);
+        }
+    }
+
+    private void send() {
+        if (nameField.getText().isBlank() || emailField.getText().isBlank()
+                || (new String(passwordField.getPassword()).isBlank())) {
+            throw new EmptyFieldException();
+        }
+
+        UpdateUserDataClientToServer updateUserDataClientToServer =
+                new UpdateUserDataClientToServer(ClientSection.getId(), ClientSection.getToken(),
+                        nameField.getText(), emailField.getText(), Hash.encrypt(new String(passwordField.getPassword())));
+
+        ClientAppSocket.sendMessage(updateUserDataClientToServer);
     }
 
     private void returned() throws IOException {

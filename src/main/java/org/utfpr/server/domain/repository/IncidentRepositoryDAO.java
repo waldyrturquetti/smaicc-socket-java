@@ -4,7 +4,7 @@ import org.utfpr.server.domain.entities.Incident;
 import org.utfpr.server.domain.entities.IncidentsTypesEnum;
 import org.utfpr.server.exception.DbException;
 import org.utfpr.server.exception.ServerErrorException;
-import org.utfpr.server.infra.Database;
+import org.utfpr.server.infra.database.Database;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -60,6 +60,37 @@ public class IncidentRepositoryDAO {
             preparedStatement.setString(1, localDate.toString());
             preparedStatement.setString(2, state.trim());
             preparedStatement.setString(3, city.trim());
+
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                incidentList.add(
+                        new Incident(resultSet.getInt("id"), resultSet.getInt("user_id"),
+                                resultSet.getDate("date").toLocalDate(), resultSet.getTime("hour").toLocalTime(),
+                                resultSet.getString("state"), resultSet.getString("city"),
+                                resultSet.getString("neighborhood"), resultSet.getString("street"),
+                                IncidentsTypesEnum.valueOf(resultSet.getString("incident_type"))
+                        )
+                );
+            }
+        } catch (Exception e) {
+            throw new DbException(e.getMessage());
+        } finally {
+            Database.closeResultSet(resultSet);
+            Database.closeStatement(preparedStatement);
+        }
+
+        return incidentList;
+    }
+
+    public List<Incident> getIncidentsByUserId(Integer userId) {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Incident> incidentList = new ArrayList<>();
+
+        try {
+            preparedStatement = connection.prepareStatement("select * from incident as i where i.user_id = ?");
+
+            preparedStatement.setInt(1, userId);
 
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
