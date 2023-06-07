@@ -84,7 +84,7 @@ public class GetIncidents extends JFrame implements UseCaseGuiForClient {
         if (incidentDataList.isEmpty()) {
             Dialogs.showInfoMessage("Não existe incidentes registrado nesse dia, Estado e Cidade.", this);
         } else {
-            new IncidentTable().buildScreen(incidentDataList);
+            new IncidentTable(incidentDataList).buildScreen();
         }
     }
 

@@ -25,12 +25,12 @@ public class GetIncidentsByUserDataClientToServer extends Data {
         this.token = token;
     }
 
-    public Integer getId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setId(Integer id) {
-        this.userId = id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getToken() {

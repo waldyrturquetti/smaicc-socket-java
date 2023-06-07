@@ -31,7 +31,7 @@ public class GetIncidentsByUser implements UseCase {
         GetIncidentsByUserDataClientToServer getIncidentsByUserDataClientToServer =
                 (GetIncidentsByUserDataClientToServer) Convert.convertHashMapToData(json, GetIncidentsByUserDataClientToServer.class);
 
-        List<Incident> incidentList = this.incidentRepositoryDAO.getIncidentsByUserId(getIncidentsByUserDataClientToServer.getId());
+        List<Incident> incidentList = this.incidentRepositoryDAO.getIncidentsByUserId(getIncidentsByUserDataClientToServer.getUserId());
 
         List<IncidentData> incidentDataList = incidentList.stream()
                 .sorted(Comparator.comparing(Incident::getHour).reversed())
