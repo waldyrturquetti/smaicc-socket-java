@@ -4,7 +4,7 @@ import org.utfpr.client.ClientApp;
 import org.utfpr.client.auth.ClientSection;
 import org.utfpr.client.exception.EmptyFieldException;
 import org.utfpr.client.exception.ServerFailureException;
-import org.utfpr.client.gui.usecase.UseCaseGuiForClient;
+import org.utfpr.client.gui.usecase.UseCaseGui;
 import org.utfpr.client.infra.ClientAppSocket;
 import org.utfpr.common.gui.Dialogs;
 import org.utfpr.common.util.Hash;
@@ -16,7 +16,7 @@ import javax.swing.*;
 import java.io.IOException;
 import java.util.Objects;
 
-public class Login extends JFrame implements UseCaseGuiForClient {
+public class Login extends JFrame implements UseCaseGui {
 
     private JPanel loginPanel;
     private JTextField emailField;

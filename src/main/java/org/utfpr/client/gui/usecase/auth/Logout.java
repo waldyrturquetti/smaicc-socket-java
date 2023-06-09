@@ -4,7 +4,7 @@ import org.utfpr.client.ClientApp;
 import org.utfpr.client.auth.ClientSection;
 import org.utfpr.client.exception.ServerFailureException;
 import org.utfpr.client.exception.UnauthenticatedException;
-import org.utfpr.client.gui.usecase.UseCaseGuiForClient;
+import org.utfpr.client.gui.usecase.UseCaseGui;
 import org.utfpr.client.infra.ClientAppSocket;
 import org.utfpr.common.dto.auth.logout.LogoutDataClientToServer;
 import org.utfpr.common.dto.common.CommonDataServerToClient;
@@ -14,7 +14,7 @@ import org.utfpr.common.util.Status;
 import java.io.IOException;
 import java.util.Objects;
 
-public class Logout implements UseCaseGuiForClient {
+public class Logout implements UseCaseGui {
 
     @Override
     public void buildScreen() {

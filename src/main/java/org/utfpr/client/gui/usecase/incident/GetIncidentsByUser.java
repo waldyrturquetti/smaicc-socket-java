@@ -2,7 +2,7 @@ package org.utfpr.client.gui.usecase.incident;
 
 import org.utfpr.client.auth.ClientSection;
 import org.utfpr.client.exception.ServerFailureException;
-import org.utfpr.client.gui.usecase.UseCaseGuiForClient;
+import org.utfpr.client.gui.usecase.UseCaseGui;
 import org.utfpr.client.infra.ClientAppSocket;
 import org.utfpr.common.dto.common.CommonDataServerToClient;
 import org.utfpr.common.dto.incident.IncidentData;
@@ -17,13 +17,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-public class GetIncidentsByUser extends JFrame implements UseCaseGuiForClient {
+public class GetIncidentsByUser extends JFrame implements UseCaseGui {
 
     private JPanel getIncidentsByUserPanel;
     private JButton getIncidentsByUserButton;
     private JComboBox<Integer> incidentsComboBox;
     private JButton deleteIncidentButton;
-    private static IncidentTable incidentTable;
+    private IncidentTable incidentTable;
     private static String operation;
     private static final String GET = "GET";
     private static final String DELETE = "DELETE";
@@ -62,15 +62,22 @@ public class GetIncidentsByUser extends JFrame implements UseCaseGuiForClient {
                 this.setIncidentsInComboBox(incidentDataListReturned);
             } else {
                 Integer incidentId = this.sendForDelete();
-                if (incidentId != null) {
-                    this.returnFromDelete();
-                    this.removeIncidentFromComboBox(incidentId);
-                    incidentTable.closeScreen();
-                }
+                deleteIncident(incidentId);
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
             Dialogs.showErrorMessage(e.getMessage(), this);
+        }
+    }
+
+    private void deleteIncident(Integer incidentId) throws IOException {
+        if (incidentId != null) {
+            Integer option = Dialogs.showOptionDialog("Certeza que deseja excluir o Incidente de Identificador " + incidentId + " ?");
+            if (option == 0) {
+                this.returnFromDelete();
+                this.removeIncidentFromComboBox(incidentId);
+                this.incidentTable.closeScreen();
+            }
         }
     }
 
@@ -93,7 +100,7 @@ public class GetIncidentsByUser extends JFrame implements UseCaseGuiForClient {
 
     private Integer sendForDelete(){
         if (this.incidentsComboBox.getSelectedItem() == null) {
-            Dialogs.showInfoMessage("Para remover o incidente selecione o mesmo no Combo Box.");
+            Dialogs.showErrorMessage("Selecione o Identificador do Incidente para poder Deletar o mesmo.", this);
             return null;
         }
 
@@ -134,8 +141,8 @@ public class GetIncidentsByUser extends JFrame implements UseCaseGuiForClient {
         if (incidentDataList.isEmpty()) {
             Dialogs.showInfoMessage("Não existe incidentes cadastrados por você.", this);
         } else {
-            incidentTable = new IncidentTable(incidentDataList);
-            incidentTable.buildScreen();
+            this.incidentTable = new IncidentTable(incidentDataList);
+            this.incidentTable.buildScreen();
         }
     }
 }
