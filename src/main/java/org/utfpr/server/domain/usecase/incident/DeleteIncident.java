@@ -27,20 +27,14 @@ public class DeleteIncident implements UseCase {
 
     @Override
     public HashMap<String, Object> executeOperation(HashMap<String, Object> json) {
-        System.out.println("Teste1");
         DeleteIncidentDataClientToServer deleteIncidentDataClientToServer =
                 (DeleteIncidentDataClientToServer) Convert.convertHashMapToData(json, DeleteIncidentDataClientToServer.class);
-
-        System.out.println("Teste2");
 
         if (!this.incidentRepositoryDAO.existsIncidentsById(deleteIncidentDataClientToServer.getIncidentId())) {
             throw new AlreadyExistException("Incidente não existe ou já foi excluído.");
         }
 
-        System.out.println("Teste3");
-
         this.incidentRepositoryDAO.deleteIncidentById(deleteIncidentDataClientToServer.getIncidentId());
-        System.out.println("Teste4");
         return Convert.convertDataToHashMap(new CommonDataServerToClient(Operation.REMOVE_INCIDENT_REPORTED_BY_THE_USER, Status.OK));
     }
 }
