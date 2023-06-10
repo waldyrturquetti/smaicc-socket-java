@@ -2,7 +2,7 @@ package org.utfpr.client.gui.usecase.user;
 
 import org.utfpr.client.exception.EmptyFieldException;
 import org.utfpr.client.exception.ServerFailureException;
-import org.utfpr.client.gui.usecase.UseCaseGuiForClient;
+import org.utfpr.client.gui.usecase.UseCaseGui;
 import org.utfpr.client.gui.usecase.auth.Login;
 import org.utfpr.client.infra.ClientAppSocket;
 import org.utfpr.common.gui.Dialogs;
@@ -15,7 +15,7 @@ import javax.swing.*;
 import java.io.IOException;
 import java.util.Objects;
 
-public class CreateUser extends JFrame implements UseCaseGuiForClient {
+public class CreateUser extends JFrame implements UseCaseGui {
     private JTextField nameTextField;
     private JTextField emailTextField;
     private JPasswordField passwordField;

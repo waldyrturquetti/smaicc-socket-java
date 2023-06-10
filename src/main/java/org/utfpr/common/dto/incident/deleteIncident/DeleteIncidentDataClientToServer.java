@@ -11,6 +11,8 @@ public class DeleteIncidentDataClientToServer extends Data {
     private Integer incidentId;
     private String token;
 
+    public DeleteIncidentDataClientToServer() {}
+
     public DeleteIncidentDataClientToServer(Integer userId, Integer incidentId, String token) {
         super(Operation.REMOVE_INCIDENT_REPORTED_BY_THE_USER);
         this.userId = userId;

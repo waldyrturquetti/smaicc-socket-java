@@ -112,4 +112,40 @@ public class IncidentRepositoryDAO {
 
         return incidentList;
     }
+
+    public Boolean existsIncidentsById(Integer incidentId) {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement("select * from incident as i where i.id = ?");
+            preparedStatement.setInt(1, incidentId);
+            resultSet = preparedStatement.executeQuery();
+            return resultSet.next();
+        } catch (Exception e) {
+            throw new DbException(e.getMessage());
+        } finally {
+            Database.closeResultSet(resultSet);
+            Database.closeStatement(preparedStatement);
+        }
+    }
+
+    public void deleteIncidentById(Integer incidentId) {
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement("delete from incident as i where i.id = ?");
+            preparedStatement.setInt(1, incidentId);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected == 0) {
+                throw new ServerErrorException("Erro ao excluir o Incidente.");
+            }
+        } catch (Exception e) {
+            throw new DbException(e.getMessage());
+        } finally {
+            Database.closeStatement(preparedStatement);
+        }
+    }
 }

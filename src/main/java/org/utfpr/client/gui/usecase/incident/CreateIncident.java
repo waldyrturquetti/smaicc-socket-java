@@ -3,7 +3,7 @@ package org.utfpr.client.gui.usecase.incident;
 import org.utfpr.client.auth.ClientSection;
 import org.utfpr.client.exception.EmptyFieldException;
 import org.utfpr.client.exception.ServerFailureException;
-import org.utfpr.client.gui.usecase.UseCaseGuiForClient;
+import org.utfpr.client.gui.usecase.UseCaseGui;
 import org.utfpr.client.infra.ClientAppSocket;
 import org.utfpr.client.util.ComboBoxValues;
 import org.utfpr.client.util.Configure;
@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Objects;
 
-public class CreateIncident extends JFrame implements UseCaseGuiForClient {
+public class CreateIncident extends JFrame implements UseCaseGui {
 
     private JPanel createIncidentPanel;
     private JFormattedTextField dateFormattedTextField;

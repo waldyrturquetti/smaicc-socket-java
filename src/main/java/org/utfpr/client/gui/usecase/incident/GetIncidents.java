@@ -2,7 +2,7 @@ package org.utfpr.client.gui.usecase.incident;
 
 import org.utfpr.client.exception.EmptyFieldException;
 import org.utfpr.client.exception.ServerFailureException;
-import org.utfpr.client.gui.usecase.UseCaseGuiForClient;
+import org.utfpr.client.gui.usecase.UseCaseGui;
 import org.utfpr.client.infra.ClientAppSocket;
 import org.utfpr.client.util.ComboBoxValues;
 import org.utfpr.client.util.Configure;
@@ -18,7 +18,7 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Objects;
 
-public class GetIncidents extends JFrame implements UseCaseGuiForClient {
+public class GetIncidents extends JFrame implements UseCaseGui {
     private JPanel getIncidents;
     private JFormattedTextField dateFormattedTextField;
     private JComboBox<String> statesComboBox;
@@ -84,7 +84,7 @@ public class GetIncidents extends JFrame implements UseCaseGuiForClient {
         if (incidentDataList.isEmpty()) {
             Dialogs.showInfoMessage("Não existe incidentes registrado nesse dia, Estado e Cidade.", this);
         } else {
-            new IncidentTable().buildScreen(incidentDataList);
+            new IncidentTable(incidentDataList).buildScreen();
         }
     }
 
