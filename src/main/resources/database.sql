@@ -14,8 +14,7 @@ create table user (
 
 create table incident
 (
-    id           int auto_increment
-        primary key,
+    id           int not null auto_increment primary key,
     user_id      int          null,
     date         date         not null,
     hour         time         not null,

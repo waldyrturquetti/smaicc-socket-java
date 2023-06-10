@@ -148,7 +148,7 @@ public class UserRepositoryDAO {
         ResultSet resultSet = null;
 
         try {
-            preparedStatement = connection.prepareStatement("select * from user as u where u.id != ?");
+            preparedStatement = connection.prepareStatement("select * from user as u where u.id = ?");
             preparedStatement.setInt(1, id);
 
             resultSet = preparedStatement.executeQuery();

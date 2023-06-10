@@ -5,6 +5,7 @@ import org.utfpr.common.dto.user.deleteUser.DeleteUserDataClientToServer;
 import org.utfpr.common.util.Convert;
 import org.utfpr.common.util.Operation;
 import org.utfpr.common.util.Status;
+import org.utfpr.server.auth.ServerSection;
 import org.utfpr.server.domain.repository.UserRepositoryDAO;
 import org.utfpr.server.domain.usecase.UseCase;
 import org.utfpr.server.exception.DbException;
@@ -31,10 +32,11 @@ public class DeleteUser implements UseCase {
                 Convert.convertHashMapToData(json, DeleteUserDataClientToServer.class);
 
         if (!this.userRepositoryDAO.existsUserById(deleteUserDataClientToServer.getUserId())){
-            throw new NotFoundException("Usário não foi deletado, pois não existe no existe no Banco de Dados.");
+            throw new NotFoundException("Usário não foi deletado, pois não existe no Banco de Dados.");
         }
 
         this.userRepositoryDAO.deleteUser(deleteUserDataClientToServer.getUserId());
+        ServerSection.removeToken(deleteUserDataClientToServer.getUserId());
         return Convert.convertDataToHashMap(new CommonDataServerToClient(Operation.REMOVE_USER_REGISTRATION, Status.OK));
     }
 }
