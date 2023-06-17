@@ -22,18 +22,31 @@ public class ClientCheck {
      **/
     public static void checkEmail(String email) {
         email = email.trim();
+
+        if(email.isBlank()) {
+            throw new InvalidFieldException("O campo Email tem que estar preenchido.");
+        }
+
         if (!email.matches("([a-zA-Z0-9]*[~_$&+,:;=?#|'<>.^*()%!-]*){3,50}@([a-zA-Z0-9]*[~_$&+,:;=?#|'<>.^*()%!-]*){3,10}")) {
             throw new InvalidFieldException("Formato do email invalido.");
         }
     }
 
     public static void checkPassword(String password) {
+        if(password.isBlank()) {
+            throw new InvalidFieldException("O campo Senha tem que estar preenchido.");
+        }
+
         if (password.length() < 5 || password.length() > 10 || !password.matches("[a-zA-Z0-9]*")) {
             throw new InvalidFieldException("Formato da senha é invalido.");
         }
     }
 
     public static void checkDate(String date) {
+        if(date.isBlank()) {
+            throw new InvalidFieldException("O campo Data tem que estar preenchido.");
+        }
+
         try {
             LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         } catch (Exception e) {
@@ -42,6 +55,10 @@ public class ClientCheck {
     }
 
     public static void checkHour(String hour) {
+        if(hour.isBlank()) {
+            throw new InvalidFieldException("O campo Hora tem que estar preenchido.");
+        }
+
         try {
             LocalTime.parse(hour, DateTimeFormatter.ofPattern("HH:mm"));
         } catch (Exception e) {
@@ -62,18 +79,30 @@ public class ClientCheck {
     }
 
     public static void checkCity(String city) {
+        if(city.isBlank()) {
+            throw new InvalidFieldException("O campo cidade tem que estar preenchido.");
+        }
+
         if (!city.matches("([A-Z0-9 ]*){1,50}")) {
             throw new InvalidFieldException("Formato do Cidade é inválido.");
         }
     }
 
     public static void checkNeighborhood(String neighborhood) {
+        if(neighborhood.isBlank()) {
+            throw new InvalidFieldException("O campo Bairro tem que estar preenchido.");
+        }
+
         if (!neighborhood.matches("([A-Z0-9 ]*){1,50}")) {
             throw new InvalidFieldException("Formato da Rua é inválido.");
         }
     }
 
     public static void checkStreet(String street) {
+        if(street.isBlank()) {
+            throw new InvalidFieldException("O campo Rua tem que estar preenchido.");
+        }
+
         if (!street.matches("([A-Z0-9 ]*){1,50}")) {
             throw new InvalidFieldException("Formato da Rua é inválido.");
         }

@@ -28,6 +28,8 @@ public class DeleteUser extends JFrame implements UseCaseGui {
     @Override
     public void executeOperation() {
         try {
+            ClientCheck.checkPassword(new String(passwordField.getPassword()));
+
             Integer option = Dialogs.showOptionDialog("Certeza que deseja excluir seu cadastro?", this);
             if (option == 0) {
                 this.send();
@@ -59,8 +61,6 @@ public class DeleteUser extends JFrame implements UseCaseGui {
     }
 
     private void send() {
-        ClientCheck.checkPassword(new String(passwordField.getPassword()));
-
         DeleteUserDataClientToServer deleteUserDataClientToServer =
                 new DeleteUserDataClientToServer(ClientSection.getId(), ClientSection.getToken(), new String(passwordField.getPassword()));
 
