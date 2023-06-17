@@ -10,6 +10,8 @@ A versão do MySQL usado nesse projeto é **8.0.33**. Acredito que qualquer vers
 
 Após **instalar** e **startar** o MySQL, execute os comandos SQL disponíveis no arquivo [database.sql](src/main/resources/database.sql) na pasta **resources**. Os comandos podem ser executados em qualquer **Editor SQL**, como MySQL Workbench, Dbeaver ou qualquer outro de sua prefeência ou até via **Terminal/CLI**.
 
+**OBS:** A cada nova versão verifique o arquivo [database.sql](src/main/resources/database.sql), pois pode ter novas alterações e seja possível ter que apagar o banco e recriar o mesmo.
+
 ![1.png](images/1.png)
 
 Após executar os comandos DDL vá até o arquivo [db.properties](src/main/resources/db.properties) também na pasta **resources** e substitua os dados de **user**, **password** e **dburl (Host e Porta)** para os que colocou nas configurações do MySQL instalado em sua máquina ou servidor.  
