@@ -2,10 +2,11 @@ package org.utfpr.client.gui.usecase.user;
 
 import org.utfpr.client.ClientApp;
 import org.utfpr.client.auth.ClientSection;
-import org.utfpr.client.exception.EmptyFieldException;
+import org.utfpr.client.exception.InvalidFieldException;
 import org.utfpr.client.exception.ServerFailureException;
 import org.utfpr.client.gui.usecase.UseCaseGui;
 import org.utfpr.client.infra.ClientAppSocket;
+import org.utfpr.client.util.ClientCheck;
 import org.utfpr.common.dto.common.CommonDataServerToClient;
 import org.utfpr.common.dto.user.deleteUser.DeleteUserDataClientToServer;
 import org.utfpr.common.gui.Dialogs;
@@ -27,7 +28,7 @@ public class DeleteUser extends JFrame implements UseCaseGui {
     @Override
     public void executeOperation() {
         try {
-            Integer option = Dialogs.showOptionDialog("Certeza que deseja excluir seu cadastro?");
+            Integer option = Dialogs.showOptionDialog("Certeza que deseja excluir seu cadastro?", this);
             if (option == 0) {
                 this.send();
                 this.returned();
@@ -35,6 +36,9 @@ public class DeleteUser extends JFrame implements UseCaseGui {
                 ClientApp.menuNonLogged.buildScreen();
             }
             this.closeScreen();
+        } catch (InvalidFieldException invalidFieldException) {
+            System.err.println(invalidFieldException.getMessage());
+            Dialogs.showWarningMessage(invalidFieldException.getMessage(), this);
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
             Dialogs.showErrorMessage(ex.getMessage(), this);
@@ -55,9 +59,7 @@ public class DeleteUser extends JFrame implements UseCaseGui {
     }
 
     private void send() {
-        if (new String(passwordField.getPassword()).isBlank()) {
-            throw new EmptyFieldException();
-        }
+        ClientCheck.checkPassword(new String(passwordField.getPassword()));
 
         DeleteUserDataClientToServer deleteUserDataClientToServer =
                 new DeleteUserDataClientToServer(ClientSection.getId(), ClientSection.getToken(), new String(passwordField.getPassword()));

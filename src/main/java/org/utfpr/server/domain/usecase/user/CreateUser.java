@@ -6,7 +6,7 @@ import org.utfpr.common.dto.common.CommonDataServerToClient;
 import org.utfpr.common.dto.user.createUser.CreateUserDataClientToServer;
 import org.utfpr.server.exception.AlreadyExistException;
 import org.utfpr.server.exception.DbException;
-import org.utfpr.server.util.Check;
+import org.utfpr.server.util.ServerCheck;
 import org.utfpr.common.util.Convert;
 import org.utfpr.common.util.Operation;
 import org.utfpr.common.util.Status;
@@ -31,9 +31,9 @@ public class CreateUser implements UseCase {
         CreateUserDataClientToServer createUserDataClientToServer =
                 (CreateUserDataClientToServer) Convert.convertHashMapToData(json, CreateUserDataClientToServer.class);
 
-        Check.checkName(createUserDataClientToServer.getName());
-        Check.checkEmail(createUserDataClientToServer.getEmail());
-        Check.checkPassword(createUserDataClientToServer.getPassword());
+        ServerCheck.checkName(createUserDataClientToServer.getName());
+        ServerCheck.checkEmail(createUserDataClientToServer.getEmail());
+        ServerCheck.checkPassword(createUserDataClientToServer.getPassword());
 
         if (userRepositoryDAO.existsUserByEmail(createUserDataClientToServer.getEmail())) {
             throw new AlreadyExistException("Email já existente.");

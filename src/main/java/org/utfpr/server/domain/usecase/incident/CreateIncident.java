@@ -8,7 +8,7 @@ import org.utfpr.common.util.Status;
 import org.utfpr.server.domain.repository.IncidentRepositoryDAO;
 import org.utfpr.server.domain.usecase.UseCase;
 import org.utfpr.server.exception.DbException;
-import org.utfpr.server.util.Check;
+import org.utfpr.server.util.ServerCheck;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -30,13 +30,13 @@ public class CreateIncident implements UseCase {
         CreateIncidentDataClientToServer createIncidentDataClientToServer =
                 (CreateIncidentDataClientToServer) Convert.convertHashMapToData(json, CreateIncidentDataClientToServer.class);
 
-        Check.checkDate(createIncidentDataClientToServer.getDate());
-        Check.checkHour(createIncidentDataClientToServer.getHour());
-        Check.checkState(createIncidentDataClientToServer.getState());
-        Check.checkCity(createIncidentDataClientToServer.getCity());
-        Check.checkNeighborhood(createIncidentDataClientToServer.getNeighborhood());
-        Check.checkStreet(createIncidentDataClientToServer.getStreet());
-        Check.checkIncidentType(createIncidentDataClientToServer.getIncidentTypeValue());
+        ServerCheck.checkDate(createIncidentDataClientToServer.getDate());
+        ServerCheck.checkHour(createIncidentDataClientToServer.getHour());
+        ServerCheck.checkState(createIncidentDataClientToServer.getState());
+        ServerCheck.checkCity(createIncidentDataClientToServer.getCity());
+        ServerCheck.checkNeighborhood(createIncidentDataClientToServer.getNeighborhood());
+        ServerCheck.checkStreet(createIncidentDataClientToServer.getStreet());
+        ServerCheck.checkIncidentType(createIncidentDataClientToServer.getIncidentTypeValue());
 
         this.incidentRepositoryDAO.createIncident(createIncidentDataClientToServer.convertToModel());
         return Convert.convertDataToHashMap(new CommonDataServerToClient(Operation.REPORT_INCIDENTS, Status.OK));

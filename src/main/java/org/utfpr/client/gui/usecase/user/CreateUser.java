@@ -1,10 +1,11 @@
 package org.utfpr.client.gui.usecase.user;
 
-import org.utfpr.client.exception.EmptyFieldException;
+import org.utfpr.client.exception.InvalidFieldException;
 import org.utfpr.client.exception.ServerFailureException;
 import org.utfpr.client.gui.usecase.UseCaseGui;
 import org.utfpr.client.gui.usecase.auth.Login;
 import org.utfpr.client.infra.ClientAppSocket;
+import org.utfpr.client.util.ClientCheck;
 import org.utfpr.common.gui.Dialogs;
 import org.utfpr.common.util.Hash;
 import org.utfpr.common.dto.common.CommonDataServerToClient;
@@ -22,6 +23,7 @@ public class CreateUser extends JFrame implements UseCaseGui {
     private JButton registerButton;
     private JButton backButton;
     private JPanel createUserPanel;
+    private static Boolean isRegisterCompleted = false;
 
     public CreateUser() {
         this.backButton.addActionListener(e -> this.closeScreen());
@@ -34,13 +36,16 @@ public class CreateUser extends JFrame implements UseCaseGui {
         this.setTitle("Criar Usário");
         this.setVisible(true);
         this.setSize(350, 300);
+        isRegisterCompleted = false;
     }
 
     @Override
     public void closeScreen() {
-        Dialogs.showInfoMessage("Cadastro de Usuário feito com Sucesso!", this);
+        if (isRegisterCompleted) {
+            Dialogs.showInfoMessage("Cadastro de Usuário feito com Sucesso!", this);
+            new Login().buildScreen();
+        }
         this.setVisible(false);
-        new Login().buildScreen();
     }
 
     @Override
@@ -49,6 +54,9 @@ public class CreateUser extends JFrame implements UseCaseGui {
             this.send();
             this.returned();
             this.closeScreen();
+        } catch (InvalidFieldException invalidFieldException) {
+            System.err.println(invalidFieldException.getMessage());
+            Dialogs.showWarningMessage(invalidFieldException.getMessage(), this);
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
             Dialogs.showErrorMessage(ex.getMessage(), this);
@@ -56,10 +64,9 @@ public class CreateUser extends JFrame implements UseCaseGui {
     }
 
     private void send() {
-        if (this.nameTextField.getText().isBlank() || this.emailTextField.getText().isBlank()
-                || (new String(this.passwordField.getPassword()).isBlank())) {
-            throw new EmptyFieldException();
-        }
+        ClientCheck.checkName(this.nameTextField.getText());
+        ClientCheck.checkEmail(emailTextField.getText());
+        ClientCheck.checkPassword(new String(passwordField.getPassword()));
 
         CreateUserDataClientToServer createUserData = new CreateUserDataClientToServer(
                 this.nameTextField.getText(), this.emailTextField.getText(),
@@ -74,5 +81,7 @@ public class CreateUser extends JFrame implements UseCaseGui {
         if (!Objects.equals(commonDataServerToClient.getStatus().trim(), Status.OK)) {
             throw new ServerFailureException(commonDataServerToClient.getStatus());
         }
+
+        isRegisterCompleted = true;
     }
 }

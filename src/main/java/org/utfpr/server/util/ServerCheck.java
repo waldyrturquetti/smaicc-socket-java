@@ -8,7 +8,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
-public class Check {
+public class ServerCheck {
 
     public static void checkName(String name) {
         if (name.length() < 3 || name.length() > 50) {
@@ -89,7 +89,7 @@ public class Check {
         }
 
         if (!(json.get("id") instanceof Integer)) {
-            throw new UnprocessableAttributeException("Id nao processavel");
+            throw new UnprocessableAttributeException("Id nulo ou não é um número inteiro.");
         }
     }
 }

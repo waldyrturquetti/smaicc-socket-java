@@ -2,11 +2,12 @@ package org.utfpr.client.gui.usecase.user;
 
 import org.utfpr.client.ClientApp;
 import org.utfpr.client.auth.ClientSection;
-import org.utfpr.client.exception.EmptyFieldException;
+import org.utfpr.client.exception.InvalidFieldException;
 import org.utfpr.client.exception.ServerFailureException;
 import org.utfpr.client.gui.usecase.UseCaseGui;
 import org.utfpr.client.gui.usecase.auth.Login;
 import org.utfpr.client.infra.ClientAppSocket;
+import org.utfpr.client.util.ClientCheck;
 import org.utfpr.common.dto.common.CommonDataServerToClient;
 import org.utfpr.common.dto.user.updateUser.UpdateUserDataClientToServer;
 import org.utfpr.common.gui.Dialogs;
@@ -50,6 +51,9 @@ public class UpdateUser extends JFrame implements UseCaseGui {
             this.send();
             this.returned();
             this.closeScreen();
+        } catch (InvalidFieldException invalidFieldException) {
+            System.err.println(invalidFieldException.getMessage());
+            Dialogs.showWarningMessage(invalidFieldException.getMessage(), this);
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
             Dialogs.showErrorMessage(ex.getMessage(), this);
@@ -57,10 +61,9 @@ public class UpdateUser extends JFrame implements UseCaseGui {
     }
 
     private void send() {
-        if (nameField.getText().isBlank() || emailField.getText().isBlank()
-                || (new String(passwordField.getPassword()).isBlank())) {
-            throw new EmptyFieldException();
-        }
+        ClientCheck.checkName(this.nameField.getText());
+        ClientCheck.checkEmail(this.emailField.getText());
+        ClientCheck.checkPassword(new String(passwordField.getPassword()));
 
         UpdateUserDataClientToServer updateUserDataClientToServer =
                 new UpdateUserDataClientToServer(ClientSection.getId(), ClientSection.getToken(),

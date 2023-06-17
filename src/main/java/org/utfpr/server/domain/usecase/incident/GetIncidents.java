@@ -8,7 +8,7 @@ import org.utfpr.server.domain.entities.Incident;
 import org.utfpr.server.domain.repository.IncidentRepositoryDAO;
 import org.utfpr.server.domain.usecase.UseCase;
 import org.utfpr.server.exception.DbException;
-import org.utfpr.server.util.Check;
+import org.utfpr.server.util.ServerCheck;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -31,9 +31,9 @@ public class GetIncidents implements UseCase {
         GetIncidentsDataClientToServer getIncidentsDataClientToServer =
                 (GetIncidentsDataClientToServer) Convert.convertHashMapToData(json, GetIncidentsDataClientToServer.class);
 
-        Check.checkDate(getIncidentsDataClientToServer.getDate());
-        Check.checkState(getIncidentsDataClientToServer.getState());
-        Check.checkCity(getIncidentsDataClientToServer.getCity());
+        ServerCheck.checkDate(getIncidentsDataClientToServer.getDate());
+        ServerCheck.checkState(getIncidentsDataClientToServer.getState());
+        ServerCheck.checkCity(getIncidentsDataClientToServer.getCity());
 
         List<Incident> incidentList = this.incidentRepositoryDAO.getIncidentsByDateAndStateAndCity(
                 LocalDate.parse(getIncidentsDataClientToServer.getDate()), getIncidentsDataClientToServer.getState(), getIncidentsDataClientToServer.getCity());

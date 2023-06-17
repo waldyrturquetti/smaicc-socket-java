@@ -82,7 +82,7 @@
           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Data:"/>
+          <text value="Data*:"/>
         </properties>
       </component>
       <component id="6a2aa" class="javax.swing.JLabel">
@@ -90,7 +90,7 @@
           <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Hora:"/>
+          <text value="Hora*:"/>
         </properties>
       </component>
       <component id="c2fe1" class="javax.swing.JLabel">
@@ -98,7 +98,7 @@
           <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Estado:"/>
+          <text value="Estado*:"/>
         </properties>
       </component>
       <component id="b3cd8" class="javax.swing.JLabel">
@@ -106,7 +106,7 @@
           <grid row="12" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Cidade:"/>
+          <text value="Cidade*:"/>
         </properties>
       </component>
       <component id="e9eaa" class="javax.swing.JLabel">
@@ -114,7 +114,7 @@
           <grid row="15" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Bairro:"/>
+          <text value="Bairro*:"/>
         </properties>
       </component>
       <component id="7e8a5" class="javax.swing.JLabel">
@@ -122,7 +122,7 @@
           <grid row="18" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Rua"/>
+          <text value="Rua*"/>
         </properties>
       </component>
       <component id="b2250" class="javax.swing.JLabel">
@@ -130,7 +130,7 @@
           <grid row="21" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Tipo de Incidente:"/>
+          <text value="Tipo de Incidente*:"/>
         </properties>
       </component>
       <vspacer id="66721">

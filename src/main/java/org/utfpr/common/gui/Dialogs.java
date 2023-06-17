@@ -12,6 +12,14 @@ public class Dialogs {
         JOptionPane.showMessageDialog(frame, message);
     }
 
+    public static void showWarningMessage(String message){
+        JOptionPane.showMessageDialog(new JFrame(), message, "Atenção", JOptionPane.WARNING_MESSAGE);
+    }
+
+    public static void showWarningMessage(String message, JFrame frame){
+        JOptionPane.showMessageDialog(frame, message, "Atenção", JOptionPane.WARNING_MESSAGE);
+    }
+
     public static void showErrorMessage(String message) {
         JOptionPane.showMessageDialog(new JFrame(), message, "Erro", JOptionPane.ERROR_MESSAGE);
     }

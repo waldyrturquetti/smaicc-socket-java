@@ -1,9 +1,11 @@
 package org.utfpr.client.gui.usecase.incident;
 
 import org.utfpr.client.auth.ClientSection;
+import org.utfpr.client.exception.InvalidFieldException;
 import org.utfpr.client.exception.ServerFailureException;
 import org.utfpr.client.gui.usecase.UseCaseGui;
 import org.utfpr.client.infra.ClientAppSocket;
+import org.utfpr.client.util.ClientCheck;
 import org.utfpr.common.dto.common.CommonDataServerToClient;
 import org.utfpr.common.dto.incident.IncidentData;
 import org.utfpr.common.dto.incident.deleteIncident.DeleteIncidentDataClientToServer;
@@ -64,6 +66,9 @@ public class GetIncidentsByUser extends JFrame implements UseCaseGui {
                 Integer incidentId = this.sendForDelete();
                 deleteIncident(incidentId);
             }
+        } catch (InvalidFieldException invalidFieldException) {
+            System.err.println(invalidFieldException.getMessage());
+            Dialogs.showWarningMessage(invalidFieldException.getMessage(), this);
         } catch (Exception e) {
             System.err.println(e.getMessage());
             Dialogs.showErrorMessage(e.getMessage(), this);
@@ -72,7 +77,7 @@ public class GetIncidentsByUser extends JFrame implements UseCaseGui {
 
     private void deleteIncident(Integer incidentId) throws IOException {
         if (incidentId != null) {
-            Integer option = Dialogs.showOptionDialog("Certeza que deseja excluir o Incidente de Identificador " + incidentId + " ?");
+            Integer option = Dialogs.showOptionDialog("Certeza que deseja excluir o Incidente de Identificador " + incidentId + " ?", this);
             if (option == 0) {
                 this.returnFromDelete();
                 this.removeIncidentFromComboBox(incidentId);
@@ -99,12 +104,8 @@ public class GetIncidentsByUser extends JFrame implements UseCaseGui {
     }
 
     private Integer sendForDelete(){
-        if (this.incidentsComboBox.getSelectedItem() == null) {
-            Dialogs.showErrorMessage("Selecione o Identificador do Incidente para poder Deletar o mesmo.", this);
-            return null;
-        }
-
         Integer incidentId = (Integer) this.incidentsComboBox.getSelectedItem();
+        ClientCheck.checkIncidentChoose(incidentId);
 
         DeleteIncidentDataClientToServer deleteIncidentDataClientToServer =
                 new DeleteIncidentDataClientToServer(ClientSection.getId(), incidentId, ClientSection.getToken());
