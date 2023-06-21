@@ -58,19 +58,19 @@ public class ServerCheck {
     }
 
     public static void checkCity(String city) {
-        if (city.isBlank() || !city.matches("([A-Z0-9 ]*){1,50}")) {
+        if (city.isBlank() || !city.matches("([A-Z0-9' ]*){1,50}")) {
             throw new UnprocessableAttributeException("Formato do Cidade é inválido.");
         }
     }
 
     public static void checkNeighborhood(String neighborhood) {
-        if (neighborhood.isBlank() || !neighborhood.matches("([A-Z0-9 ]*){1,50}")) {
+        if (neighborhood.isBlank() || !neighborhood.matches("([A-Z0-9' ]*){1,50}")) {
             throw new UnprocessableAttributeException("Formato da Rua é inválido.");
         }
     }
 
     public static void checkStreet(String street) {
-        if (street.isBlank() || !street.matches("([A-Z0-9 ]*){1,50}")) {
+        if (street.isBlank() || !street.matches("([A-Z0-9' ]*){1,50}")) {
             throw new UnprocessableAttributeException("Formato da Rua é inválido.");
         }
     }

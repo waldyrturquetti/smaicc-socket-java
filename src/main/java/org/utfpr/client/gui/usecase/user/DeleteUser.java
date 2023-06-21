@@ -10,6 +10,7 @@ import org.utfpr.client.util.ClientCheck;
 import org.utfpr.common.dto.common.CommonDataServerToClient;
 import org.utfpr.common.dto.user.deleteUser.DeleteUserDataClientToServer;
 import org.utfpr.common.gui.Dialogs;
+import org.utfpr.common.util.Hash;
 import org.utfpr.common.util.Status;
 
 import javax.swing.*;
@@ -57,12 +58,13 @@ public class DeleteUser extends JFrame implements UseCaseGui {
 
     @Override
     public void closeScreen() {
+        Dialogs.showInfoMessage("Cadastro excluido com sucesso!", this);
         this.setVisible(false);
     }
 
     private void send() {
         DeleteUserDataClientToServer deleteUserDataClientToServer =
-                new DeleteUserDataClientToServer(ClientSection.getId(), ClientSection.getToken(), new String(passwordField.getPassword()));
+                new DeleteUserDataClientToServer(ClientSection.getId(), ClientSection.getToken(), Hash.encrypt(new String(passwordField.getPassword())));
 
         ClientAppSocket.sendMessage(deleteUserDataClientToServer);
     }

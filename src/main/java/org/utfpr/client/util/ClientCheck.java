@@ -83,7 +83,7 @@ public class ClientCheck {
             throw new InvalidFieldException("O campo cidade tem que estar preenchido.");
         }
 
-        if (!city.matches("([A-Z0-9 ]*){1,50}")) {
+        if (!city.matches("([A-Z0-9' ]*){1,50}")) {
             throw new InvalidFieldException("Formato do Cidade é inválido.");
         }
     }
@@ -93,7 +93,7 @@ public class ClientCheck {
             throw new InvalidFieldException("O campo Bairro tem que estar preenchido.");
         }
 
-        if (!neighborhood.matches("([A-Z0-9 ]*){1,50}")) {
+        if (!neighborhood.matches("([A-Z0-9' ]*){1,50}")) {
             throw new InvalidFieldException("Formato da Rua é inválido.");
         }
     }
@@ -103,7 +103,7 @@ public class ClientCheck {
             throw new InvalidFieldException("O campo Rua tem que estar preenchido.");
         }
 
-        if (!street.matches("([A-Z0-9 ]*){1,50}")) {
+        if (!street.matches("([A-Z0-9' ]*){1,50}")) {
             throw new InvalidFieldException("Formato da Rua é inválido.");
         }
     }
