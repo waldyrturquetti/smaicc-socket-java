@@ -1,10 +1,11 @@
 package org.utfpr.client.gui.usecase.incident;
 
 import org.utfpr.client.auth.ClientSection;
-import org.utfpr.client.exception.EmptyFieldException;
+import org.utfpr.client.exception.InvalidFieldException;
 import org.utfpr.client.exception.ServerFailureException;
 import org.utfpr.client.gui.usecase.UseCaseGui;
 import org.utfpr.client.infra.ClientAppSocket;
+import org.utfpr.client.util.ClientCheck;
 import org.utfpr.client.util.ComboBoxValues;
 import org.utfpr.client.util.Configure;
 import org.utfpr.common.dto.common.CommonDataServerToClient;
@@ -57,6 +58,9 @@ public class CreateIncident extends JFrame implements UseCaseGui {
             this.send();
             this.returned();
             this.closeScreen();
+        } catch (InvalidFieldException invalidFieldException) {
+            System.err.println(invalidFieldException.getMessage());
+            Dialogs.showWarningMessage(invalidFieldException.getMessage(), this);
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
             Dialogs.showErrorMessage(ex.getMessage(), this);
@@ -64,13 +68,13 @@ public class CreateIncident extends JFrame implements UseCaseGui {
     }
 
     private void send() throws ParseException {
-        if (this.dateFormattedTextField.getText().isBlank()
-                || this.hourFormattedTextField.getText().isBlank() || this.stateComboBox.getSelectedItem() == null
-                || this.cityField.getText().isBlank() || this.neighborhoodField.getText().isBlank()
-                || this.streetField.getText().isBlank() || this.incidentTypesComboBox.getSelectedItem() == null
-        ) {
-            throw new EmptyFieldException();
-        }
+        ClientCheck.checkDate(this.dateFormattedTextField.getText());
+        ClientCheck.checkHour(this.hourFormattedTextField.getText());
+        ClientCheck.checkState(this.stateComboBox.getSelectedItem());
+        ClientCheck.checkCity(this.cityField.getText().toUpperCase());
+        ClientCheck.checkNeighborhood(this.neighborhoodField.getText().toUpperCase());
+        ClientCheck.checkStreet(this.streetField.getText().toUpperCase());
+        ClientCheck.checkIncidentType((String) this.incidentTypesComboBox.getSelectedItem());
 
         CreateIncidentDataClientToServer createIncidentDataClientToServer =
                 new CreateIncidentDataClientToServer(ClientSection.getId(), ClientSection.getToken(),

@@ -5,11 +5,10 @@ import org.utfpr.client.auth.ClientSection;
 import org.utfpr.client.exception.InvalidFieldException;
 import org.utfpr.client.exception.ServerFailureException;
 import org.utfpr.client.gui.usecase.UseCaseGui;
-import org.utfpr.client.gui.usecase.auth.Login;
 import org.utfpr.client.infra.ClientAppSocket;
 import org.utfpr.client.util.ClientCheck;
 import org.utfpr.common.dto.common.CommonDataServerToClient;
-import org.utfpr.common.dto.user.updateUser.UpdateUserDataClientToServer;
+import org.utfpr.common.dto.user.deleteUser.DeleteUserDataClientToServer;
 import org.utfpr.common.gui.Dialogs;
 import org.utfpr.common.util.Hash;
 import org.utfpr.common.util.Status;
@@ -18,38 +17,27 @@ import javax.swing.*;
 import java.io.IOException;
 import java.util.Objects;
 
-public class UpdateUser extends JFrame implements UseCaseGui {
-    private JTextField nameField;
-    private JTextField emailField;
+public class DeleteUser extends JFrame implements UseCaseGui {
+    private JPanel deleteUserPanel;
     private JPasswordField passwordField;
-    private JButton updateButton;
-    private JPanel updateUserPanel;
+    private JButton deleteUserButton;
 
-    public UpdateUser() {
-        updateButton.addActionListener(e -> this.executeOperation());
-    }
-
-    public void buildScreen() {
-        this.setContentPane(this.updateUserPanel);
-        this.setTitle("Criar Usário");
-        this.setVisible(true);
-        this.setSize(350, 300);
-    }
-
-    @Override
-    public void closeScreen() {
-        Dialogs.showInfoMessage("Usuário Atualizado com Sucesso!!");
-        this.setVisible(false);
-        ClientApp.menuLogged.closeScreen();
-        ClientApp.menuNonLogged.buildScreen();
-        new Login().buildScreen();
+    public DeleteUser() {
+        this.deleteUserButton.addActionListener(e -> this.executeOperation());
     }
 
     @Override
     public void executeOperation() {
         try {
-            this.send();
-            this.returned();
+            ClientCheck.checkPassword(new String(passwordField.getPassword()));
+
+            Integer option = Dialogs.showOptionDialog("Certeza que deseja excluir seu cadastro?", this);
+            if (option == 0) {
+                this.send();
+                this.returned();
+                ClientApp.menuLogged.closeScreen();
+                ClientApp.menuNonLogged.buildScreen();
+            }
             this.closeScreen();
         } catch (InvalidFieldException invalidFieldException) {
             System.err.println(invalidFieldException.getMessage());
@@ -60,16 +48,25 @@ public class UpdateUser extends JFrame implements UseCaseGui {
         }
     }
 
+    @Override
+    public void buildScreen() {
+        this.setContentPane(this.deleteUserPanel);
+        this.setTitle("Deletar Usário");
+        this.setVisible(true);
+        this.setSize(350, 300);
+    }
+
+    @Override
+    public void closeScreen() {
+        Dialogs.showInfoMessage("Cadastro excluido com sucesso!", this);
+        this.setVisible(false);
+    }
+
     private void send() {
-        ClientCheck.checkName(this.nameField.getText());
-        ClientCheck.checkEmail(this.emailField.getText());
-        ClientCheck.checkPassword(new String(passwordField.getPassword()));
+        DeleteUserDataClientToServer deleteUserDataClientToServer =
+                new DeleteUserDataClientToServer(ClientSection.getId(), ClientSection.getToken(), Hash.encrypt(new String(passwordField.getPassword())));
 
-        UpdateUserDataClientToServer updateUserDataClientToServer =
-                new UpdateUserDataClientToServer(ClientSection.getId(), ClientSection.getToken(),
-                        nameField.getText(), emailField.getText(), Hash.encrypt(new String(passwordField.getPassword())));
-
-        ClientAppSocket.sendMessage(updateUserDataClientToServer);
+        ClientAppSocket.sendMessage(deleteUserDataClientToServer);
     }
 
     private void returned() throws IOException {

@@ -8,7 +8,7 @@ import org.utfpr.common.dto.auth.login.LoginDataClientToServer;
 import org.utfpr.common.dto.auth.login.LoginDataServerToClient;
 import org.utfpr.server.exception.DbException;
 import org.utfpr.server.exception.NotFoundException;
-import org.utfpr.server.util.Check;
+import org.utfpr.server.util.ServerCheck;
 import org.utfpr.common.util.Convert;
 import org.utfpr.common.util.Operation;
 import org.utfpr.common.util.Status;
@@ -31,8 +31,8 @@ public class Login implements UseCase {
     @Override
     public HashMap<String, Object> executeOperation(HashMap<String, Object> json) {
         LoginDataClientToServer loginDataClientToServer = (LoginDataClientToServer) Convert.convertHashMapToData(json, LoginDataClientToServer.class);
-        Check.checkEmail(loginDataClientToServer.getEmail());
-        Check.checkPassword(loginDataClientToServer.getPassword());
+        ServerCheck.checkEmail(loginDataClientToServer.getEmail());
+        ServerCheck.checkPassword(loginDataClientToServer.getPassword());
 
         User user = userRepositoryDAO.getUserByEmailAndPassword(loginDataClientToServer.getEmail(), loginDataClientToServer.getPassword());
         if (user == null){

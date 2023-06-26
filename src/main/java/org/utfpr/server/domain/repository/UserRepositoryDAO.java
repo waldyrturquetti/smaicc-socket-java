@@ -20,7 +20,7 @@ public class UserRepositoryDAO {
 
         try {
             preparedStatement = connection.prepareStatement("insert into user (id, name, email, password)" +
-                    "values (null, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                                                                "values (null, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setString(1, user.getName().trim());
             preparedStatement.setString(2, user.getEmail().trim());
@@ -55,6 +55,26 @@ public class UserRepositoryDAO {
 
             if (rowsAffected == 0) {
                 throw new ServerErrorException("Erro ao cadastrar o Usuario.");
+            }
+        } catch (Exception e) {
+            throw new DbException(e.getMessage());
+        } finally {
+            Database.closeStatement(preparedStatement);
+        }
+    }
+
+    public void deleteUser(Integer userId) {
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement("delete from user as u where u.id = ?");
+
+            preparedStatement.setInt(1, userId);
+
+            int rowsAffected  = preparedStatement.executeUpdate();
+
+            if (rowsAffected == 0) {
+                throw new ServerErrorException("Erro ao deletar o Usuario.");
             }
         } catch (Exception e) {
             throw new DbException(e.getMessage());
@@ -114,6 +134,25 @@ public class UserRepositoryDAO {
             preparedStatement.setString(1, email.trim());
             preparedStatement.setInt(2, id);
             resultSet = preparedStatement.executeQuery();
+            return resultSet.next();
+        } catch (Exception e) {
+            throw new DbException(e.getMessage());
+        } finally {
+            Database.closeResultSet(resultSet);
+            Database.closeStatement(preparedStatement);
+        }
+    }
+
+    public Boolean existsUserById(Integer id) {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement("select * from user as u where u.id = ?");
+            preparedStatement.setInt(1, id);
+
+            resultSet = preparedStatement.executeQuery();
+
             return resultSet.next();
         } catch (Exception e) {
             throw new DbException(e.getMessage());

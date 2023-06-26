@@ -1,9 +1,10 @@
 package org.utfpr.client.gui.usecase.incident;
 
-import org.utfpr.client.exception.EmptyFieldException;
+import org.utfpr.client.exception.InvalidFieldException;
 import org.utfpr.client.exception.ServerFailureException;
 import org.utfpr.client.gui.usecase.UseCaseGui;
 import org.utfpr.client.infra.ClientAppSocket;
+import org.utfpr.client.util.ClientCheck;
 import org.utfpr.client.util.ComboBoxValues;
 import org.utfpr.client.util.Configure;
 import org.utfpr.common.dto.incident.getIncidents.GetIncidentsDataClientToServer;
@@ -50,6 +51,9 @@ public class GetIncidents extends JFrame implements UseCaseGui {
             this.send();
             List<IncidentData> incidentDataListReturned = this.returned();
             this.buildTable(incidentDataListReturned);
+        } catch (InvalidFieldException invalidFieldException) {
+            System.err.println(invalidFieldException.getMessage());
+            Dialogs.showWarningMessage(invalidFieldException.getMessage(), this);
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
             Dialogs.showErrorMessage(ex.getMessage(), this);
@@ -57,11 +61,9 @@ public class GetIncidents extends JFrame implements UseCaseGui {
     }
 
     private void send() throws ParseException {
-        if (this.dateFormattedTextField.getText().isBlank()
-                || this.statesComboBox.getSelectedItem() == null || this.cityField.getText().isBlank()
-        ) {
-            throw new EmptyFieldException();
-        }
+        ClientCheck.checkDate(this.dateFormattedTextField.getText());
+        ClientCheck.checkState(this.statesComboBox.getSelectedItem());
+        ClientCheck.checkCity(this.cityField.getText().toUpperCase());
 
         GetIncidentsDataClientToServer getIncidentsDataClientToServer =
                 new GetIncidentsDataClientToServer(Configure.configureDateToServer(dateFormattedTextField.getText()),

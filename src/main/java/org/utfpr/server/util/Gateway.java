@@ -64,7 +64,7 @@ public class Gateway {
     }
 
     private static void verifySection(HashMap<String, Object> json) {
-        Check.checkIdAndTokenFromJson(json);
+        ServerCheck.checkIdAndTokenFromJson(json);
         String token = (String) json.get("token");
         Integer id = (Integer) json.get("id");
         ServerSection.verifyToken(id, token);

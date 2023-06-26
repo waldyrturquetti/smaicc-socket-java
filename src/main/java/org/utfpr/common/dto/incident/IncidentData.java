@@ -109,6 +109,4 @@ public class IncidentData {
     public Object[] convertToObjectArray() {
         return new Object[] {this.incidentId, this.date, this.hour, this.state, this.city, this.neighborhood, this.street, ComboBoxValues.getTypeIncidents()[this.incidentTypeValue]};
     }
-
-
 }

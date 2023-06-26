@@ -8,7 +8,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
-public class Check {
+public class ServerCheck {
 
     public static void checkName(String name) {
         if (name.length() < 3 || name.length() > 50) {
@@ -58,19 +58,19 @@ public class Check {
     }
 
     public static void checkCity(String city) {
-        if (!city.matches("([A-Z0-9 ]*){1,50}")) {
+        if (city.isBlank() || !city.matches("([A-Z0-9' ]*){1,50}")) {
             throw new UnprocessableAttributeException("Formato do Cidade é inválido.");
         }
     }
 
     public static void checkNeighborhood(String neighborhood) {
-        if (!neighborhood.matches("([A-Z0-9 ]*){1,50}")) {
+        if (neighborhood.isBlank() || !neighborhood.matches("([A-Z0-9' ]*){1,50}")) {
             throw new UnprocessableAttributeException("Formato da Rua é inválido.");
         }
     }
 
     public static void checkStreet(String street) {
-        if (!street.matches("([A-Z0-9 ]*){1,50}")) {
+        if (street.isBlank() || !street.matches("([A-Z0-9' ]*){1,50}")) {
             throw new UnprocessableAttributeException("Formato da Rua é inválido.");
         }
     }
@@ -89,7 +89,7 @@ public class Check {
         }
 
         if (!(json.get("id") instanceof Integer)) {
-            throw new UnprocessableAttributeException("Id nao processavel");
+            throw new UnprocessableAttributeException("Id nulo ou não é um número inteiro.");
         }
     }
 }

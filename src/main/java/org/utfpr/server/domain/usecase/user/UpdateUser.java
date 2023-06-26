@@ -10,7 +10,7 @@ import org.utfpr.server.domain.repository.UserRepositoryDAO;
 import org.utfpr.server.domain.usecase.UseCase;
 import org.utfpr.server.exception.AlreadyExistException;
 import org.utfpr.server.exception.DbException;
-import org.utfpr.server.util.Check;
+import org.utfpr.server.util.ServerCheck;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -32,9 +32,9 @@ public class UpdateUser implements UseCase {
         UpdateUserDataClientToServer updateUserDataClientToServer =
                 (UpdateUserDataClientToServer) Convert.convertHashMapToData(json, UpdateUserDataClientToServer.class);
 
-        Check.checkName(updateUserDataClientToServer.getName());
-        Check.checkEmail(updateUserDataClientToServer.getEmail());
-        Check.checkPassword(updateUserDataClientToServer.getPassword());
+        ServerCheck.checkName(updateUserDataClientToServer.getName());
+        ServerCheck.checkEmail(updateUserDataClientToServer.getEmail());
+        ServerCheck.checkPassword(updateUserDataClientToServer.getPassword());
 
         if (userRepositoryDAO.existsUserByThisEmailAndDiffId(updateUserDataClientToServer.getEmail(), updateUserDataClientToServer.getId())) {
             throw new AlreadyExistException("Email já existente por outro usuário.");
